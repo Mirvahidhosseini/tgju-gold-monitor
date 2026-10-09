@@ -1,5 +1,5 @@
 
-name: TGJU Gold Monitor
+name: TGJU Gold Monitor 30min
 
 on:
   workflow_dispatch:
