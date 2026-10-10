@@ -38,28 +38,33 @@ def normalize_digits(value):
 
 def fetch_iran_price():
     response = requests.get(
-        TGJU_URL,
+        "https://www.tgju.org/gold-chart",
         headers={"User-Agent": "Mozilla/5.0"},
         timeout=30,
     )
     response.raise_for_status()
     soup = BeautifulSoup(response.text, "html.parser")
-    page_text = soup.get_text(" ", strip=True)
 
-    match = re.search(
-        r"نرخ\s*فعلی\s*[:：]*\s*([0-9۰-۹٠-٩,٬]+)",
-        page_text,
-    )
-    if not match:
-        raise RuntimeError("قیمت TGJU پیدا نشد.")
+    for row in soup.find_all("tr"):
+        cells = row.find_all(["td", "th"])
+        if not cells:
+            continue
 
-    digits = normalize_digits(match.group(1))
-    rial = int(digits.replace(",", "").replace("٬", ""))
+        row_text = " ".join(cell.get_text(" ", strip=True) for cell in cells)
 
-    if rial < 1_000_000:
-        raise RuntimeError("قیمت دریافتی غیرعادی است.")
+        if "طلای 18 عیار / 750" not in row_text:
+            continue
 
-    return round(rial / 10)
+        price_text = cells[1].get_text(" ", strip=True)
+        digits = normalize_digits(price_text)
+        rial = int(re.sub(r"[^0-9]", "", digits))
+
+        if rial < 1_000_000:
+            raise RuntimeError("قیمت دریافتی غیرعادی است.")
+
+        return round(rial / 10)
+
+    raise RuntimeError("ردیف طلای 18 عیار / 750 در gold-chart پیدا نشد.")
 
 
 def fetch_world_price():
