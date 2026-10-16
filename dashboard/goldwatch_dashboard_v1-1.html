@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b1426">
+<title>GoldWatch IR | داشبورد شخصی</title>
+<style>
+:root{--bg:#08111f;--panel:#101e33;--panel2:#142641;--line:#243a58;--text:#f2f7ff;--muted:#9db1cd;--blue:#58b7ff;--green:#42d6a0;--red:#ff7185;--gold:#f0c66a}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 85% -10%,#18365b 0,transparent 42%),var(--bg);color:var(--text);font-family:Tahoma,"Segoe UI",sans-serif;line-height:1.7}
+.wrap{max-width:980px;margin:auto;padding:20px 16px 36px}.top{display:flex;align-items:center;gap:12px;margin-bottom:22px}.logo{width:48px;height:48px;border-radius:15px;background:linear-gradient(135deg,#21558b,#132540);display:grid;place-items:center;color:var(--blue);font-size:25px;border:1px solid #2b527b}.brand{flex:1}.brand h1{font-size:21px;margin:0}.brand p{margin:1px 0 0;color:var(--muted);font-size:12px}.status{font-size:11px;color:var(--green);border:1px solid #286c5b;background:#12352f;padding:4px 9px;border-radius:20px}
+.notice{border:1px solid #6b572c;background:#2a2417;color:#f4d99b;border-radius:12px;padding:10px 12px;font-size:12px;margin-bottom:16px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.card{background:linear-gradient(160deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:18px;padding:16px;min-width:0}.label{color:var(--muted);font-size:12px}.price{font-size:clamp(19px,3vw,27px);font-weight:700;letter-spacing:-.4px;direction:ltr;text-align:right;margin:8px 0}.unit{font-size:11px;color:var(--muted)}.change{font-size:12px;display:flex;gap:5px;align-items:center}.up{color:var(--green)}.down{color:var(--red)}.neutral{color:var(--muted)}.section{margin-top:16px}.sectionhead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}.sectionhead h2{font-size:16px;margin:0}.select{background:#0b1728;color:var(--text);border:1px solid var(--line);border-radius:9px;padding:7px 9px;font:inherit;font-size:12px}.chartbox{padding:16px}.chartmeta{display:flex;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:12px}.chartmeta b{color:var(--text)}canvas{display:block;width:100%;height:190px;margin-top:10px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{background:#0b1728;border:1px solid var(--line);border-radius:12px;padding:12px}.stat small{display:block;color:var(--muted);font-size:11px}.stat strong{font-size:15px;display:block;margin-top:4px}.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.action{border:1px solid var(--line);border-radius:13px;background:#10213a;color:var(--text);padding:13px 8px;text-align:center;cursor:pointer;font:inherit;font-size:12px}.action span{display:block;font-size:21px;margin-bottom:4px}.action:hover,.action:focus{border-color:var(--blue);outline:none}.panel{display:none;margin-top:12px}.panel.show{display:block}.settingsrow{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:13px}.settingsrow:last-child{border:0}.settingsrow input{width:105px;background:#091525;border:1px solid var(--line);color:var(--text);border-radius:8px;padding:8px;font:inherit}.save{background:#1c5b91;border:0;color:white;border-radius:10px;padding:10px 15px;margin-top:12px;font:inherit;cursor:pointer}.foot{text-align:center;color:#7187a5;font-size:11px;margin-top:22px}.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#173554;border:1px solid #32628d;color:white;padding:10px 15px;border-radius:12px;font-size:12px;display:none;max-width:90%;text-align:center}
+@media(max-width:650px){.wrap{padding:16px 12px 28px}.grid{grid-template-columns:1fr}.card.market{padding:14px 16px}.price{font-size:25px}.stats{grid-template-columns:1fr}.stat{display:flex;align-items:center;justify-content:space-between}.stat strong{margin:0}.actions{gap:7px}.action{padding:10px 5px}.sectionhead h2{font-size:15px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="logo">⌁</div>
+    <div class="brand"><h1>GoldWatch IR</h1><p>داشبورد شخصی پایش طلا و دلار</p></div>
+    <div class="status">● نسخه اولیه</div>
+  </header>
+
+  <div class="notice">حالت نمایشی: قیمت‌های زیر نمونه هستند و به TGJU وصل نیستند. پس از اتصال به ربات، داده‌های واقعی جایگزین می‌شوند.</div>
+
+  <section class="grid">
+    <article class="card market">
+      <div class="label">طلای ۱۸ عیار · هر گرم</div>
+      <div class="price" id="iranPrice">۲۶٬۳۰۷٬۱۰۰</div>
+      <div class="unit">تومان</div>
+      <div class="change up" id="iranChange">↗ +۰٫۲۴٪ <span class="neutral">از پایش قبل</span></div>
+    </article>
+    <article class="card market">
+      <div class="label">اونس جهانی طلا</div>
+      <div class="price" id="worldPrice">$4,184.90</div>
+      <div class="unit">دلار آمریکا / اونس</div>
+      <div class="change down" id="worldChange">↘ −۰٫۱۰٪ <span class="neutral">از پایش قبل</span></div>
+    </article>
+    <article class="card market">
+      <div class="label">دلار آزاد</div>
+      <div class="price" id="dollarPrice">—</div>
+      <div class="unit">تومان</div>
+      <div class="change neutral" id="dollarChange">منتظر اتصال به منبع قیمت</div>
+    </article>
+  </section>
+
+  <section class="section card chartbox">
+    <div class="sectionhead"><h2>روند قیمت طلای ۱۸ عیار</h2>
+      <select class="select" id="range" aria-label="بازه نمودار"><option value="day">۲۴ ساعت</option><option value="week">۷ روز</option></select>
+    </div>
+    <div class="chartmeta"><span>آخرین به‌روزرسانی: <b id="updated">—</b></span><span>وضعیت منبع: <b class="up">نمایشی</b></span></div>
+    <canvas id="chart" aria-label="نمودار نمونه قیمت طلا"></canvas>
+  </section>
+
+  <section class="section">
+    <div class="sectionhead"><h2>خلاصه امروز</h2><span class="label">نمونه آماری</span></div>
+    <div class="stats">
+      <div class="stat"><small>شروع روز</small><strong>۲۶٬۱۲۰٬۰۰۰ تومان</strong></div>
+      <div class="stat"><small>بیشترین ثبت‌شده</small><strong>۲۶٬۴۲۰٬۰۰۰ تومان</strong></div>
+      <div class="stat"><small>کمترین ثبت‌شده</small><strong>۲۵٬۹۸۰٬۰۰۰ تومان</strong></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sectionhead"><h2>ابزارهای سریع</h2></div>
+    <div class="actions">
+      <button class="action" data-panel="alerts"><span>♧</span>تنظیم هشدار</button>
+      <button class="action" data-panel="history"><span>◷</span>تاریخچه</button>
+      <button class="action" data-panel="statusPanel"><span>⌁</span>وضعیت پایش</button>
+    </div>
+    <div class="card panel" id="alerts">
+      <h2 style="font-size:15px;margin-top:0">تنظیم هشدار قیمت</h2>
+      <div class="settingsrow"><label for="threshold">هشدار تغییر درصدی (%)</label><input id="threshold" type="number" min="0.1" max="20" step="0.1" value="0.5"></div>
+      <div class="settingsrow"><label for="target">قیمت هدف طلا (تومان)</label><input id="target" type="number" min="0" placeholder="مثلاً 27000000"></div>
+      <button class="save" id="saveSettings">ذخیره تنظیمات روی همین دستگاه</button>
+      <p class="unit">در این نسخه تنظیمات فقط در همین صفحه آزمایش می‌شوند؛ هنوز به ربات تلگرام متصل نیستند.</p>
+    </div>
+    <div class="card panel" id="history">
+      <h2 style="font-size:15px;margin-top:0">تاریخچه قیمت</h2>
+      <p style="font-size:13px;color:var(--muted)">پس از اتصال به داده‌های ذخیره‌شده ربات، قیمت‌ها با زمان ثبت و تغییراتشان اینجا نمایش داده می‌شوند.</p>
+      <button class="save" id="historyInfo">نمایش نمونه ساختار تاریخچه</button>
+      <pre id="historySample" style="display:none;white-space:pre-wrap;direction:ltr;text-align:left;background:#091525;padding:12px;border-radius:10px;color:#b9d9ff;font-size:11px">time, iran_toman, dollar_toman, world_usd
+08:00, ..., ..., ...
+08:30, ..., ..., ...
+09:00, ..., ..., ...</pre>
+    </div>
+    <div class="card panel" id="statusPanel">
+      <h2 style="font-size:15px;margin-top:0">وضعیت پایش</h2>
+      <div class="settingsrow"><span>منبع طلای ایران</span><strong class="neutral">در انتظار اتصال</strong></div>
+      <div class="settingsrow"><span>منبع دلار آزاد</span><strong class="neutral">در انتظار بررسی</strong></div>
+      <div class="settingsrow"><span>منبع اونس جهانی</span><strong class="neutral">در انتظار اتصال</strong></div>
+      <div class="settingsrow"><span>اجرای خودکار هر ۳۰ دقیقه</span><strong class="neutral">هنوز تأیید نشده</strong></div>
+    </div>
+  </section>
+  <footer class="foot">GoldWatch IR · نسخه اولیه رابط کاربری · بدون اتصال زنده به بازار</footer>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script>
+const canvas=document.getElementById('chart'),ctx=canvas.getContext('2d');
+function draw(){
+ const ratio=window.devicePixelRatio||1, rect=canvas.getBoundingClientRect();
+ canvas.width=rect.width*ratio;canvas.height=190*ratio;ctx.setTransform(ratio,0,0,ratio,0,0);
+ const w=rect.width,h=190;ctx.clearRect(0,0,w,h);
+ const vals=document.getElementById('range').value==='week'?[36,40,38,51,47,56,49,61,58,70,64,74,69,81,76,88]:[44,48,43,53,50,61,56,58,69,64,73,70,82,76,85,91];
+ const pad=12,min=Math.min(...vals)-8,max=Math.max(...vals)+6;
+ ctx.strokeStyle='#243a58';ctx.lineWidth=1;
+ for(let i=0;i<4;i++){let y=pad+(h-2*pad)*i/3;ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke();}
+ const pts=vals.map((v,i)=>({x:i*(w/(vals.length-1)),y:h-pad-(v-min)/(max-min)*(h-2*pad)}));
+ const grad=ctx.createLinearGradient(0,0,0,h);grad.addColorStop(0,'rgba(88,183,255,.25)');grad.addColorStop(1,'rgba(88,183,255,0)');
+ ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.lineTo(w,h);ctx.lineTo(0,h);ctx.closePath();ctx.fillStyle=grad;ctx.fill();
+ ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.strokeStyle='#58b7ff';ctx.lineWidth=2.5;ctx.stroke();
+ let last=pts[pts.length-1];ctx.beginPath();ctx.arc(last.x,last.y,4,0,Math.PI*2);ctx.fillStyle='#58b7ff';ctx.fill();
+}
+draw();window.addEventListener('resize',draw);document.getElementById('range').addEventListener('change',draw);
+document.getElementById('updated').textContent=new Date().toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'});
+document.querySelectorAll('[data-panel]').forEach(b=>b.addEventListener('click',()=>{const p=document.getElementById(b.dataset.panel);document.querySelectorAll('.panel').forEach(x=>x.classList.remove('show'));p.classList.add('show');p.scrollIntoView({behavior:'smooth',block:'nearest'});}));
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.display='block';setTimeout(()=>t.style.display='none',2600)}
+document.getElementById('saveSettings').addEventListener('click',()=>{const v=Number(document.getElementById('threshold').value);if(!v||v<.1||v>20){toast('آستانه باید بین ۰٫۱ تا ۲۰ درصد باشد.');return}toast('تنظیمات این نمونه ثبت شد؛ هنوز به ربات متصل نیست.')});
+document.getElementById('historyInfo').addEventListener('click',()=>{const e=document.getElementById('historySample');e.style.display=e.style.display==='none'?'block':'none'});
+</script>
+</body>
+</html>
