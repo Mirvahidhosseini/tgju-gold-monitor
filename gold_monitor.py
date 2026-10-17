@@ -22,6 +22,8 @@ TGJU_HOME_URL = "https://www.tgju.org/home"
 WORLD_GOLD_URL = "https://api.gold-api.com/price/XAU"
 
 STATE_FILE = Path("last_price.json")
+HISTORY_FILE = Path("price_history.json")
+HISTORY_LIMIT = 2000
 ALERT_THRESHOLD = 0.5
 TEHRAN = ZoneInfo("Asia/Tehran")
 
