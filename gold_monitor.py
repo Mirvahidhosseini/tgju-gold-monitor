@@ -183,6 +183,39 @@ def save_state(state):
             indent=2,
         )
 
+def save_history(now, prices):
+    """ذخیره تاریخچه قیمت‌ها در فایل JSON."""
+    if not any(value is not None for value in prices.values()):
+        return
+
+    history = []
+
+    if HISTORY_FILE.exists():
+        try:
+            with HISTORY_FILE.open("r", encoding="utf-8") as file:
+                loaded = json.load(file)
+                if isinstance(loaded, list):
+                    history = loaded
+        except (json.JSONDecodeError, OSError):
+            history = []
+
+    history.append({
+        "timestamp": now.isoformat(),
+        "iran_toman": prices.get("iran"),
+        "world_usd": prices.get("world"),
+        "dollar_toman": prices.get("dollar"),
+    })
+
+    history = history[-HISTORY_LIMIT:]
+
+    with HISTORY_FILE.open("w", encoding="utf-8") as file:
+        json.dump(
+            history,
+            file,
+            ensure_ascii=False,
+            indent=2,
+        )
+
 
 # =========================
 # تغییر قیمت و جهت حرکت
