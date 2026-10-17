@@ -510,7 +510,8 @@ def main():
         state["dollar_toman"] = current["dollar"]
 
     state["last_checked"] = now.isoformat()
-    save_state(state)
+save_state(state)
+save_history(now, current)
 
     print("گزارش با موفقیت ارسال و وضعیت ذخیره شد.")
 
