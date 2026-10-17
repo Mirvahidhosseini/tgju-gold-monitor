@@ -512,7 +512,7 @@ def main():
     state["last_checked"] = now.isoformat()
     save_state(state)
     save_history(now, current)
-
+    
     print("گزارش با موفقیت ارسال و وضعیت ذخیره شد.")
 
 if __name__ == "__main__":
