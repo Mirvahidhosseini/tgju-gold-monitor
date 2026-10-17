@@ -88,4 +88,99 @@ document.getElementById('saveSettings').addEventListener('click',()=>{const v=Nu
 document.getElementById('historyInfo').addEventListener('click',()=>{const e=document.getElementById('historySample');e.style.display=e.style.display==='none'?'block':'none'});
 </script>
 </body>
+  
+<script>
+async function updateGoldDashboard() {
+  const url = "https://raw.githubusercontent.com/Mirvahidhosseini/tgju-gold-monitor/main/last_price.json";
+
+  const formatPrice = (value, decimals = 0) =>
+    value == null
+      ? "—"
+      : new Intl.NumberFormat("fa-IR", {
+          maximumFractionDigits: decimals
+        }).format(value);
+
+  try {
+    const response = await fetch(url + "?t=" + Date.now());
+    if (!response.ok) throw new Error("Data unavailable");
+
+    const data = await response.json();
+    const daily = data.daily || {};
+
+    const iran = data.iran_toman ?? data.price_toman ?? data.iran_price_toman;
+    const world = data.world_usd ?? data.world_gold_usd;
+    const dollar = data.dollar_toman;
+
+    if (iran == null) throw new Error("Gold price missing");
+
+    const setText = (id, value) => {
+      const element = document.getElementById(id);
+      if (element) element.textContent = value;
+    };
+
+    setText("iranPrice", formatPrice(iran));
+    setText("worldPrice", world == null ? "—" : "$" + formatPrice(world, 2));
+    setText("dollarPrice", formatPrice(dollar));
+
+    setText("iranOpen", formatPrice(daily.iran?.open) + " تومان");
+    setText("iranHigh", formatPrice(daily.iran?.high) + " تومان");
+    setText("iranLow", formatPrice(daily.iran?.low) + " تومان");
+
+    const checkedAt = data.last_checked || data.checked_at;
+    setText(
+      "updated",
+      checkedAt
+        ? new Date(checkedAt).toLocaleString("fa-IR")
+        : "نامشخص"
+    );
+
+    const notice = document.querySelector(".notice");
+    if (notice) {
+      notice.textContent =
+        "اطلاعات از فایل داده ربات دریافت می‌شود؛ زمان قیمت به آخرین اجرای موفق ربات بستگی دارد.";
+    }
+
+    const source = document.getElementById("sourceStatus");
+    if (source) source.textContent = "متصل";
+
+    const source2 = document.getElementById("sourceStatus2");
+    if (source2) source2.textContent = "داده دریافت شد";
+
+    function updateChange(id, current, opening) {
+      const element = document.getElementById(id);
+      if (!element) return;
+
+      if (current == null || opening == null || opening === 0) {
+        element.textContent = "اطلاعات تغییر موجود نیست";
+        element.className = "change neutral";
+        return;
+      }
+
+      const percent = ((current - opening) / opening) * 100;
+      const arrow = percent > 0 ? "↗ " : percent < 0 ? "↘ " : "→ ";
+      element.textContent =
+        arrow + (percent > 0 ? "+" : "") +
+        formatPrice(percent, 2) + "٪ از شروع روز";
+      element.className =
+        "change " + (percent > 0 ? "up" : percent < 0 ? "down" : "neutral");
+    }
+
+    updateChange("iranChange", iran, daily.iran?.open);
+    updateChange("worldChange", world, daily.world?.open);
+
+  } catch (error) {
+    const notice = document.querySelector(".notice");
+    if (notice) {
+      notice.textContent =
+        "دریافت داده ناموفق بود؛ اتصال اینترنت و دسترسی به فایل داده ربات را بررسی کنید.";
+    }
+
+    const source = document.getElementById("sourceStatus");
+    if (source) source.textContent = "خطا در دریافت";
+  }
+}
+
+updateGoldDashboard();
+setInterval(updateGoldDashboard, 5 * 60 * 1000);
+</script>
 </html>
