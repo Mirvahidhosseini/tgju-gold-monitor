@@ -195,6 +195,20 @@ async function updateGoldDashboard() {
     if (!response.ok) throw new Error("Data unavailable");
 
     const data = await response.json();
+    
+const historyResponse = await fetch(
+  "https://raw.githubusercontent.com/Mirvahidhosseini/tgju-gold-monitor/main/price_history.json?t=" + Date.now()
+);
+
+if (!historyResponse.ok) {
+  throw new Error("History unavailable");
+}
+
+historyRows = await historyResponse.json();
+if (!Array.isArray(historyRows)) {
+  throw new Error("Invalid history format");
+}
+draw();
     const daily = data.daily || {};
 
     const iran = data.iran_toman ?? data.price_toman ?? data.iran_price_toman;
