@@ -79,9 +79,100 @@ canvas{display:block;width:100%;height:190px;margin-top:10px}
 </div>
 <div class="toast" id="toast" role="status"></div>
 <script>
-const canvas=document.getElementById('chart'),ctx=canvas.getContext('2d');
-function draw(){const ratio=window.devicePixelRatio||1,rect=canvas.getBoundingClientRect();canvas.width=rect.width*ratio;canvas.height=190*ratio;ctx.setTransform(ratio,0,0,ratio,0,0);const w=rect.width,h=190;ctx.clearRect(0,0,w,h);const vals=document.getElementById('range').value==='week'?[36,40,38,51,47,56,49,61,58,70,64,74,69,81,76,88]:[44,48,43,53,50,61,56,58,69,64,73,70,82,76,85,91];const pad=12,min=Math.min(...vals)-8,max=Math.max(...vals)+6;ctx.strokeStyle='#243a58';ctx.lineWidth=1;for(let i=0;i<4;i++){let y=pad+(h-2*pad)*i/3;ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke()}const pts=vals.map((v,i)=>({x:i*(w/(vals.length-1)),y:h-pad-(v-min)/(max-min)*(h-2*pad)}));const grad=ctx.createLinearGradient(0,0,0,h);grad.addColorStop(0,'rgba(88,183,255,.25)');grad.addColorStop(1,'rgba(88,183,255,0)');ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.lineTo(w,h);ctx.lineTo(0,h);ctx.closePath();ctx.fillStyle=grad;ctx.fill();ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.strokeStyle='#58b7ff';ctx.lineWidth=2.5;ctx.stroke();let last=pts[pts.length-1];ctx.beginPath();ctx.arc(last.x,last.y,4,0,Math.PI*2);ctx.fillStyle='#58b7ff';ctx.fill()}
-draw();window.addEventListener('resize',draw);document.getElementById('range').addEventListener('change',draw);document.getElementById('updated').textContent=new Date().toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'});
+
+const canvas = document.getElementById("chart");
+const ctx = canvas.getContext("2d");
+let historyRows = [];
+
+function draw() {
+  const ratio = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  const h = 190;
+  canvas.width = rect.width * ratio;
+  canvas.height = h * ratio;
+  ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+  ctx.clearRect(0, 0, rect.width, h);
+
+  const now = Date.now();
+  const range = document.getElementById("range").value;
+  const duration = range === "week"
+    ? 7 * 24 * 60 * 60 * 1000
+    : 24 * 60 * 60 * 1000;
+
+  const rows = historyRows
+    .filter(r => r.timestamp && Number.isFinite(Number(r.iran_toman)))
+    .filter(r => now - new Date(r.timestamp).getTime() <= duration)
+    .sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+
+  const w = rect.width;
+  const pad = 16;
+
+  ctx.strokeStyle = "#243a58";
+  ctx.lineWidth = 1;
+  for (let i = 0; i < 4; i++) {
+    const y = pad + (h - 2 * pad) * i / 3;
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(w, y);
+    ctx.stroke();
+  }
+
+  if (rows.length < 2) {
+    ctx.fillStyle = "#9db1cd";
+    ctx.font = "13px Tahoma";
+    ctx.textAlign = "center";
+    ctx.fillText(
+      rows.length === 1
+        ? "برای رسم نمودار، به ثبت‌های بیشتری نیاز داریم."
+        : "هنوز داده‌ای برای این بازه وجود ندارد.",
+      w / 2,
+      h / 2
+    );
+    return;
+  }
+
+  const values = rows.map(r => Number(r.iran_toman));
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const span = max - min || 1;
+
+  const points = rows.map((r, i) => ({
+    x: pad + i * (w - 2 * pad) / (rows.length - 1),
+    y: h - pad - (Number(r.iran_toman) - min) / span * (h - 2 * pad)
+  }));
+
+  ctx.beginPath();
+  points.forEach((p, i) =>
+    i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)
+  );
+  ctx.strokeStyle = "#58b7ff";
+  ctx.lineWidth = 2.5;
+  ctx.stroke();
+
+  const last = points[points.length - 1];
+  ctx.beginPath();
+  ctx.arc(last.x, last.y, 4, 0, Math.PI * 2);
+  ctx.fillStyle = "#58b7ff";
+  ctx.fill();
+
+  ctx.fillStyle = "#9db1cd";
+  ctx.font = "11px Tahoma";
+  ctx.textAlign = "right";
+  ctx.fillText(
+    new Intl.NumberFormat("fa-IR").format(max),
+    w - pad,
+    12
+  );
+  ctx.fillText(
+    new Intl.NumberFormat("fa-IR").format(min),
+    w - pad,
+    h - 2
+  );
+}
+
+draw();
+window.addEventListener("resize", draw);
+document.getElementById("range").addEventListener("change", draw);
 document.querySelectorAll('[data-panel]').forEach(b=>b.addEventListener('click',()=>{const p=document.getElementById(b.dataset.panel);document.querySelectorAll('.panel').forEach(x=>x.classList.remove('show'));p.classList.add('show');p.scrollIntoView({behavior:'smooth',block:'nearest'})}));
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.display='block';setTimeout(()=>t.style.display='none',2600)}
 document.getElementById('saveSettings').addEventListener('click',()=>{const v=Number(document.getElementById('threshold').value);if(!v||v<.1||v>20){toast('آستانه باید بین ۰٫۱ تا ۲۰ درصد باشد.');return}toast('تنظیمات این نمونه ثبت شد؛ هنوز به ربات متصل نیست.')});
