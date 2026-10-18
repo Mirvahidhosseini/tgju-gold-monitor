@@ -56,26 +56,42 @@ canvas{display:block;width:100%;height:190px;margin-top:10px}
 <article class="card market"><div class="label">اونس جهانی طلا</div><div class="price" id="worldPrice">$4,184.90</div><div class="unit">دلار آمریکا / اونس</div><div class="change down" id="worldChange">↘ −۰٫۱۰٪ <span class="neutral">از پایش قبل</span></div></article>
 <article class="card market"><div class="label">دلار آزاد</div><div class="price" id="dollarPrice">—</div><div class="unit">تومان</div><div class="change neutral" id="dollarChange">منتظر اتصال به منبع قیمت</div></article>
 </section>
+
 <section class="section card chartbox">
-<div class="sectionhead"><h2>روند قیمت طلای ۱۸ عیار</h2><select class="select" id="range" aria-label="بازه نمودار"><option value="day">۲۴ ساعت</option><option value="week">۷ روز</option></select></div>
-<div class="chartmeta"><span>آخرین به‌روزرسانی: <b id="updated">—</b></span><span>وضعیت منبع: <b class="up">نمایشی</b></span></div>
-<canvas id="chart" aria-label="نمودار نمونه قیمت طلا"></canvas>
+  <div class="sectionhead">
+    <h2>روند قیمت طلای ۱۸ عیار</h2>
+    <select class="select" id="range" aria-label="بازه نمودار">
+      <option value="day">۲۴ ساعت</option>
+      <option value="week">۷ روز</option>
+    </select>
+  </div>
+  <div class="chartmeta">
+    <span>آخرین به‌روزرسانی: <b id="updated">در حال دریافت...</b></span>
+    <span>وضعیت منبع: <b class="up" id="sourceStatus">در حال بررسی</b></span>
+  </div>
+  <canvas id="chart" aria-label="نمودار قیمت واقعی طلا"></canvas>
 </section>
+
 <section class="section">
-<div class="sectionhead"><h2>خلاصه امروز</h2><span class="label">نمونه آماری</span></div>
-<div class="stats"><div class="stat"><small>شروع روز</small><strong>۲۶٬۱۲۰٬۰۰۰ تومان</strong></div><div class="stat"><small>بیشترین ثبت‌شده</small><strong>۲۶٬۴۲۰٬۰۰۰ تومان</strong></div><div class="stat"><small>کمترین ثبت‌شده</small><strong>۲۵٬۹۸۰٬۰۰۰ تومان</strong></div></div>
+  <div class="sectionhead">
+    <h2>خلاصه امروز</h2>
+    <span class="label">آمار روز جاری</span>
+  </div>
+  <div class="stats">
+    <div class="stat">
+      <small>شروع روز</small>
+      <strong id="dayOpen">در حال دریافت...</strong>
+    </div>
+    <div class="stat">
+      <small>بیشترین ثبت‌شده</small>
+      <strong id="dayHigh">در حال دریافت...</strong>
+    </div>
+    <div class="stat">
+      <small>کمترین ثبت‌شده</small>
+      <strong id="dayLow">در حال دریافت...</strong>
+    </div>
+  </div>
 </section>
-<section class="section">
-<div class="sectionhead"><h2>ابزارهای سریع</h2></div>
-<div class="actions"><button class="action" data-panel="alerts"><span>♧</span>تنظیم هشدار</button><button class="action" data-panel="history"><span>◷</span>تاریخچه</button><button class="action" data-panel="statusPanel"><span>⌁</span>وضعیت پایش</button></div>
-<div class="card panel" id="alerts"><h2 style="font-size:15px;margin-top:0">تنظیم هشدار قیمت</h2><div class="settingsrow"><label for="threshold">هشدار تغییر درصدی (%)</label><input id="threshold" type="number" min="0.1" max="20" step="0.1" value="0.5"></div><div class="settingsrow"><label for="target">قیمت هدف طلا (تومان)</label><input id="target" type="number" min="0" placeholder="مثلاً 27000000"></div><button class="save" id="saveSettings">ذخیره تنظیمات روی همین دستگاه</button><p class="unit">در این نسخه تنظیمات فقط در همین صفحه آزمایش می‌شوند؛ هنوز به ربات تلگرام متصل نیستند.</p></div>
-<div class="card panel" id="history"><h2 style="font-size:15px;margin-top:0">تاریخچه قیمت</h2><p style="font-size:13px;color:var(--muted)">پس از اتصال به داده‌های ذخیره‌شده ربات، قیمت‌ها با زمان ثبت و تغییراتشان اینجا نمایش داده می‌شوند.</p><button class="save" id="historyInfo">نمایش نمونه ساختار تاریخچه</button><pre id="historySample" style="display:none;white-space:pre-wrap;direction:ltr;text-align:left;background:#091525;padding:12px;border-radius:10px;color:#b9d9ff;font-size:11px">time, iran_toman, dollar_toman, world_usd
-08:00, ..., ..., ...
-08:30, ..., ..., ...
-09:00, ..., ..., ...</pre></div>
-<div class="card panel" id="statusPanel"><h2 style="font-size:15px;margin-top:0">وضعیت پایش</h2><div class="settingsrow"><span>منبع طلای ایران</span><strong class="neutral">در انتظار اتصال</strong></div><div class="settingsrow"><span>منبع دلار آزاد</span><strong class="neutral">در انتظار بررسی</strong></div><div class="settingsrow"><span>منبع اونس جهانی</span><strong class="neutral">در انتظار اتصال</strong></div><div class="settingsrow"><span>اجرای خودکار هر ۳۰ دقیقه</span><strong class="neutral">هنوز تأیید نشده</strong></div></div>
-</section>
-<footer class="foot">GoldWatch IR · نسخه اولیه رابط کاربری · بدون اتصال زنده به بازار</footer>
 </div>
 <div class="toast" id="toast" role="status"></div>
 <script>
