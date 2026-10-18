@@ -196,93 +196,92 @@ document.getElementById('historyInfo').addEventListener('click',()=>{const e=doc
 </script>
 </body>
 <script>
+
 async function updateGoldDashboard() {
-  const url = "https://raw.githubusercontent.com/Mirvahidhosseini/tgju-gold-monitor/main/last_price.json";
+  const base =
+    "https://raw.githubusercontent.com/Mirvahidhosseini/tgju-gold-monitor/main/";
 
   const formatPrice = (value, decimals = 0) =>
-    value == null
+    value == null || !Number.isFinite(Number(value))
       ? "—"
       : new Intl.NumberFormat("fa-IR", {
           maximumFractionDigits: decimals
-        }).format(value);
+        }).format(Number(value));
+
+  const setText = (id, value) => {
+    const element = document.getElementById(id);
+    if (element) element.textContent = value;
+  };
+
+  const setDailyPrice = (ids, value) => {
+    ids.forEach(id => setText(
+      id,
+      value == null ? "—" : formatPrice(value) + " تومان"
+    ));
+  };
 
   try {
-    const response = await fetch(url + "?t=" + Date.now());
-    if (!response.ok) throw new Error("Data unavailable");
+    const response = await fetch(base + "last_price.json?t=" + Date.now());
+    if (!response.ok) throw new Error("Price data unavailable");
 
     const data = await response.json();
-    
-const historyResponse = await fetch(
-  "https://raw.githubusercontent.com/Mirvahidhosseini/tgju-gold-monitor/main/price_history.json?t=" + Date.now()
-);
-
-if (!historyResponse.ok) {
-  throw new Error("History unavailable");
-}
-
-historyRows = await historyResponse.json();
-if (!Array.isArray(historyRows)) {
-  throw new Error("Invalid history format");
-}
-draw();
     const daily = data.daily || {};
 
-    const iran = data.iran_toman ?? data.price_toman ?? data.iran_price_toman;
+    const iran =
+      data.iran_toman ?? data.price_toman ?? data.iran_price_toman;
     const world = data.world_usd ?? data.world_gold_usd;
     const dollar = data.dollar_toman;
 
     if (iran == null) throw new Error("Gold price missing");
 
-    const setText = (id, value) => {
-      const element = document.getElementById(id);
-      if (element) element.textContent = value;
-    };
-
+    // قیمت‌های فعلی
     setText("iranPrice", formatPrice(iran));
     setText("worldPrice", world == null ? "—" : "$" + formatPrice(world, 2));
     setText("dollarPrice", formatPrice(dollar));
 
-    setText("iranOpen", formatPrice(daily.iran?.open) + " تومان");
-    setText("iranHigh", formatPrice(daily.iran?.high) + " تومان");
-    setText("iranLow", formatPrice(daily.iran?.low) + " تومان");
+    // آمار روزانه؛ هم شناسه‌های قدیمی و هم شناسه‌های جدید
+    setDailyPrice(["iranOpen", "dayOpen"], daily.iran?.open);
+    setDailyPrice(["iranHigh", "dayHigh"], daily.iran?.high);
+    setDailyPrice(["iranLow", "dayLow"], daily.iran?.low);
 
+    // زمان آخرین به‌روزرسانی
     const checkedAt = data.last_checked || data.checked_at;
     setText(
       "updated",
-      checkedAt
-        ? new Date(checkedAt).toLocaleString("fa-IR")
-        : "نامشخص"
+      checkedAt ? new Date(checkedAt).toLocaleString("fa-IR") : "نامشخص"
     );
 
+    // وضعیت دریافت داده‌های قیمت
     const notice = document.querySelector(".notice");
     if (notice) {
       notice.textContent =
-        "اطلاعات از فایل داده ربات دریافت می‌شود؛ زمان قیمت به آخرین اجرای موفق ربات بستگی دارد.";
+        "قیمت‌ها از فایل داده ربات دریافت می‌شوند؛ زمان آخرین به‌روزرسانی به اجرای موفق ربات بستگی دارد.";
     }
 
-    const source = document.getElementById("sourceStatus");
-    if (source) source.textContent = "متصل";
-
-    const source2 = document.getElementById("sourceStatus2");
-    if (source2) source2.textContent = "داده دریافت شد";
+    setText("sourceStatus", "داده دریافت شد");
+    setText("sourceStatus2", "داده دریافت شد");
 
     function updateChange(id, current, opening) {
       const element = document.getElementById(id);
       if (!element) return;
 
-      if (current == null || opening == null || opening === 0) {
+      if (current == null || opening == null || Number(opening) === 0) {
         element.textContent = "اطلاعات تغییر موجود نیست";
         element.className = "change neutral";
         return;
       }
 
-      const percent = ((current - opening) / opening) * 100;
+      const percent = ((Number(current) - Number(opening)) /
+        Number(opening)) * 100;
+
       const arrow = percent > 0 ? "↗ " : percent < 0 ? "↘ " : "→ ";
       element.textContent =
         arrow + (percent > 0 ? "+" : "") +
         formatPrice(percent, 2) + "٪ از شروع روز";
+
       element.className =
-        "change " + (percent > 0 ? "up" : percent < 0 ? "down" : "neutral");
+        "change " +
+        (percent > 0 ? "up" : percent < 0 ? "down" : "neutral");
     }
 
     updateChange("iranChange", iran, daily.iran?.open);
@@ -292,11 +291,40 @@ draw();
     const notice = document.querySelector(".notice");
     if (notice) {
       notice.textContent =
-        "دریافت داده ناموفق بود؛ اتصال اینترنت و دسترسی به فایل داده ربات را بررسی کنید.";
+        "دریافت قیمت ناموفق بود؛ اتصال اینترنت و فایل last_price.json را بررسی کنید.";
     }
 
-    const source = document.getElementById("sourceStatus");
-    if (source) source.textContent = "خطا در دریافت";
+    setText("sourceStatus", "خطا در دریافت");
+    setText("sourceStatus2", "خطا در دریافت");
+  }
+
+  // دریافت تاریخچه مستقل از قیمت‌های فعلی
+  try {
+    const historyResponse = await fetch(
+      base + "price_history.json?t=" + Date.now()
+    );
+
+    if (!historyResponse.ok) throw new Error("History unavailable");
+
+    const rows = await historyResponse.json();
+    if (!Array.isArray(rows)) throw new Error("Invalid history format");
+
+    historyRows = rows;
+    draw();
+  } catch (error) {
+    console.error("History loading failed:", error);
+    const canvas = document.getElementById("chart");
+    if (canvas) {
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.font = "14px sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText(
+        "تاریخچه قیمت فعلاً در دسترس نیست",
+        canvas.width / 2,
+        canvas.height / 2
+      );
+    }
   }
 }
 
