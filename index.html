@@ -231,6 +231,7 @@ canvas{display:block;width:100%;height:210px;margin-top:8px}
   </div>
 </section>
 
+<footer class="foot">GoldWatch Markets · اطلاعات بازار ممکن است با تأخیر همراه باشد. توصیه سرمایه‌گذاری نیست.</footer>
 <section class="manual-run-wrap" aria-label="اجرای دستی ربات">
   <div class="manual-run-copy">
     <strong>اجرای دستی ربات</strong>
@@ -512,7 +513,7 @@ window.addEventListener("resize",()=>draw());
     $("#langEn").setAttribute("aria-pressed",String(lang==="en"));
     set(".brand p",t.brandTagline);
     set(".notice",t.notice);
-    set(".market-strip-title",t.stripTitle);
+    const stripTitle=$(".market-strip-title");if(stripTitle){const asOf=$("#marketAsOf");stripTitle.textContent=t.stripTitle+" ";if(asOf)stripTitle.appendChild(asOf);}
     set(".market-strip .chart-hint",t.stripHint);
     const labels=$(".grid .card .label");
     [t.iranLabel,t.worldLabel,t.dollarLabel].forEach((v,i)=>{if(labels[i])labels[i].textContent=v;});
@@ -523,7 +524,7 @@ window.addEventListener("resize",()=>draw());
     const opts=$("#range option");if(opts[0])opts[0].textContent=t.rangeDay;if(opts[1])opts[1].textContent=t.rangeWeek;
     const meta=$(".chartmeta span");[t.updated,t.iranStatus,t.worldStatus,t.dollarStatus].forEach((v,i)=>{if(meta[i]){const b=meta[i].querySelector("b");meta[i].firstChild.textContent=v+" ";if(b)meta[i].appendChild(b);}});
     const charts=$(".mini-chart h3");[t.iranChart,t.worldChart,t.dollarChart].forEach((v,i)=>{if(charts[i])charts[i].textContent=v;});
-    set("#dailyTitle",t.dailyTitle);set(".daily-date",t.dailyDate);
+    set("#dailyTitle",t.dailyTitle);const dailyDate=$(".daily-date");if(dailyDate){const dot=dailyDate.querySelector(".live-dot");dailyDate.textContent=t.dailyDate;if(dot)dailyDate.prepend(dot);}
     const heads=$(".daily-card-head strong"),subs=$(".daily-card-head small");
     [t.iranDaily,t.worldDaily,t.dollarDaily].forEach((v,i)=>{if(heads[i])heads[i].textContent=v;});
     [t.iranSub,t.worldSub,t.dollarSub].forEach((v,i)=>{if(subs[i])subs[i].textContent=v;});
