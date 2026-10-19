@@ -268,6 +268,92 @@ html[dir="ltr"] .hero-kicker:after{background:#8fc9ff}
 .faq-item h3{font-size:13px;margin:0 0 5px;color:#dce8f5}
 .faq-item p{font-size:12px;line-height:1.9;color:var(--muted);margin:0}
 @media(max-width:700px){.tool-panel{grid-template-columns:1fr;padding:19px;gap:16px}.tool-panel h2{font-size:18px}.calc-result strong{font-size:27px}}
+
+/* GoldWatch refresh: clean, compact and action-first dashboard */
+:root{--bg:#06101e;--bg2:#0b1a2c;--panel:#0d1d30;--panel2:#122842;--line:#203a55;--text:#f2f6fc;--muted:#9aadc4;--blue:#42adff;--green:#35d6a0;--red:#ff6f83;--gold:#f4c95d;--radius:18px;--shadow:0 12px 32px rgba(0,0,0,.2)}
+body{background:radial-gradient(ellipse at 50% -20%,rgba(25,108,176,.25),transparent 50%),#06101e}
+.wrap{width:min(1160px,100%);padding:22px 22px 36px}
+.top{padding:12px 16px;margin-bottom:14px;border:1px solid rgba(111,157,201,.2);border-radius:20px;background:rgba(9,24,41,.82);gap:13px}
+.logo{border-radius:50%;background:linear-gradient(145deg,#d8a832,#5f3d0c);border:2px solid #f7d776;color:#fff7d7;box-shadow:0 0 0 4px rgba(239,190,62,.08);font-size:25px}
+.brand h1{font-size:clamp(20px,2.6vw,26px)}
+.brand p{font-size:12px}
+.public-nav{margin-bottom:14px}
+.hero{padding:22px 25px;margin-bottom:15px;border-radius:20px;background:linear-gradient(115deg,rgba(14,40,65,.94),rgba(9,22,38,.96));border:1px solid rgba(85,151,205,.2);min-height:0}
+.hero-copy{max-width:650px}
+.hero h2{font-size:clamp(26px,4vw,40px);line-height:1.45;margin:5px 0 8px}
+.hero p{font-size:13px;max-width:570px;margin:0 0 13px;color:#b7c7d9}
+.hero-art{transform:scale(.82);opacity:.82}
+.hero-button{padding:9px 14px;border-radius:11px;font-size:12px}
+.notice{margin:0 0 13px;padding:10px 13px;font-size:11px;border-radius:12px}
+.market-strip{margin:0 0 14px;padding:12px 14px;border-radius:14px;background:rgba(12,29,48,.88)}
+.market-strip-title{font-size:12px;color:#c3d5e9;font-weight:700}
+.market-strip-values{gap:7px}
+.ticker-chip{font-size:11px;padding:6px 9px}
+.grid{gap:13px}
+.card.market{padding:21px 22px 18px;border-radius:18px;background:linear-gradient(145deg,#10253b,#0a192a);border-color:rgba(110,156,200,.24)}
+.card.market:before{height:3px}
+.card.market:nth-child(1) .price{color:#f6cf67}
+.card.market:nth-child(2) .price{color:#8bcaff}
+.card.market:nth-child(3) .price{color:#7be5bf}
+.card.market .label{font-size:13px;color:#c0d0e2}
+.price{font-size:clamp(25px,3vw,35px);margin:13px 0 3px;line-height:1.4}
+.unit{font-size:12px}
+.change{margin-top:10px;font-size:12px}
+.tool-panel{margin-top:15px;padding:19px 21px;border-radius:18px;border-color:rgba(104,153,198,.22);background:linear-gradient(110deg,#10253b,#0b1a2c);gap:20px}
+.tool-panel h2{font-size:17px;margin:3px 0 4px}
+.tool-panel p{font-size:12px;color:#aebfd2;margin:0 0 10px}
+.calc-result{border-radius:15px;background:rgba(3,13,24,.45);border-color:rgba(104,153,198,.2);padding:17px}
+.calc-result strong{font-size:clamp(21px,3vw,29px);color:#f6cf67}
+.tool-action{border-radius:10px}
+.section{margin-top:17px}
+.section.card{border-radius:18px}
+.sectionhead h2{font-size:18px}
+.chartmeta{gap:8px}
+.chartmeta span{background:rgba(5,15,27,.48);padding:9px 11px}
+.mini-chart{margin-top:12px;padding:13px 15px;border-radius:14px}
+.mini-chart h3{font-size:13px}
+.daily-section{margin-top:22px}
+.daily-heading h2{font-size:21px}
+.daily-card{border-radius:16px;background:linear-gradient(145deg,#10253b,#0a192a);border-color:rgba(110,156,200,.22)}
+.daily-card-head{padding-bottom:12px}
+.daily-icon{border-radius:13px}
+.daily-values strong{font-size:14px}
+.faq-section{margin-top:22px;padding:19px 21px;border-radius:18px;background:rgba(12,28,46,.75);border:1px solid rgba(110,156,200,.18)}
+.faq-section h2{font-size:17px}
+.faq-item p{font-size:12px;color:#aebfd2}
+.manual-run-wrap{margin-top:17px;border-radius:15px;padding:13px 16px}
+.foot{margin-top:20px;padding-top:14px}
+button,a,select,input{transition:background .18s ease,border-color .18s ease,transform .18s ease}
+button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid #65c1ff;outline-offset:3px}
+@media(max-width:760px){
+ .wrap{padding:13px 12px 25px}
+ .top{padding:10px 11px;gap:9px;flex-wrap:wrap}
+ .brand{flex:1 1 calc(100% - 70px)}
+ .brand h1{font-size:19px}
+ .brand p{font-size:10px}
+ .status{margin-right:auto}
+ .public-nav{gap:5px;overflow-x:auto}
+ .hero{padding:17px 16px}
+ .hero-art{display:none}
+ .hero h2{font-size:27px}
+ .hero p{font-size:12px}
+ .market-strip{grid-template-columns:1fr}
+ .market-strip-values{justify-content:stretch;display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+ .ticker-chip{justify-content:center;flex-wrap:wrap;white-space:normal;text-align:center;padding:7px 4px;font-size:10px}
+ .grid{grid-template-columns:1fr;gap:10px}
+ .card.market{padding:16px 17px}
+ .card.market .price{font-size:29px;margin:7px 0 2px}
+ .tool-panel{grid-template-columns:1fr;padding:16px}
+ .daily-grid{grid-template-columns:1fr;gap:10px}
+ .daily-card{padding:15px}
+ .chartbox{padding:15px}
+ .chartmeta{grid-template-columns:1fr}
+ .mini-chart{padding:12px}
+}
+@media(min-width:761px){
+ .tool-panel{grid-template-columns:minmax(0,1.35fr) minmax(260px,.85fr)}
+}
+
 </style>
 </head>
 <body>
