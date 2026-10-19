@@ -7,28 +7,71 @@
 <meta name="theme-color" content="#0b1426">
 <title>GoldWatch IR | داشبورد شخصی</title>
 <style>
-:root{--bg:#08111f;--panel:#101e33;--panel2:#142641;--line:#243a58;--text:#f2f7ff;--muted:#9db1cd;--blue:#58b7ff;--green:#42d6a0;--red:#ff7185;--gold:#f0c66a}
+:root{
+ --bg:#080f1b;--bg2:#0d1727;--panel:#101d30;--panel2:#14243a;--line:#263a52;
+ --text:#edf3fb;--muted:#93a6bd;--blue:#63b8ff;--blue2:#2c8fe0;
+ --green:#4bd6a2;--red:#ff7889;--gold:#e8bd63;--gold-soft:#342a1b;
+ --radius:20px;--shadow:0 16px 42px rgba(0,0,0,.18)
+}
 *{box-sizing:border-box}
-body{margin:0;background:radial-gradient(ellipse at 85% -10%,#18365b 0,transparent 42%),var(--bg);color:var(--text);font-family:Tahoma,"Segoe UI",sans-serif;line-height:1.7}
-.wrap{max-width:980px;margin:auto;padding:20px 16px 36px}
-.top{display:flex;align-items:center;gap:12px;margin-bottom:22px}
-.logo{width:48px;height:48px;border-radius:15px;background:linear-gradient(135deg,#21558b,#132540);display:grid;place-items:center;color:var(--blue);font-size:25px;border:1px solid #2b527b}
-.brand{flex:1}.brand h1{font-size:21px;margin:0}.brand p{margin:1px 0 0;color:var(--muted);font-size:12px}
-.status{font-size:11px;color:var(--green);border:1px solid #286c5b;background:#12352f;padding:4px 9px;border-radius:20px}
-.notice{border:1px solid #6b572c;background:#2a2417;color:#f4d99b;border-radius:12px;padding:10px 12px;font-size:12px;margin-bottom:16px}
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.card{background:linear-gradient(160deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:18px;padding:16px;min-width:0}
-.label{color:var(--muted);font-size:12px}.price{font-size:clamp(19px,3vw,27px);font-weight:700;letter-spacing:-.4px;direction:ltr;text-align:right;margin:8px 0}
-.unit{font-size:11px;color:var(--muted)}.change{font-size:12px;display:flex;gap:5px;align-items:center}
+html{scroll-behavior:smooth}
+body{
+ margin:0;min-height:100vh;color:var(--text);
+ background:radial-gradient(ellipse at 50% -18%,rgba(44,111,175,.22),transparent 48%),
+ linear-gradient(180deg,#080f1b 0%,#0a1422 50%,#080f1b 100%);
+ font-family:Tahoma,"Segoe UI",Arial,sans-serif;line-height:1.75;
+ font-variant-numeric:tabular-nums
+}
+.wrap{width:min(1180px,100%);margin:0 auto;padding:30px 24px 42px}
+.top{display:flex;align-items:center;gap:15px;margin-bottom:24px;padding:2px 0 20px;border-bottom:1px solid rgba(147,166,189,.14)}
+.logo{
+ width:54px;height:54px;flex:0 0 54px;border-radius:17px;display:grid;place-items:center;
+ color:#f1cc79;font-size:28px;background:linear-gradient(145deg,#1b3654,#102035);
+ border:1px solid #34516f;box-shadow:inset 0 1px 0 rgba(255,255,255,.07)
+}
+.brand{flex:1;min-width:0}.brand h1{font-size:clamp(21px,3vw,27px);letter-spacing:-.5px;margin:0;font-weight:800}
+.brand p{margin:2px 0 0;color:var(--muted);font-size:12px}
+.status{white-space:nowrap;font-size:11px;color:#78e4bc;border:1px solid rgba(75,214,162,.25);background:rgba(29,108,82,.17);padding:6px 11px;border-radius:99px}
+.notice{
+ position:relative;display:flex;align-items:flex-start;gap:10px;
+ border:1px solid rgba(232,189,99,.28);background:linear-gradient(100deg,rgba(52,42,27,.68),rgba(34,31,27,.42));
+ color:#e7d4a6;border-radius:14px;padding:12px 15px;font-size:12px;margin-bottom:20px
+}
+.notice:before{content:"ⓘ";font-size:15px;color:var(--gold);line-height:1.5}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.card{
+ min-width:0;position:relative;overflow:hidden;background:linear-gradient(145deg,rgba(21,39,62,.96),rgba(14,27,44,.98));
+ border:1px solid rgba(112,145,180,.2);border-radius:var(--radius);padding:22px;
+ box-shadow:var(--shadow)
+}
+.card.market:before{content:"";position:absolute;inset:0 0 auto;height:3px;background:linear-gradient(90deg,transparent,var(--blue),transparent);opacity:.75}
+.card.market:nth-child(2):before{background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.card.market:nth-child(3):before{background:linear-gradient(90deg,transparent,var(--green),transparent)}
+.label{color:var(--muted);font-size:12px;display:flex;align-items:center;gap:7px}
+.price{font-size:clamp(24px,3vw,34px);font-weight:800;letter-spacing:-.7px;direction:ltr;text-align:right;line-height:1.35;margin:16px 0 5px;overflow-wrap:anywhere}
+.unit{font-size:11px;color:#7f93ab}
+.change{font-size:12px;display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:13px;min-height:24px}
 .up{color:var(--green)}.down{color:var(--red)}.neutral{color:var(--muted)}
-.section{margin-top:16px}.sectionhead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
-.sectionhead h2{font-size:16px;margin:0}
-.select{background:#0b1728;color:var(--text);border:1px solid var(--line);border-radius:9px;padding:7px 9px;font:inherit;font-size:12px}
-.chartbox{padding:16px}.chartmeta{display:flex;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:12px}.chartmeta b{color:var(--text)}
-canvas{display:block;width:100%;height:190px;margin-top:10px}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.stat{background:#0b1728;border:1px solid var(--line);border-radius:12px;padding:12px}
-.stat small{display:block;color:var(--muted);font-size:11px}.stat strong{font-size:15px;display:block;margin-top:4px}
+.section{margin-top:24px}
+.sectionhead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.sectionhead h2{font-size:17px;letter-spacing:-.2px;margin:0;font-weight:750}
+.sectionhead .label{font-size:11px}
+.select{background:#0b1727;color:var(--text);border:1px solid #30455e;border-radius:10px;padding:8px 12px;font:inherit;font-size:12px;outline:none}
+.select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(99,184,255,.12)}
+.chartbox{padding:23px}
+.chartmeta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px 18px;color:var(--muted);font-size:11px;padding:14px 0 2px}
+.chartmeta span{padding:9px 11px;border:1px solid rgba(112,145,180,.12);border-radius:10px;background:rgba(6,15,27,.35);min-width:0}
+.chartmeta b{color:#dce7f4;font-weight:600}
+.mini-chart{margin-top:15px;padding:16px 17px;background:rgba(6,15,27,.43);border:1px solid rgba(112,145,180,.15);border-radius:15px;min-width:0}
+.mini-chart h3{color:#dce7f4;font-size:12px;font-weight:600;margin:0 0 10px;display:flex;align-items:center;gap:8px}
+.mini-chart h3:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--blue);box-shadow:0 0 12px rgba(99,184,255,.45)}
+.mini-chart:nth-of-type(2) h3:before{background:var(--gold)}
+.mini-chart:nth-of-type(3) h3:before{background:var(--green)}
+canvas{display:block;width:100%;height:210px;margin-top:8px}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.stat{display:flex;align-items:center;justify-content:space-between;gap:12px;background:linear-gradient(145deg,#111f32,#0d1929);border:1px solid rgba(112,145,180,.16);border-radius:14px;padding:15px 17px;min-width:0}
+.stat small{display:block;color:var(--muted);font-size:11px;line-height:1.6}
+.stat strong{font-size:14px;display:block;margin-top:3px;text-align:left;overflow-wrap:anywhere}
 .actions{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .action{border:1px solid var(--line);border-radius:13px;background:#10213a;color:var(--text);padding:13px 8px;text-align:center;cursor:pointer;font:inherit;font-size:12px}
 .action span{display:block;font-size:21px;margin-bottom:4px}
@@ -38,36 +81,16 @@ canvas{display:block;width:100%;height:190px;margin-top:10px}
 .settingsrow:last-child{border:0}
 .settingsrow input{width:105px;background:#091525;border:1px solid var(--line);color:var(--text);border-radius:8px;padding:8px;font:inherit}
 .save{background:#1c5b91;border:0;color:white;border-radius:10px;padding:10px 15px;margin-top:12px;font:inherit;cursor:pointer}
-.foot{text-align:center;color:#7187a5;font-size:11px;margin-top:22px}
-.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#173554;border:1px solid #32628d;color:white;padding:10px 15px;border-radius:12px;font-size:12px;display:none;max-width:90%;text-align:center}
-@media(max-width:650px){.wrap{padding:16px 12px 28px}.grid{grid-template-columns:1fr}.card.market{padding:14px 16px}.price{font-size:25px}.stats{grid-template-columns:1fr}.stat{display:flex;align-items:center;justify-content:space-between}.stat strong{margin:0}.actions{gap:7px}.action{padding:10px 5px}.sectionhead h2{font-size:15px}}
-
-.mini-chart {
-  margin-top: 18px;
-  padding: 12px;
-  background: #0b1728;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-}
-.mini-chart h3 {
-  color: var(--text);
-  font-size: 13px;
-  font-weight: normal;
-  margin: 0 0 10px;
-}
-.mini-chart canvas {
-  display: block;
-  width: 100%;
-  height: 190px;
-}
-
-
-.manual-run-wrap{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:0 0 16px;padding:14px 16px;background:linear-gradient(120deg,#123354,#10213a);border:1px solid #2c5d86;border-radius:16px}
+.manual-run-wrap{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:0 0 20px;padding:17px 19px;background:linear-gradient(110deg,rgba(21,55,85,.92),rgba(15,31,51,.95));border:1px solid rgba(99,184,255,.25);border-radius:17px}
 .manual-run-copy{min-width:0}.manual-run-copy strong{display:block;font-size:14px}.manual-run-copy small{display:block;color:var(--muted);font-size:11px;margin-top:3px}
-.manual-run{display:inline-flex;align-items:center;justify-content:center;gap:8px;flex-shrink:0;padding:10px 14px;border-radius:11px;background:#1976b9;color:#fff;text-decoration:none;font-size:13px;font-weight:700;border:1px solid #4ba8e8}
-.manual-run:hover,.manual-run:focus{background:#2589cf;outline:2px solid #8bd0ff;outline-offset:2px}
-@media(max-width:520px){.manual-run-wrap{align-items:stretch;flex-direction:column}.manual-run{width:100%}}
-
+.manual-run{display:inline-flex;align-items:center;justify-content:center;gap:8px;flex-shrink:0;padding:11px 17px;border-radius:11px;background:linear-gradient(135deg,#2187d0,#1766a5);color:#fff;text-decoration:none;font-size:12px;font-weight:700;border:1px solid rgba(143,210,255,.42);box-shadow:0 5px 16px rgba(22,112,177,.18);transition:transform .18s ease,filter .18s ease}
+.manual-run:hover,.manual-run:focus{filter:brightness(1.12);transform:translateY(-1px);outline:2px solid #8bd0ff;outline-offset:2px}
+.foot{text-align:center;color:#7187a5;font-size:11px;margin-top:28px;padding-top:18px;border-top:1px solid rgba(147,166,189,.12)}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#173554;border:1px solid #32628d;color:white;padding:10px 15px;border-radius:12px;font-size:12px;display:none;max-width:90%;text-align:center;z-index:20}
+@media(min-width:900px){.chartbox{padding:25px 27px}.mini-chart canvas{height:230px}}
+@media(max-width:760px){.wrap{padding:22px 16px 32px}.grid{grid-template-columns:1fr;gap:12px}.card.market{padding:19px 20px}.price{font-size:29px;margin:10px 0 4px}.change{margin-top:8px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.stat{padding:13px}.chartbox{padding:18px}.chartmeta{grid-template-columns:1fr}}
+@media(max-width:480px){.wrap{padding:17px 12px 26px}.top{gap:11px;margin-bottom:18px;padding-bottom:16px}.logo{width:45px;height:45px;flex-basis:45px;border-radius:14px;font-size:24px}.brand h1{font-size:20px}.brand p{font-size:11px}.status{font-size:10px;padding:5px 8px}.manual-run-wrap{align-items:stretch;flex-direction:column;padding:15px}.manual-run{width:100%}.stats{grid-template-columns:1fr}.stat{padding:12px 14px}.sectionhead h2{font-size:15px}.chartbox{padding:14px}.mini-chart{padding:12px 10px}canvas{height:190px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
 </style>
 </head>
 <body>
@@ -75,7 +98,7 @@ canvas{display:block;width:100%;height:190px;margin-top:10px}
 <header class="top">
 <div class="logo">⌁</div>
 <div class="brand"><h1>GoldWatch IR</h1><p>داشبورد شخصی پایش طلا و دلار</p></div>
-<div class="status">● نسخه اولیه</div>
+<div class="status">● پایش خودکار</div>
 </header>
 
 <section class="manual-run-wrap" aria-label="اجرای دستی ربات">
@@ -87,7 +110,7 @@ canvas{display:block;width:100%;height:190px;margin-top:10px}
     ▶ اجرای ربات
   </a>
 </section>
-<div class="notice">حالت نمایشی: قیمت‌های زیر نمونه هستند و به TGJU وصل نیستند. پس از اتصال به ربات، داده‌های واقعی جایگزین می‌شوند.</div>
+<div class="notice">وضعیت منابع قیمت پس از دریافت اطلاعات به‌روزرسانی می‌شود.</div>
 <section class="grid">
 <article class="card market"><div class="label">طلای ۱۸ عیار · هر گرم</div><div class="price" id="iranPrice">۲۶٬۳۰۷٬۱۰۰</div><div class="unit">تومان</div><div class="change up" id="iranChange">↗ +۰٫۲۴٪ <span class="neutral">از پایش قبل</span></div></article>
 <article class="card market"><div class="label">اونس جهانی طلا</div><div class="price" id="worldPrice">$4,184.90</div><div class="unit">دلار آمریکا / اونس</div><div class="change down" id="worldChange">↘ −۰٫۱۰٪ <span class="neutral">از پایش قبل</span></div></article>
