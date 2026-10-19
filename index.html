@@ -433,11 +433,11 @@ function drawOneChart(canvasId, field, color, decimals = 0, prefix = "") {
   const duration=range==="week"?7*24*60*60*1000:24*60*60*1000;
   const rows=historyRows.filter(r=>{const t=new Date(r.timestamp).getTime();return r.timestamp&&Number.isFinite(Number(r[field]))&&t<=now&&now-t<=duration;}).sort((a,b)=>new Date(a.timestamp)-new Date(b.timestamp));
   const tip=document.getElementById(canvasId+"Tip");
-  const fmt=value=>prefix+new Intl.NumberFormat(lang==="en"?"en-US":"fa-IR",{maximumFractionDigits:decimals}).format(value);
-  const setTip=(row,value)=>{if(!tip)return;if(!row){tip.innerHTML="<span>"+(lang==="en"?"Hover or touch the chart to inspect details":"برای مشاهده جزئیات، روی نمودار حرکت کنید")+"</span><span>—</span>";return;}const time=new Date(row.timestamp).toLocaleString(lang==="en"?"en-US":"fa-IR",{month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"});tip.innerHTML="<span>"+time+"</span><span>"+(lang==="en"?"Price: ":"قیمت: ")+"<b>"+fmt(value)+"</b></span>";};
+  const fmt=value=>prefix+new Intl.NumberFormat(document.documentElement.lang==="en"?"en-US":"fa-IR",{maximumFractionDigits:decimals}).format(value);
+  const setTip=(row,value)=>{if(!tip)return;if(!row){tip.innerHTML="<span>"+(document.documentElement.lang==="en"?"Hover or touch the chart to inspect details":"برای مشاهده جزئیات، روی نمودار حرکت کنید")+"</span><span>—</span>";return;}const time=new Date(row.timestamp).toLocaleString(document.documentElement.lang==="en"?"en-US":"fa-IR",{month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"});tip.innerHTML="<span>"+time+"</span><span>"+(document.documentElement.lang==="en"?"Price: ":"قیمت: ")+"<b>"+fmt(value)+"</b></span>";};
   ctx.strokeStyle="rgba(76,103,137,.42)";ctx.lineWidth=1;
   for(let i=0;i<4;i++){const y=pad+(h-2*pad)*i/3;ctx.beginPath();ctx.moveTo(pad,y);ctx.lineTo(w-pad,y);ctx.stroke();}
-  if(rows.length<2){ctx.fillStyle="#9db1cd";ctx.font="12px Tahoma";ctx.textAlign="center";ctx.fillText(lang==="en"?(rows.length===1?"More data points are needed to draw the chart.":"No data in this range."):(rows.length===1?"برای رسم نمودار، ثبت‌های بیشتری لازم است.":"در این بازه داده‌ای وجود ندارد."),w/2,h/2);setTip(null);return;}
+  if(rows.length<2){ctx.fillStyle="#9db1cd";ctx.font="12px Tahoma";ctx.textAlign="center";ctx.fillText(document.documentElement.lang==="en"?(rows.length===1?"More data points are needed to draw the chart.":"No data in this range."):(rows.length===1?"برای رسم نمودار، ثبت‌های بیشتری لازم است.":"در این بازه داده‌ای وجود ندارد."),w/2,h/2);setTip(null);return;}
   const values=rows.map(r=>Number(r[field])),min=Math.min(...values),max=Math.max(...values),span=max-min||Math.max(Math.abs(max)*.001,1);
   const points=values.map((v,i)=>({x:pad+i*(w-2*pad)/(values.length-1),y:h-pad-(v-min)/span*(h-2*pad)}));
   const gradient=ctx.createLinearGradient(0,pad,0,h-pad);gradient.addColorStop(0,color+"38");gradient.addColorStop(1,color+"00");
@@ -461,7 +461,7 @@ async function updateGoldDashboard() {
   const base = "https://raw.githubusercontent.com/Mirvahidhosseini/tgju-gold-monitor/main/";
   const formatPrice = (value, decimals = 0) =>
     value == null || !Number.isFinite(Number(value)) ? "—" :
-      new Intl.NumberFormat(lang==="en"?"en-US":"fa-IR", { maximumFractionDigits: decimals }).format(Number(value));
+      new Intl.NumberFormat(document.documentElement.lang==="en"?"en-US":"fa-IR", { maximumFractionDigits: decimals }).format(Number(value));
   const setText = (id, value) => {
     const el = document.getElementById(id);
     if (el) el.textContent = value;
@@ -508,16 +508,16 @@ async function updateGoldDashboard() {
     setDailyPrice(["dollarLow"], daily.dollar?.low, "تومان");
 
     const checkedAt = data.last_checked || data.checked_at;
-    setText("updated", checkedAt ? new Date(checkedAt).toLocaleString(lang==="en"?"en-US":"fa-IR") : "نامشخص");
+    setText("updated", checkedAt ? new Date(checkedAt).toLocaleString(document.documentElement.lang==="en"?"en-US":"fa-IR") : "نامشخص");
 
     const marketStatusText = key => {
       if (!hasFreshness) return "داده قدیمی؛ زمان دریافت بازار جداگانه موجود نیست";
       const m = status[key];
       if (m?.current_price == null) {
-        const last = m?.last_success_at ? new Date(m.last_success_at).toLocaleString(lang==="en"?"en-US":"fa-IR") : "ندارد";
+        const last = m?.last_success_at ? new Date(m.last_success_at).toLocaleString(document.documentElement.lang==="en"?"en-US":"fa-IR") : "ندارد";
         return "قیمت تازه ناموجود؛ آخرین موفق: " + last;
       }
-      return "آخرین دریافت موفق: " + new Date(m.last_success_at || m.last_attempt_at).toLocaleString(lang==="en"?"en-US":"fa-IR");
+      return "آخرین دریافت موفق: " + new Date(m.last_success_at || m.last_attempt_at).toLocaleString(document.documentElement.lang==="en"?"en-US":"fa-IR");
     };
     setText("sourceStatus", marketStatusText("iran"));
     setText("sourceStatusWorld", marketStatusText("world"));
@@ -580,10 +580,10 @@ setInterval(updateGoldDashboard, 5 * 60 * 1000);
 
 function marketSummaryText(){
   const p=window.currentMarketPrices||{};
-  const lang=document.documentElement.lang==="en"?"en":"fa";
-  const fmt=(v,d=0)=>v==null?"—":new Intl.NumberFormat(lang==="en"?"en-US":"fa-IR",{maximumFractionDigits:d}).format(Number(v));
-  const time=p.checkedAt?new Date(p.checkedAt).toLocaleString(lang==="en"?"en-US":"fa-IR"):(lang==="en"?"Unknown":"نامشخص");
-  return lang==="en"
+  const lang=document.documentElement.document.documentElement.lang==="en"?"en":"fa";
+  const fmt=(v,d=0)=>v==null?"—":new Intl.NumberFormat(document.documentElement.lang==="en"?"en-US":"fa-IR",{maximumFractionDigits:d}).format(Number(v));
+  const time=p.checkedAt?new Date(p.checkedAt).toLocaleString(document.documentElement.lang==="en"?"en-US":"fa-IR"):(document.documentElement.lang==="en"?"Unknown":"نامشخص");
+  return document.documentElement.lang==="en"
     ? "GoldWatch Markets snapshot\\nIran 18K gold: "+fmt(p.iran)+" toman/g\\nGlobal gold: "+(p.world==null?"—":"$"+fmt(p.world,2))+" / oz\\nUSD/IRR: "+fmt(p.dollar)+" toman\\nLast data timestamp: "+time+"\\nMarket information only — not investment advice.\\n"+location.href
     : "خلاصه بازار GoldWatch Markets\\nطلای ۱۸ عیار: "+fmt(p.iran)+" تومان/گرم\\nاونس جهانی: "+(p.world==null?"—":"$"+fmt(p.world,2))+" / اونس\\nدلار آزاد: "+fmt(p.dollar)+" تومان\\nزمان داده: "+time+"\\nصرفاً اطلاعات بازار؛ توصیه سرمایه‌گذاری نیست.\\n"+location.href;
 }
@@ -591,25 +591,25 @@ function updateGoldCalculator(){
  const input=document.getElementById("goldGrams"),out=document.getElementById("calcResult");
  if(!input||!out)return;
  const grams=Number(input.value),price=window.currentMarketPrices?.iran;
- if(!Number.isFinite(grams)||grams<=0){out.textContent=document.documentElement.lang==="en"?"Enter a valid weight":"وزن معتبر وارد کن";return;} if(price==null){out.textContent=document.documentElement.lang==="en"?"Waiting for price data…":"در انتظار دریافت قیمت…";return;}
- const lang=document.documentElement.lang==="en"?"en":"fa";
- out.textContent=new Intl.NumberFormat(lang==="en"?"en-US":"fa-IR",{maximumFractionDigits:0}).format(grams*Number(price))+(lang==="en"?" toman":" تومان");
+ if(!Number.isFinite(grams)||grams<=0){out.textContent=document.documentElement.document.documentElement.lang==="en"?"Enter a valid weight":"وزن معتبر وارد کن";return;} if(price==null){out.textContent=document.documentElement.document.documentElement.lang==="en"?"Waiting for price data…":"در انتظار دریافت قیمت…";return;}
+ const lang=document.documentElement.document.documentElement.lang==="en"?"en":"fa";
+ out.textContent=new Intl.NumberFormat(document.documentElement.lang==="en"?"en-US":"fa-IR",{maximumFractionDigits:0}).format(grams*Number(price))+(document.documentElement.lang==="en"?" toman":" تومان");
 }
 document.getElementById("goldGrams")?.addEventListener("input",updateGoldCalculator);
 document.getElementById("shareSnapshot")?.addEventListener("click",async()=>{
- const text=marketSummaryText(),lang=document.documentElement.lang==="en"?"en":"fa";
+ const text=marketSummaryText(),lang=document.documentElement.document.documentElement.lang==="en"?"en":"fa";
  try{
    if(navigator.share){await navigator.share({title:"GoldWatch Markets",text});}
-   else if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(text);alert(lang==="en"?"Market summary copied.":"خلاصه بازار کپی شد.");}
-   else{window.prompt(lang==="en"?"Copy this market summary:":"خلاصه بازار را کپی کن:",text);}
+   else if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(text);alert(document.documentElement.lang==="en"?"Market summary copied.":"خلاصه بازار کپی شد.");}
+   else{window.prompt(document.documentElement.lang==="en"?"Copy this market summary:":"خلاصه بازار را کپی کن:",text);}
  }catch(e){if(e?.name!=="AbortError")console.error("Share failed",e);}
 });
 document.getElementById("copySnapshot")?.addEventListener("click",async()=>{
- const text=marketSummaryText(),lang=document.documentElement.lang==="en"?"en":"fa";
+ const text=marketSummaryText(),lang=document.documentElement.document.documentElement.lang==="en"?"en":"fa";
  try{
-  if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(text);alert(lang==="en"?"Market summary copied.":"خلاصه بازار کپی شد.");}
-  else window.prompt(lang==="en"?"Copy this market summary:":"خلاصه بازار را کپی کن:",text);
- }catch(e){window.prompt(lang==="en"?"Copy this market summary:":"خلاصه بازار را کپی کن:",text);}
+  if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(text);alert(document.documentElement.lang==="en"?"Market summary copied.":"خلاصه بازار کپی شد.");}
+  else window.prompt(document.documentElement.lang==="en"?"Copy this market summary:":"خلاصه بازار را کپی کن:",text);
+ }catch(e){window.prompt(document.documentElement.lang==="en"?"Copy this market summary:":"خلاصه بازار را کپی کن:",text);}
 });
 
 window.addEventListener("resize",()=>draw());
