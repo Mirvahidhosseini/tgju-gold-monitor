@@ -228,6 +228,46 @@ html[dir="ltr"] .public-nav .nav-cta{margin-inline-start:auto}
 @media(max-width:760px){.wrap{padding:19px 15px 35px}.hero{grid-template-columns:1fr;padding:27px 23px;gap:5px}.hero-art{min-height:165px}.orbit{width:205px}.hero h2{font-size:clamp(29px,8vw,42px)}.hero-copy p{font-size:12px;margin:12px 0 17px}.public-nav{margin-bottom:20px}.public-nav a{padding:6px 9px}.public-nav .nav-cta{margin-inline-start:0}.card.market{padding:20px}.price{font-size:32px}.chartbox{padding:18px}.daily-grid{grid-template-columns:1fr}}
 @media(max-width:480px){.wrap{padding:15px 11px 28px}.top{gap:9px;padding-bottom:15px}.logo{width:42px;height:42px;flex-basis:42px;border-radius:13px;font-size:24px}.brand h1{font-size:18px}.brand p{font-size:10px;line-height:1.5}.status{font-size:9px;padding:5px 7px}.lang-switch button{padding:6px 7px}.hero{padding:23px 18px;border-radius:22px}.hero h2{font-size:31px;letter-spacing:-1px}.hero-copy p{font-size:11px}.hero-button{padding:11px 12px}.hero-art{min-height:150px}.orbit{width:180px}.orbit-label{font-size:9px;padding:6px 8px}.public-nav a{font-size:10px;padding:5px 8px}.market-strip{padding:11px}.ticker-chip{font-size:9px;padding:6px 7px}.sectionhead h2{font-size:16px}}
 
+
+/* Refined blue-first visual system */
+:root{--gold:#9bb5d1;--gold-soft:#1b2b40}
+.logo{color:#a9c9e8;border-color:#2d4c6d}
+.public-nav .nav-cta{color:#fff;background:linear-gradient(135deg,#368bd0,#2367a7);border:1px solid rgba(115,185,246,.25)}
+.hero{border-color:rgba(99,184,255,.20);background:linear-gradient(115deg,rgba(18,29,43,.98),rgba(11,20,32,.97) 62%,rgba(16,28,43,.97))}
+.hero:before{background:linear-gradient(180deg,transparent,#63b8ff,transparent)}
+.hero:after{border-color:rgba(99,184,255,.09);box-shadow:0 0 0 35px rgba(99,184,255,.02),0 0 0 75px rgba(99,184,255,.014)}
+.hero-kicker,.hero h2 em{color:#8fc9ff}
+.hero-kicker:before,.hero-kicker:after{background:#8fc9ff}
+.hero-button.primary{background:linear-gradient(135deg,#4aa6ed,#2777bb);color:#fff;box-shadow:0 8px 22px rgba(39,119,187,.18)}
+.orbit{border-color:rgba(99,184,255,.20);background:radial-gradient(circle,rgba(70,145,211,.12),rgba(70,145,211,.025) 46%,transparent 68%)}
+.orbit:before,.orbit:after{border-color:rgba(99,184,255,.13)}
+.orbit-center{background:linear-gradient(145deg,#8fc9ff,#347db8);color:#071525;box-shadow:0 14px 45px rgba(75,153,220,.18)}
+.orbit-label{border-color:rgba(99,184,255,.20);color:#b9dcfb}
+.notice{background:rgba(23,42,62,.55);border-color:rgba(99,184,255,.17);color:#b6cbe0}
+.hero-copy p{color:#a9bbd0}
+.hero-button.secondary{border-color:#344b64}
+html[dir="ltr"] .hero-kicker:after{background:#8fc9ff}
+.tool-panel{margin:24px 0 0;padding:24px;border:1px solid #263b52;border-radius:22px;background:linear-gradient(145deg,#111f31,#0b1421);display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,.8fr);gap:22px;align-items:center}
+.tool-panel h2{font-size:20px;letter-spacing:-.3px;margin:0 0 7px}
+.tool-panel p{font-size:12px;color:var(--muted);margin:0 0 15px;line-height:1.9}
+.tool-kicker{font-size:10px;letter-spacing:1px;color:#8fc9ff;font-weight:800;margin-bottom:8px}
+.calc-controls{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.calc-controls input{width:120px;background:#081321;color:var(--text);border:1px solid #30465f;border-radius:10px;padding:11px 12px;font:inherit;font-size:13px}
+.calc-controls label{font-size:11px;color:#a9bbd0}
+.calc-result{padding:18px;border-radius:16px;border:1px solid #2b4560;background:rgba(5,14,24,.55)}
+.calc-result small{display:block;font-size:11px;color:var(--muted)}
+.calc-result strong{display:block;font-size:clamp(24px,3vw,34px);letter-spacing:-.8px;margin:5px 0;color:#e8f3ff;overflow-wrap:anywhere}
+.calc-result .calc-note{font-size:10px;color:#7f95ae;line-height:1.8}
+.tool-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px}
+.tool-action{cursor:pointer;border:1px solid #2d4964;border-radius:10px;padding:10px 13px;background:#142941;color:#dceeff;font:700 11px Tahoma,Arial,sans-serif}
+.tool-action.primary{background:#2c7dbb;color:#fff;border-color:#3b91d0}
+.faq-section{margin-top:30px;padding:23px;border-top:1px solid #24374d}
+.faq-section h2{font-size:19px;margin:0 0 14px}
+.faq-item{padding:13px 0;border-bottom:1px solid rgba(147,166,189,.12)}
+.faq-item:last-child{border-bottom:0}
+.faq-item h3{font-size:13px;margin:0 0 5px;color:#dce8f5}
+.faq-item p{font-size:12px;line-height:1.9;color:var(--muted);margin:0}
+@media(max-width:700px){.tool-panel{grid-template-columns:1fr;padding:19px;gap:16px}.tool-panel h2{font-size:18px}.calc-result strong{font-size:27px}}
 </style>
 </head>
 <body>
@@ -270,6 +310,27 @@ html[dir="ltr"] .public-nav .nav-cta{margin-inline-start:auto}
 <article class="card market"><div class="label">اونس جهانی طلا</div><div class="price" id="worldPrice">—</div><div class="unit">دلار آمریکا / اونس</div><div class="change neutral" id="worldChange">در حال دریافت اطلاعات…</div></article>
 <article class="card market"><div class="label">دلار آزاد</div><div class="price" id="dollarPrice">—</div><div class="unit">تومان</div><div class="change neutral" id="dollarChange">در حال دریافت اطلاعات…</div></article>
 </section>
+<section class="tool-panel" id="tools" aria-labelledby="calcTitle">
+  <div>
+    <div class="tool-kicker" id="toolKicker">PRACTICAL TOOLS</div>
+    <h2 id="calcTitle">محاسبه ارزش خام طلای ۱۸ عیار</h2>
+    <p id="calcDescription">وزن طلا را وارد کن تا ارزش تقریبی آن بر اساس آخرین قیمت ثبت‌شده محاسبه شود؛ بدون اجرت، مالیات یا اختلاف خریدوفروش.</p>
+    <div class="calc-controls">
+      <label for="goldGrams" id="gramsLabel">وزن به گرم</label>
+      <input id="goldGrams" type="number" min="0.01" max="1000000" step="0.01" value="1" inputmode="decimal" aria-describedby="calcNote">
+    </div>
+    <div class="tool-actions">
+      <button type="button" class="tool-action primary" id="shareSnapshot">اشتراک‌گذاری قیمت‌ها</button>
+      <button type="button" class="tool-action" id="copySnapshot">کپی خلاصه بازار</button>
+    </div>
+  </div>
+  <div class="calc-result" aria-live="polite">
+    <small id="calcResultLabel">ارزش تقریبی طلای شما</small>
+    <strong id="calcResult">—</strong>
+    <div class="calc-note" id="calcNote">برآورد بر پایه قیمت اعلامی طلای ۱۸ عیار است؛ قیمت نهایی معامله می‌تواند متفاوت باشد.</div>
+  </div>
+</section>
+
 
 <section class="section card chartbox" id="charts">
   <div class="sectionhead">
@@ -335,6 +396,13 @@ html[dir="ltr"] .public-nav .nav-cta{margin-inline-start:auto}
   </div>
 </section>
 
+
+<section class="faq-section" id="faq" aria-labelledby="faqTitle">
+  <h2 id="faqTitle">راهنمای GoldWatch Markets</h2>
+  <div class="faq-item"><h3 id="faqQ1">قیمت‌ها هر چند وقت به‌روزرسانی می‌شوند؟</h3><p id="faqA1">داشبورد آخرین داده منتشرشده را می‌خواند و زمان دریافت و وضعیت منبع را نمایش می‌دهد. تأخیر منبع یا اجرای خودکار ممکن است روی تازگی قیمت اثر بگذارد.</p></div>
+  <div class="faq-item"><h3 id="faqQ2">محاسبه‌گر چه چیزی را حساب می‌کند؟</h3><p id="faqA2">ارزش خام وزن واردشده را با قیمت هر گرم طلای ۱۸ عیار تخمین می‌زند؛ اجرت، مالیات، سود فروشنده و اختلاف قیمت خریدوفروش در آن لحاظ نمی‌شود.</p></div>
+  <div class="faq-item"><h3 id="faqQ3">آیا این سایت توصیه سرمایه‌گذاری است؟</h3><p id="faqA3">خیر. این داشبورد برای مشاهده اطلاعات بازار است و نباید جایگزین بررسی مستقل یا مشاوره مالی شود.</p></div>
+</section>
 <footer class="foot">GoldWatch Markets · اطلاعات بازار ممکن است با تأخیر همراه باشد. توصیه سرمایه‌گذاری نیست.</footer>
 <section class="manual-run-wrap" aria-label="اجرای دستی ربات">
   <div class="manual-run-copy">
@@ -423,6 +491,7 @@ async function updateGoldDashboard() {
     const iran = marketValue("iran", ["iran_toman", "price_toman", "iran_price_toman"]);
     const world = marketValue("world", ["world_usd", "world_gold_usd"]);
     const dollar = marketValue("dollar", ["dollar_toman"]);
+    window.currentMarketPrices = { iran, world, dollar, checkedAt: data.last_checked || data.checked_at || null };
 
     setText("iranPrice", formatPrice(iran));
     setText("worldPrice", world == null ? "—" : "$" + formatPrice(world, 2));
@@ -507,6 +576,41 @@ async function updateGoldDashboard() {
 }
 updateGoldDashboard();
 setInterval(updateGoldDashboard, 5 * 60 * 1000);
+
+function marketSummaryText(){
+  const p=window.currentMarketPrices||{};
+  const lang=document.documentElement.lang==="en"?"en":"fa";
+  const fmt=(v,d=0)=>v==null?"—":new Intl.NumberFormat(lang==="en"?"en-US":"fa-IR",{maximumFractionDigits:d}).format(Number(v));
+  const time=p.checkedAt?new Date(p.checkedAt).toLocaleString(lang==="en"?"en-US":"fa-IR"):(lang==="en"?"Unknown":"نامشخص");
+  return lang==="en"
+    ? "GoldWatch Markets snapshot\\nIran 18K gold: "+fmt(p.iran)+" toman/g\\nGlobal gold: "+(p.world==null?"—":"$"+fmt(p.world,2))+" / oz\\nUSD/IRR: "+fmt(p.dollar)+" toman\\nLast data timestamp: "+time+"\\nMarket information only — not investment advice.\\n"+location.href
+    : "خلاصه بازار GoldWatch Markets\\nطلای ۱۸ عیار: "+fmt(p.iran)+" تومان/گرم\\nاونس جهانی: "+(p.world==null?"—":"$"+fmt(p.world,2))+" / اونس\\nدلار آزاد: "+fmt(p.dollar)+" تومان\\nزمان داده: "+time+"\\nصرفاً اطلاعات بازار؛ توصیه سرمایه‌گذاری نیست.\\n"+location.href;
+}
+function updateGoldCalculator(){
+ const input=document.getElementById("goldGrams"),out=document.getElementById("calcResult");
+ if(!input||!out)return;
+ const grams=Number(input.value),price=window.currentMarketPrices?.iran;
+ if(!Number.isFinite(grams)||grams<=0||price==null){out.textContent=document.documentElement.lang==="en"?"Enter a valid weight":"وزن معتبر وارد کن";return;}
+ const lang=document.documentElement.lang==="en"?"en":"fa";
+ out.textContent=new Intl.NumberFormat(lang==="en"?"en-US":"fa-IR",{maximumFractionDigits:0}).format(grams*Number(price))+(lang==="en"?" toman":" تومان");
+}
+document.getElementById("goldGrams")?.addEventListener("input",updateGoldCalculator);
+document.getElementById("shareSnapshot")?.addEventListener("click",async()=>{
+ const text=marketSummaryText(),lang=document.documentElement.lang==="en"?"en":"fa";
+ try{
+   if(navigator.share){await navigator.share({title:"GoldWatch Markets",text});}
+   else if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(text);alert(lang==="en"?"Market summary copied.":"خلاصه بازار کپی شد.");}
+   else{window.prompt(lang==="en"?"Copy this market summary:":"خلاصه بازار را کپی کن:",text);}
+ }catch(e){if(e?.name!=="AbortError")console.error("Share failed",e);}
+});
+document.getElementById("copySnapshot")?.addEventListener("click",async()=>{
+ const text=marketSummaryText(),lang=document.documentElement.lang==="en"?"en":"fa";
+ try{
+  if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(text);alert(lang==="en"?"Market summary copied.":"خلاصه بازار کپی شد.");}
+  else window.prompt(lang==="en"?"Copy this market summary:":"خلاصه بازار را کپی کن:",text);
+ }catch(e){window.prompt(lang==="en"?"Copy this market summary:":"خلاصه بازار را کپی کن:",text);}
+});
+
 window.addEventListener("resize",()=>draw());
 </script>
 <script>
@@ -551,7 +655,7 @@ window.addEventListener("resize",()=>draw());
     manualTitle:"Run monitor manually",
     manualHint:"Opens GitHub Actions. Select “Run workflow” to start a run.",
     manualButton:"▶ Run monitor",
-    footer:"GoldWatch Markets · Market data may be delayed. Not investment advice."
+    toolKicker:"PRACTICAL TOOLS", calcTitle:"Estimate 18K gold value", calcDescription:"Enter a weight to estimate its value using the latest reported 18K price. Excludes workmanship, tax and buy/sell spread.", gramsLabel:"Weight in grams", shareSnapshot:"Share market snapshot", copySnapshot:"Copy market summary", calcResultLabel:"Estimated gold value", calcNote:"Based on the reported 18K price per gram. The final transaction price may differ.", faqTitle:"GoldWatch Markets guide", faqQ1:"How often are prices updated?", faqA1:"The dashboard reads the latest published data and shows its timestamp and source status. Source delays or scheduled-run timing may affect freshness.", faqQ2:"What does the calculator estimate?", faqA2:"It estimates the raw value of the entered weight using the reported 18K price per gram. Workmanship, tax, seller margin and buy/sell spread are excluded.", faqQ3:"Is this investment advice?", faqA3:"No. This dashboard is for market information and is not a substitute for independent research or financial advice.", footer:"GoldWatch Markets · Market data may be delayed. Not investment advice."
   };
   const persian = {
     navMarkets:"بازارها", navCharts:"نمودارها", navDaily:"خلاصه روزانه", navTelegram:"شروع بررسی ↓",
@@ -590,7 +694,7 @@ window.addEventListener("resize",()=>draw());
     manualTitle:"اجرای دستی ربات",
     manualHint:"صفحه GitHub Actions باز می‌شود؛ سپس روی «Run workflow» بزنید.",
     manualButton:"▶ اجرای ربات",
-    footer:"GoldWatch Markets · اطلاعات بازار ممکن است با تأخیر همراه باشد. توصیه سرمایه‌گذاری نیست."
+    toolKicker:"ابزارهای کاربردی", calcTitle:"محاسبه ارزش خام طلای ۱۸ عیار", calcDescription:"وزن طلا را وارد کن تا ارزش تقریبی آن بر اساس آخرین قیمت ثبت‌شده محاسبه شود؛ بدون اجرت، مالیات یا اختلاف خریدوفروش.", gramsLabel:"وزن به گرم", shareSnapshot:"اشتراک‌گذاری قیمت‌ها", copySnapshot:"کپی خلاصه بازار", calcResultLabel:"ارزش تقریبی طلای شما", calcNote:"برآورد بر پایه قیمت اعلامی طلای ۱۸ عیار است؛ قیمت نهایی معامله می‌تواند متفاوت باشد.", faqTitle:"راهنمای GoldWatch Markets", faqQ1:"قیمت‌ها هر چند وقت به‌روزرسانی می‌شوند؟", faqA1:"داشبورد آخرین داده منتشرشده را می‌خواند و زمان دریافت و وضعیت منبع را نمایش می‌دهد. تأخیر منبع یا اجرای خودکار ممکن است روی تازگی قیمت اثر بگذارد.", faqQ2:"محاسبه‌گر چه چیزی را حساب می‌کند؟", faqA2:"ارزش خام وزن واردشده را با قیمت هر گرم طلای ۱۸ عیار تخمین می‌زند؛ اجرت، مالیات، سود فروشنده و اختلاف قیمت خریدوفروش در آن لحاظ نمی‌شود.", faqQ3:"آیا این سایت توصیه سرمایه‌گذاری است؟", faqA3:"خیر. این داشبورد برای مشاهده اطلاعات بازار است و نباید جایگزین بررسی مستقل یا مشاوره مالی شود.", footer:"GoldWatch Markets · اطلاعات بازار ممکن است با تأخیر همراه باشد. توصیه سرمایه‌گذاری نیست."
   };
   let lang = "fa";
   function set(selector, value){const el=$(selector);if(el)el.textContent=value;}
@@ -624,6 +728,7 @@ window.addEventListener("resize",()=>draw());
     if(navLinks[0])navLinks[0].textContent=t.navMarkets;if(navLinks[1])navLinks[1].textContent=t.navCharts;if(navLinks[2])navLinks[2].textContent=t.navDaily;if(navLinks[3])navLinks[3].textContent=t.navTelegram;
     set("#heroKicker",t.heroKicker);const heroTitle=$("#heroTitle");if(heroTitle)heroTitle.innerHTML=t.heroTitle;set("#heroText",t.heroText);set("#heroPrimary",t.heroPrimary);set("#heroSecondary",t.heroSecondary);
     set(".notice",t.notice);
+    set("#toolKicker",t.toolKicker);set("#calcTitle",t.calcTitle);set("#calcDescription",t.calcDescription);set("#gramsLabel",t.gramsLabel);set("#shareSnapshot",t.shareSnapshot);set("#copySnapshot",t.copySnapshot);set("#calcResultLabel",t.calcResultLabel);set("#calcNote",t.calcNote);set("#faqTitle",t.faqTitle);set("#faqQ1",t.faqQ1);set("#faqA1",t.faqA1);set("#faqQ2",t.faqQ2);set("#faqA2",t.faqA2);set("#faqQ3",t.faqQ3);set("#faqA3",t.faqA3);
     const stripTitle=$(".market-strip-title");if(stripTitle){const asOf=$("#marketAsOf");stripTitle.textContent=t.stripTitle+" ";if(asOf)stripTitle.appendChild(asOf);}
     set(".market-strip .chart-hint",t.stripHint);
     const labels=$(".grid .card .label");
@@ -653,6 +758,7 @@ window.addEventListener("resize",()=>draw());
     window.updateGoldDashboard=async function(){await originalUpdate();if(lang==="en")applyLanguage("en");};
   }
   applyLanguage("fa");
+  document.getElementById("goldGrams")?.addEventListener("input",()=>{});
 })();
 </script>
 </html>
