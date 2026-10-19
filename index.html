@@ -140,15 +140,6 @@ canvas{display:block;width:100%;height:210px;margin-top:8px}
 <div class="status stale" id="liveStatus" aria-live="polite"><span class="status-dot"></span><span id="liveStatusText">در حال اتصال</span></div>
 </header>
 
-<section class="manual-run-wrap" aria-label="اجرای دستی ربات">
-  <div class="manual-run-copy">
-    <strong>اجرای دستی ربات</strong>
-    <small>برای اجرای فوری، صفحه GitHub Actions باز می‌شود؛ سپس روی «Run workflow» بزنید.</small>
-  </div>
-  <a class="manual-run" href="https://github.com/Mirvahidhosseini/tgju-gold-monitor/actions/workflows/monitor.yml" target="_blank" rel="noopener noreferrer">
-    ▶ اجرای ربات
-  </a>
-</section>
 <div class="notice">وضعیت منابع قیمت پس از دریافت اطلاعات به‌روزرسانی می‌شود.</div>
 <section class="market-strip" aria-label="خلاصه زنده بازار"><div><div class="market-strip-title">نمای سریع بازار <span id="marketAsOf">· منتظر داده</span></div><div class="chart-hint" id="marketMood">پس از دریافت قیمت‌ها، جهت حرکت بازار نمایش داده می‌شود.</div></div><div class="market-strip-values"><span class="ticker-chip gold">۱۸ عیار <b id="tickerIran">—</b><span id="tickerIranChange">—</span></span><span class="ticker-chip world">اونس <b id="tickerWorld">—</b><span id="tickerWorldChange">—</span></span><span class="ticker-chip dollar">دلار <b id="tickerDollar">—</b><span id="tickerDollarChange">—</span></span></div></section>
 <section class="grid">
@@ -219,6 +210,16 @@ canvas{display:block;width:100%;height:210px;margin-top:8px}
       </div>
     </article>
   </div>
+</section>
+
+<section class="manual-run-wrap" aria-label="اجرای دستی ربات">
+  <div class="manual-run-copy">
+    <strong>اجرای دستی ربات</strong>
+    <small>برای اجرای فوری، صفحه GitHub Actions باز می‌شود؛ سپس روی «Run workflow» بزنید.</small>
+  </div>
+  <a class="manual-run" href="https://github.com/Mirvahidhosseini/tgju-gold-monitor/actions/workflows/monitor.yml" target="_blank" rel="noopener noreferrer">
+    ▶ اجرای ربات
+  </a>
 </section>
 </div>
 <div class="toast" id="toast" role="status"></div>
