@@ -213,7 +213,7 @@ body{background:radial-gradient(ellipse at 80% -10%,rgba(38,86,132,.22),transpar
 .daily-card-head strong{font-size:12px}
 .daily-values strong{font-size:13px}
 .foot{color:#70839b;border-color:#1a2838}
-.manual-run-wrap{margin-top:18px;border-radius:17px;background:linear-gradient(110deg,#101d2d,#0b1420);border-color:#293d52}
+.manual-run-wrap{display:none;margin-top:18px;border-radius:17px;background:linear-gradient(110deg,#101d2d,#0b1420);border-color:#293d52}
 .manual-run{background:linear-gradient(135deg,#d9b66c,#b48a3f);color:#111821;border:0;box-shadow:none}
 html[dir="ltr"] .hero:before{right:auto;left:0}
 html[dir="ltr"] .hero:after{right:auto;left:-90px}
@@ -242,7 +242,7 @@ html[dir="ltr"] .public-nav .nav-cta{margin-inline-start:auto}
   <a href="#markets" data-nav="markets">بازارها</a>
   <a href="#charts" data-nav="charts">نمودارها</a>
   <a href="#daily" data-nav="daily">خلاصه روزانه</a>
-  <a class="nav-cta" href="https://t.me/" target="_blank" rel="noopener noreferrer" data-nav="telegram">ورود به تلگرام ↗</a>
+  <a class="nav-cta" href="#markets" data-nav="telegram">شروع بررسی ↓</a>
 </nav>
 <section class="hero" aria-labelledby="heroTitle">
   <div class="hero-copy">
@@ -515,7 +515,7 @@ window.addEventListener("resize",()=>draw());
   const $ = (selector) => document.querySelector(selector);
   const $ = (selector) => Array.from(document.querySelectorAll(selector));
   const translations = {
-    navMarkets:"Markets", navCharts:"Charts", navDaily:"Daily snapshot", navTelegram:"Open Telegram ↗",
+    navMarkets:"Markets", navCharts:"Charts", navDaily:"Daily snapshot", navTelegram:"Explore markets ↓",
     heroKicker:"MARKET INTELLIGENCE · IRAN & GLOBAL", heroTitle:"See the gold market<br><em>with more clarity.</em>", heroText:"Track Iranian gold, global spot gold and USD/IRR in one unified view, with charts, daily ranges and clear data status.", heroPrimary:"Explore markets ↓", heroSecondary:"View price trends",
     brandTagline:"Smart gold & currency monitoring · Iran and global markets",
     notice:"Prices are displayed only after a successful data fetch. Each market shows its latest successful update.",
@@ -554,7 +554,7 @@ window.addEventListener("resize",()=>draw());
     footer:"GoldWatch Markets · Market data may be delayed. Not investment advice."
   };
   const persian = {
-    navMarkets:"بازارها", navCharts:"نمودارها", navDaily:"خلاصه روزانه", navTelegram:"ورود به تلگرام ↗",
+    navMarkets:"بازارها", navCharts:"نمودارها", navDaily:"خلاصه روزانه", navTelegram:"شروع بررسی ↓",
     heroKicker:"تحلیل بازار · ایران و جهان", heroTitle:"بازار طلا را<br><em>شفاف‌تر ببین.</em>", heroText:"قیمت طلا در ایران، اونس جهانی و دلار را در یک نمای یکپارچه دنبال کن؛ با نمودار، تغییرات روزانه و وضعیت روشن داده‌ها.", heroPrimary:"مشاهده بازارها ↓", heroSecondary:"بررسی روند قیمت",
     brandTagline:"پایش هوشمند طلا و ارز · ایران و بازار جهانی",
     notice:"قیمت هر بازار فقط پس از دریافت موفق نمایش داده می‌شود؛ زمان آخرین دریافت موفق هر بازار در وضعیت منبع آمده است.",
