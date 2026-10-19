@@ -20,6 +20,7 @@ CHAT_ID = os.environ["CHAT_ID"]
 IRAN_GOLD_URL = "https://www.tgju.org/gold-chart"
 TGJU_HOME_URL = "https://www.tgju.org/home"
 WORLD_GOLD_URL = "https://api.gold-api.com/price/XAU"
+DASHBOARD_URL = "https://mirvahidhosseini.github.io/tgju-gold-monitor/"
 
 STATE_FILE = Path("last_price.json")
 HISTORY_FILE = Path("price_history.json")
@@ -511,6 +512,7 @@ def main():
         lines.extend(["", *errors])
 
     message = "\n".join(lines)
+    message += f"\n\n📊 داشبورد: {DASHBOARD_URL}"
 
     # ابتدا پیام را می‌فرستیم؛ بعد وضعیت را ذخیره می‌کنیم.
     send_telegram(message)
