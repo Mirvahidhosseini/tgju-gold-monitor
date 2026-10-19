@@ -91,6 +91,45 @@ canvas{display:block;width:100%;height:210px;margin-top:8px}
 @media(max-width:760px){.wrap{padding:22px 16px 32px}.grid{grid-template-columns:1fr;gap:12px}.card.market{padding:19px 20px}.price{font-size:29px;margin:10px 0 4px}.change{margin-top:8px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.stat{padding:13px}.chartbox{padding:18px}.chartmeta{grid-template-columns:1fr}}
 @media(max-width:480px){.wrap{padding:17px 12px 26px}.top{gap:11px;margin-bottom:18px;padding-bottom:16px}.logo{width:45px;height:45px;flex-basis:45px;border-radius:14px;font-size:24px}.brand h1{font-size:20px}.brand p{font-size:11px}.status{font-size:10px;padding:5px 8px}.manual-run-wrap{align-items:stretch;flex-direction:column;padding:15px}.manual-run{width:100%}.stats{grid-template-columns:1fr}.stat{padding:12px 14px}.sectionhead h2{font-size:15px}.chartbox{padding:14px}.mini-chart{padding:12px 10px}canvas{height:190px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
+
+/* Premium market snapshot and final polish */
+.eyebrow{font-size:9px;letter-spacing:2px;color:#6f91b5;font-weight:800;margin-bottom:2px}
+.daily-heading{align-items:flex-end;margin-bottom:13px}
+.daily-heading h2{font-size:20px}
+.daily-date{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border:1px solid rgba(112,145,180,.18);background:rgba(13,27,44,.65);border-radius:99px;color:#a8bad0;font-size:10px;white-space:nowrap}
+.live-dot{width:6px;height:6px;background:var(--green);border-radius:50%;box-shadow:0 0 0 4px rgba(75,214,162,.1)}
+.daily-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.daily-card{position:relative;min-width:0;padding:17px 16px 14px;border-radius:17px;overflow:hidden;background:linear-gradient(145deg,rgba(19,35,55,.96),rgba(11,23,38,.98));border:1px solid rgba(112,145,180,.18);box-shadow:0 10px 28px rgba(0,0,0,.13)}
+.daily-card:before{content:"";position:absolute;right:0;top:0;bottom:0;width:3px;background:var(--accent)}
+.daily-gold{--accent:#e8bd63;--accent-bg:rgba(232,189,99,.12)}
+.daily-world{--accent:#70baff;--accent-bg:rgba(112,186,255,.12)}
+.daily-dollar{--accent:#4bd6a2;--accent-bg:rgba(75,214,162,.12)}
+.daily-card-head{display:flex;align-items:center;gap:10px;min-width:0;padding-bottom:13px;border-bottom:1px solid rgba(147,166,189,.12)}
+.daily-icon{width:36px;height:36px;flex:0 0 36px;display:grid;place-items:center;border-radius:11px;background:var(--accent-bg);color:var(--accent);font-size:15px;font-weight:800}
+.daily-card-head>div{min-width:0;flex:1}
+.daily-card-head strong{display:block;font-size:12px;font-weight:750;color:#edf3fb}
+.daily-card-head small{display:block;font-size:10px;color:var(--muted);margin-top:1px}
+.daily-symbol{font-size:9px;color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 28%,transparent);border-radius:6px;padding:2px 5px;letter-spacing:.5px}
+.daily-values{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;padding-top:13px}
+.daily-values>div{min-width:0;padding:0 5px;border-left:1px solid rgba(147,166,189,.1)}
+.daily-values>div:first-child{padding-right:0}
+.daily-values>div:last-child{border-left:0;padding-left:0}
+.daily-values small{display:block;font-size:10px;color:#8195ad;margin-bottom:5px}
+.daily-values strong{display:block;font-size:clamp(11px,1.15vw,14px);font-weight:750;letter-spacing:-.25px;color:#e6edf7;overflow-wrap:anywhere;line-height:1.45}
+.daily-gold .daily-values>div:nth-child(2) strong{color:#f0cf83}
+.daily-world .daily-values>div:nth-child(2) strong{color:#8bc8ff}
+.daily-dollar .daily-values>div:nth-child(2) strong{color:#74e5bc}
+.card.market{transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}
+.card.market:hover{transform:translateY(-3px);border-color:rgba(99,184,255,.38);box-shadow:0 20px 46px rgba(0,0,0,.24)}
+.grid .label{font-size:12px}
+.price{font-variant-numeric:tabular-nums}
+.chartbox{background:linear-gradient(150deg,rgba(17,32,51,.97),rgba(10,21,35,.98))}
+.mini-chart{transition:border-color .2s ease}
+.mini-chart:hover{border-color:rgba(99,184,255,.25)}
+.notice{font-size:11px}
+@media(max-width:850px){.daily-grid{grid-template-columns:1fr}.daily-card{padding:15px 16px}.daily-values strong{font-size:13px}.daily-card-head{padding-bottom:11px}.daily-values{padding-top:11px}}
+@media(max-width:480px){.daily-heading h2{font-size:17px}.daily-date{font-size:9px;padding:5px 8px}.daily-card{border-radius:14px}.daily-card-head strong{font-size:12px}.daily-values strong{font-size:12px}}
+
 </style>
 </head>
 <body>
@@ -112,9 +151,9 @@ canvas{display:block;width:100%;height:210px;margin-top:8px}
 </section>
 <div class="notice">وضعیت منابع قیمت پس از دریافت اطلاعات به‌روزرسانی می‌شود.</div>
 <section class="grid">
-<article class="card market"><div class="label">طلای ۱۸ عیار · هر گرم</div><div class="price" id="iranPrice">۲۶٬۳۰۷٬۱۰۰</div><div class="unit">تومان</div><div class="change up" id="iranChange">↗ +۰٫۲۴٪ <span class="neutral">از پایش قبل</span></div></article>
-<article class="card market"><div class="label">اونس جهانی طلا</div><div class="price" id="worldPrice">$4,184.90</div><div class="unit">دلار آمریکا / اونس</div><div class="change down" id="worldChange">↘ −۰٫۱۰٪ <span class="neutral">از پایش قبل</span></div></article>
-<article class="card market"><div class="label">دلار آزاد</div><div class="price" id="dollarPrice">—</div><div class="unit">تومان</div><div class="change neutral" id="dollarChange">منتظر اتصال به منبع قیمت</div></article>
+<article class="card market"><div class="label">طلای ۱۸ عیار · هر گرم</div><div class="price" id="iranPrice">—</div><div class="unit">تومان</div><div class="change neutral" id="iranChange">در حال دریافت اطلاعات…</div></article>
+<article class="card market"><div class="label">اونس جهانی طلا</div><div class="price" id="worldPrice">—</div><div class="unit">دلار آمریکا / اونس</div><div class="change neutral" id="worldChange">در حال دریافت اطلاعات…</div></article>
+<article class="card market"><div class="label">دلار آزاد</div><div class="price" id="dollarPrice">—</div><div class="unit">تومان</div><div class="change neutral" id="dollarChange">در حال دریافت اطلاعات…</div></article>
 </section>
 
 <section class="section card chartbox">
@@ -145,52 +184,39 @@ canvas{display:block;width:100%;height:210px;margin-top:8px}
 </div>
 </section>
 
-<section class="section">
-  <div class="sectionhead">
-    <h2>خلاصه امروز</h2>
-    <span class="label">آمار روز جاری</span>
+<section class="section daily-section" aria-labelledby="dailyTitle">
+  <div class="sectionhead daily-heading">
+    <div>
+      <div class="eyebrow">MARKET SNAPSHOT</div>
+      <h2 id="dailyTitle">خلاصه امروز</h2>
+    </div>
+    <span class="daily-date"><span class="live-dot"></span> آمار روز جاری</span>
   </div>
-  
-<div class="stats">
-  <div class="stat">
-    <small>شروع روز طلای ۱۸ عیار</small>
-    <strong id="dayOpen">—</strong>
-  </div>
-  <div class="stat">
-    <small>بیشترین قیمت طلای ۱۸ عیار</small>
-    <strong id="dayHigh">—</strong>
-  </div>
-  <div class="stat">
-    <small>کمترین قیمت طلای ۱۸ عیار</small>
-    <strong id="dayLow">—</strong>
-  </div>
-
-  <div class="stat">
-    <small>شروع روز طلای جهانی</small>
-    <strong id="worldOpen">—</strong>
-  </div>
-  <div class="stat">
-    <small>بیشترین قیمت طلای جهانی</small>
-    <strong id="worldHigh">—</strong>
-  </div>
-  <div class="stat">
-    <small>کمترین قیمت طلای جهانی</small>
-    <strong id="worldLow">—</strong>
-  </div>
-
-  <div class="stat">
-    <small>شروع روز دلار</small>
-    <strong id="dollarOpen">—</strong>
-  </div>
-  <div class="stat">
-    <small>بیشترین قیمت دلار</small>
-    <strong id="dollarHigh">—</strong>
-  </div>
-  <div class="stat">
-    <small>کمترین قیمت دلار</small>
-    <strong id="dollarLow">—</strong>
-  </div>
-</div>
+  <div class="daily-grid">
+    <article class="daily-card daily-gold">
+      <div class="daily-card-head"><span class="daily-icon">Au</span><div><strong>طلای ۱۸ عیار</strong><small>بازار ایران · تومان/گرم</small></div><span class="daily-symbol">IR</span></div>
+      <div class="daily-values">
+        <div><small>شروع</small><strong id="dayOpen">—</strong></div>
+        <div><small>بیشترین</small><strong id="dayHigh">—</strong></div>
+        <div><small>کمترین</small><strong id="dayLow">—</strong></div>
+      </div>
+    </article>
+    <article class="daily-card daily-world">
+      <div class="daily-card-head"><span class="daily-icon">✦</span><div><strong>طلای جهانی</strong><small>اونس تروا · دلار</small></div><span class="daily-symbol">XAU</span></div>
+      <div class="daily-values">
+        <div><small>شروع</small><strong id="worldOpen">—</strong></div>
+        <div><small>بیشترین</small><strong id="worldHigh">—</strong></div>
+        <div><small>کمترین</small><strong id="worldLow">—</strong></div>
+      </div>
+    </article>
+    <article class="daily-card daily-dollar">
+      <div class="daily-card-head"><span class="daily-icon">$</span><div><strong>دلار آزاد</strong><small>بازار ایران · تومان</small></div><span class="daily-symbol">USD</span></div>
+      <div class="daily-values">
+        <div><small>شروع</small><strong id="dollarOpen">—</strong></div>
+        <div><small>بیشترین</small><strong id="dollarHigh">—</strong></div>
+        <div><small>کمترین</small><strong id="dollarLow">—</strong></div>
+      </div>
+    </article>
   </div>
 </section>
 </div>
