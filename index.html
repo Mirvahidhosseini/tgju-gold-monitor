@@ -513,7 +513,7 @@ window.addEventListener("resize",()=>draw());
 /* Lightweight bilingual public interface; market-data logic remains unchanged. */
 (function(){
   const $ = (selector) => document.querySelector(selector);
-  const $ = (selector) => Array.from(document.querySelectorAll(selector));
+  const $$ = (selector) => Array.from(document.querySelectorAll(selector));
   const translations = {
     navMarkets:"Markets", navCharts:"Charts", navDaily:"Daily snapshot", navTelegram:"Explore markets ↓",
     heroKicker:"MARKET INTELLIGENCE · IRAN & GLOBAL", heroTitle:"See the gold market<br><em>with more clarity.</em>", heroText:"Track Iranian gold, global spot gold and USD/IRR in one unified view, with charts, daily ranges and clear data status.", heroPrimary:"Explore markets ↓", heroSecondary:"View price trends",
