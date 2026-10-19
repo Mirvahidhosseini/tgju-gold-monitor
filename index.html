@@ -453,7 +453,7 @@ function drawOneChart(canvasId, field, color, decimals = 0, prefix = "") {
 }
 function draw() {
   drawOneChart("chart", "iran_toman", "#58b7ff");
-  drawOneChart("worldChart", "world_usd", "#f5c451", 2, "$");
+  drawOneChart("worldChart", "world_usd", "#7faee0", 2, "$");
   drawOneChart("dollarChart", "dollar_toman", "#45d6a5");
 }
 
@@ -550,6 +550,7 @@ async function updateGoldDashboard() {
     setText("marketAsOf",checkedDate?"· "+checkedDate.toLocaleTimeString("fa-IR",{hour:"2-digit",minute:"2-digit"}):"· زمان نامشخص");
     const upCount=[iran!=null&&daily.iran?.open!=null&&iran>daily.iran.open,world!=null&&daily.world?.open!=null&&world>daily.world.open,dollar!=null&&daily.dollar?.open!=null&&dollar>daily.dollar.open].filter(Boolean).length;
     setText("marketMood",!pricesAvailable?"برای جمع‌بندی، دریافت موفق هر سه بازار لازم است.":upCount>=2?"جهت غالب بازار: صعودی نسبت به شروع روز":upCount===0?"جهت غالب بازار: نزولی یا بدون رشد نسبت به شروع روز":"حرکت بازار ترکیبی است؛ هر نماد مسیر متفاوتی دارد.");
+    if (typeof updateGoldCalculator === "function") updateGoldCalculator();
   } catch (error) {
     console.error("Price loading failed:", error);
     hidePrices();
@@ -590,7 +591,7 @@ function updateGoldCalculator(){
  const input=document.getElementById("goldGrams"),out=document.getElementById("calcResult");
  if(!input||!out)return;
  const grams=Number(input.value),price=window.currentMarketPrices?.iran;
- if(!Number.isFinite(grams)||grams<=0||price==null){out.textContent=document.documentElement.lang==="en"?"Enter a valid weight":"وزن معتبر وارد کن";return;}
+ if(!Number.isFinite(grams)||grams<=0){out.textContent=document.documentElement.lang==="en"?"Enter a valid weight":"وزن معتبر وارد کن";return;} if(price==null){out.textContent=document.documentElement.lang==="en"?"Waiting for price data…":"در انتظار دریافت قیمت…";return;}
  const lang=document.documentElement.lang==="en"?"en":"fa";
  out.textContent=new Intl.NumberFormat(lang==="en"?"en-US":"fa-IR",{maximumFractionDigits:0}).format(grams*Number(price))+(lang==="en"?" toman":" تومان");
 }
@@ -728,7 +729,7 @@ window.addEventListener("resize",()=>draw());
     if(navLinks[0])navLinks[0].textContent=t.navMarkets;if(navLinks[1])navLinks[1].textContent=t.navCharts;if(navLinks[2])navLinks[2].textContent=t.navDaily;if(navLinks[3])navLinks[3].textContent=t.navTelegram;
     set("#heroKicker",t.heroKicker);const heroTitle=$("#heroTitle");if(heroTitle)heroTitle.innerHTML=t.heroTitle;set("#heroText",t.heroText);set("#heroPrimary",t.heroPrimary);set("#heroSecondary",t.heroSecondary);
     set(".notice",t.notice);
-    set("#toolKicker",t.toolKicker);set("#calcTitle",t.calcTitle);set("#calcDescription",t.calcDescription);set("#gramsLabel",t.gramsLabel);set("#shareSnapshot",t.shareSnapshot);set("#copySnapshot",t.copySnapshot);set("#calcResultLabel",t.calcResultLabel);set("#calcNote",t.calcNote);set("#faqTitle",t.faqTitle);set("#faqQ1",t.faqQ1);set("#faqA1",t.faqA1);set("#faqQ2",t.faqQ2);set("#faqA2",t.faqA2);set("#faqQ3",t.faqQ3);set("#faqA3",t.faqA3);
+    set("#toolKicker",t.toolKicker);set("#calcTitle",t.calcTitle);set("#calcDescription",t.calcDescription);set("#gramsLabel",t.gramsLabel);set("#shareSnapshot",t.shareSnapshot);set("#copySnapshot",t.copySnapshot);set("#calcResultLabel",t.calcResultLabel);set("#calcNote",t.calcNote);set("#faqTitle",t.faqTitle);set("#faqQ1",t.faqQ1);set("#faqA1",t.faqA1);set("#faqQ2",t.faqQ2);set("#faqA2",t.faqA2);set("#faqQ3",t.faqQ3);set("#faqA3",t.faqA3);if(typeof updateGoldCalculator==="function")updateGoldCalculator();
     const stripTitle=$(".market-strip-title");if(stripTitle){const asOf=$("#marketAsOf");stripTitle.textContent=t.stripTitle+" ";if(asOf)stripTitle.appendChild(asOf);}
     set(".market-strip .chart-hint",t.stripHint);
     const labels=$(".grid .card .label");
