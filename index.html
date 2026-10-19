@@ -715,7 +715,15 @@ window.addEventListener("resize",()=>draw());
     });
     const n=$(".notice");if(n)n.textContent=n.textContent.replace("قیمت هر بازار فقط پس از دریافت موفق نمایش داده می‌شود؛ زمان آخرین دریافت موفق هر بازار در وضعیت منبع آمده است.","Prices are shown only after a successful fetch. Each market's latest successful update is shown in its source status.").replace("دریافت قیمت ناموفق بود؛ قیمت‌ها برای جلوگیری از نمایش داده قدیمی پنهان شده‌اند.","Price fetch failed. Prices are hidden to avoid showing stale data.");
     const mood=$("#marketMood");if(mood)mood.textContent=mood.textContent.replace("برای جمع‌بندی، دریافت موفق هر سه بازار لازم است.","A successful fetch from all three markets is required for a summary.").replace("جهت غالب بازار: صعودی نسبت به شروع روز","Overall direction: up versus today's open").replace("جهت غالب بازار: نزولی یا بدون رشد نسبت به شروع روز","Overall direction: down or flat versus today's open").replace("حرکت بازار ترکیبی است؛ هر نماد مسیر متفاوتی دارد.","Mixed market: each instrument is moving differently.");
-    ["chartTip","worldChartTip","dollarChartTip"].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=el.innerHTML.replace("قیمت:","Price:").replace("برای مشاهده جزئیات، روی نمودار حرکت کنید","Hover or touch the chart to inspect details").replace("نقطه‌ای را انتخاب کنید","Touch or hover to inspect a point");});
+    ["chartTip","worldChartTip","dollarChartTip"].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=el.innerHTML.replace(/قیمت:/g,"Price:").replace(/برای مشاهده جزئیات، روی نمودار حرکت کنید/g,"Hover or touch the chart to inspect details").replace(/نقطه‌ای را انتخاب کنید/g,"Touch or hover to inspect a point");});
+    const replacements=[
+      ["در حال دریافت اطلاعات…","Loading data…"],["در حال دریافت...","Loading…"],["در حال بررسی","Checking…"],["نامشخص","Unknown"],["ندارد","Unavailable"],
+      ["قیمت تازه در دسترس نیست","Fresh price unavailable"],["قیمت یا آمار روزانه موجود نیست","Price or daily stats unavailable"],["٪ از شروع روز","% from open"],
+      ["داده قدیمی؛ زمان دریافت بازار جداگانه موجود نیست","Legacy data; market timestamp unavailable"],["قیمت تازه ناموجود؛ آخرین موفق:","Fresh price unavailable; last success:"],["آخرین دریافت موفق:","Last successful fetch:"],["خطا در دریافت","Fetch error"],
+      ["داده در دسترس است","Data available"],["داده دریافت شد","Data received"],["در حال اتصال","Connecting"],["بخشی از داده‌ها ناموجود","Some data unavailable"],["داده قدیمی","Stale data"],["خطای دریافت","Data error"],
+      ["تومان","toman"],["دلار","USD"],["آمار روز جاری","Current day"]
+    ];
+    document.querySelectorAll("#iranChange,#worldChange,#dollarChange,#sourceStatus,#sourceStatusWorld,#sourceStatusDollar,#updated,#dayOpen,#dayHigh,#dayLow,#worldOpen,#worldHigh,#worldLow,#dollarOpen,#dollarHigh,#dollarLow,#liveStatusText,.daily-date").forEach(el=>{let v=el.textContent;replacements.forEach(([fa,en])=>{v=v.split(fa).join(en);});el.textContent=v;});
   }
   function applyLanguage(next){
     lang=next==="en"?"en":"fa";
@@ -742,6 +750,26 @@ window.addEventListener("resize",()=>draw());
     const meta=$(".chartmeta span");[t.updated,t.iranStatus,t.worldStatus,t.dollarStatus].forEach((v,i)=>{if(meta[i]){const b=meta[i].querySelector("b");meta[i].firstChild.textContent=v+" ";if(b)meta[i].appendChild(b);}});
     const charts=$(".mini-chart h3");[t.iranChart,t.worldChart,t.dollarChart].forEach((v,i)=>{if(charts[i])charts[i].textContent=v;});
     set("#dailyTitle",t.dailyTitle);const dailyDate=$(".daily-date");if(dailyDate){const dot=dailyDate.querySelector(".live-dot");dailyDate.textContent=t.dailyDate;if(dot)dailyDate.prepend(dot);}
+    // Translate visible labels that were previously hard-coded in the HTML.
+    const staticText = lang==="en" ? [
+      [".ticker-chip.gold","18K"],[".ticker-chip.world","Gold"],[".ticker-chip.dollar","USD"],
+      [".daily-gold .daily-card-head strong","18K gold"],[".daily-gold .daily-card-head small","Iran market · toman/gram"],
+      [".daily-world .daily-card-head strong","Global gold"],[".daily-world .daily-card-head small","Troy ounce · USD"],
+      [".daily-dollar .daily-card-head strong","Open-market dollar"],[".daily-dollar .daily-card-head small","Iran market · toman"],
+      ["#chart","Interactive chart for Iranian 18K gold"],["#worldChart","Interactive chart for global gold"],["#dollarChart","Interactive chart for the dollar"],
+      [".manual-run-wrap",""],[".manual-run-copy strong",t.manualTitle],[".manual-run-copy small",t.manualHint]
+    ] : [
+      [".ticker-chip.gold","۱۸ عیار"],[".ticker-chip.world","اونس"],[".ticker-chip.dollar","دلار"],
+      [".daily-gold .daily-card-head strong","طلای ۱۸ عیار"],[".daily-gold .daily-card-head small","بازار ایران · تومان/گرم"],
+      [".daily-world .daily-card-head strong","طلای جهانی"],[".daily-world .daily-card-head small","اونس تروا · دلار"],
+      [".daily-dollar .daily-card-head strong","دلار آزاد"],[".daily-dollar .daily-card-head small","بازار ایران · تومان"],
+      ["#chart","نمودار تعاملی قیمت طلای ۱۸ عیار"],["#worldChart","نمودار تعاملی قیمت طلای جهانی"],["#dollarChart","نمودار تعاملی قیمت دلار"],
+      [".manual-run-copy strong",t.manualTitle],[".manual-run-copy small",t.manualHint]
+    ];
+    staticText.forEach(([selector,value])=>{const el=$(selector);if(el&&value){if(el.tagName==="CANVAS")el.setAttribute("aria-label",value);else if(selector.startsWith(".ticker-chip")){const b=el.querySelector("b");const change=el.querySelector("span");el.firstChild.textContent=value+" ";if(b)el.insertBefore(b,change||null);}else el.textContent=value;}});
+    const dailyStats=$(".daily-values small");const statLabels=lang==="en"?["Open","High","Low","Open","High","Low","Open","High","Low"]:["شروع","بیشترین","کمترین","شروع","بیشترین","کمترین","شروع","بیشترین","کمترین"];statLabels.forEach((v,i)=>{if(dailyStats[i])dailyStats[i].textContent=v;});
+    const manualLink=$(".manual-run");if(manualLink)manualLink.textContent=t.manualButton;
+    const chartSection=$("#charts .sectionhead .sectionhead");
     const heads=$(".daily-card-head strong"),subs=$(".daily-card-head small");
     [t.iranDaily,t.worldDaily,t.dollarDaily].forEach((v,i)=>{if(heads[i])heads[i].textContent=v;});
     [t.iranSub,t.worldSub,t.dollarSub].forEach((v,i)=>{if(subs[i])subs[i].textContent=v;});
