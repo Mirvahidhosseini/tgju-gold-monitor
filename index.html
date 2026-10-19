@@ -5,7 +5,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0b1426">
-<title>GoldWatch IR | داشبورد شخصی</title>
+<meta name="description" content="GoldWatch Markets helps you monitor Iranian 18K gold, global gold and USD/IRR prices with market charts and daily ranges.">
+<meta property="og:title" content="GoldWatch Markets | Gold & Currency Monitor">
+<meta property="og:description" content="Track Iranian gold, global gold and currency markets in one clear dashboard.">
+<meta property="og:type" content="website">
+<meta name="robots" content="index,follow">
+<title>GoldWatch Markets | Gold & Currency Monitor</title>
 <style>
 :root{
  --bg:#080f1b;--bg2:#0d1727;--panel:#101d30;--panel2:#14243a;--line:#263a52;
@@ -24,6 +29,19 @@ body{
 }
 .wrap{width:min(1180px,100%);margin:0 auto;padding:30px 24px 42px}
 .top{display:flex;align-items:center;gap:15px;margin-bottom:24px;padding:2px 0 20px;border-bottom:1px solid rgba(147,166,189,.14)}
+.lang-switch{display:flex;align-items:center;gap:3px;padding:4px;border:1px solid rgba(112,145,180,.22);border-radius:11px;background:rgba(5,13,23,.55);flex-shrink:0}
+.lang-switch button{border:0;background:transparent;color:var(--muted);padding:5px 8px;border-radius:7px;font:700 10px Tahoma,Arial,sans-serif;cursor:pointer}
+.lang-switch button[aria-pressed="true"]{background:#1d4265;color:#fff}
+html[dir="ltr"] body{font-family:Inter,"Segoe UI",Arial,sans-serif}
+html[dir="ltr"] .price{text-align:left}
+html[dir="ltr"] .notice:before{content:"ⓘ"}
+html[dir="ltr"] .daily-card:before{right:auto;left:0}
+html[dir="ltr"] .daily-values>div{border-left:0;border-right:1px solid rgba(147,166,189,.1)}
+html[dir="ltr"] .daily-values>div:first-child{padding-left:0;padding-right:5px}
+html[dir="ltr"] .daily-values>div:last-child{border-right:0;padding-right:0;padding-left:5px}
+html[dir="ltr"] .stat strong{text-align:right}
+html[dir="ltr"] .manual-run-wrap{direction:ltr}
+html[dir="ltr"] .daily-date{direction:ltr}
 .logo{
  width:54px;height:54px;flex:0 0 54px;border-radius:17px;display:grid;place-items:center;
  color:#f1cc79;font-size:28px;background:linear-gradient(145deg,#1b3654,#102035);
@@ -136,7 +154,8 @@ canvas{display:block;width:100%;height:210px;margin-top:8px}
 <div class="wrap">
 <header class="top">
 <div class="logo">⌁</div>
-<div class="brand"><h1>GoldWatch IR</h1><p>داشبورد شخصی پایش طلا و دلار</p></div>
+<div class="brand"><h1>GoldWatch Markets</h1><p data-i18n="brandTagline">پایش هوشمند طلا و ارز · ایران و بازار جهانی</p></div>
+<div class="lang-switch" aria-label="Language"><button type="button" id="langFa" aria-pressed="true">فا</button><button type="button" id="langEn" aria-pressed="false">EN</button></div>
 <div class="status stale" id="liveStatus" aria-live="polite"><span class="status-dot"></span><span id="liveStatusText">در حال اتصال</span></div>
 </header>
 
@@ -384,5 +403,143 @@ async function updateGoldDashboard() {
 updateGoldDashboard();
 setInterval(updateGoldDashboard, 5 * 60 * 1000);
 window.addEventListener("resize",()=>draw());
+</script>
+<script>
+/* Lightweight bilingual public interface; market-data logic remains unchanged. */
+(function(){
+  const $ = (selector) => document.querySelector(selector);
+  const $ = (selector) => Array.from(document.querySelectorAll(selector));
+  const translations = {
+    brandTagline:"Smart gold & currency monitoring · Iran and global markets",
+    notice:"Prices are displayed only after a successful data fetch. Each market shows its latest successful update.",
+    stripTitle:"MARKET OVERVIEW",
+    stripHint:"Market direction will appear after prices load.",
+    iranLabel:"Iranian 18K gold · per gram",
+    worldLabel:"Global gold spot",
+    dollarLabel:"USD/IRR · open-market rate",
+    unitIran:"IRR-equivalent in toman",
+    unitWorld:"USD / troy ounce",
+    unitDollar:"toman",
+    trendTitle:"Market price trends",
+    trendHint:"Hover or touch a chart to inspect the price and timestamp.",
+    rangeDay:"24 hours",
+    rangeWeek:"7 days",
+    updated:"Last update:",
+    iranStatus:"Iran data:",
+    worldStatus:"Global gold data:",
+    dollarStatus:"USD/IRR data:",
+    iranChart:"Iranian 18K gold",
+    worldChart:"Global gold (USD per troy ounce)",
+    dollarChart:"Iran open-market dollar (toman)",
+    chartPrompt:"Touch or hover to inspect a point",
+    dailyTitle:"Today's market snapshot",
+    dailyDate:"Current day",
+    iranDaily:"Iranian 18K gold",
+    iranSub:"Iran market · toman/gram",
+    worldDaily:"Global gold",
+    worldSub:"Troy ounce · USD",
+    dollarDaily:"Open-market dollar",
+    dollarSub:"Iran market · toman",
+    open:"Open", high:"High", low:"Low",
+    manualTitle:"Run monitor manually",
+    manualHint:"Opens GitHub Actions. Select “Run workflow” to start a run.",
+    manualButton:"▶ Run monitor",
+    footer:"GoldWatch Markets · Market data may be delayed. Not investment advice."
+  };
+  const persian = {
+    brandTagline:"پایش هوشمند طلا و ارز · ایران و بازار جهانی",
+    notice:"قیمت هر بازار فقط پس از دریافت موفق نمایش داده می‌شود؛ زمان آخرین دریافت موفق هر بازار در وضعیت منبع آمده است.",
+    stripTitle:"نمای سریع بازار",
+    stripHint:"پس از دریافت قیمت‌ها، جهت حرکت بازار نمایش داده می‌شود.",
+    iranLabel:"طلای ۱۸ عیار ایران · هر گرم",
+    worldLabel:"اونس جهانی طلا",
+    dollarLabel:"دلار آزاد ایران",
+    unitIran:"تومان",
+    unitWorld:"دلار آمریکا / اونس",
+    unitDollar:"تومان",
+    trendTitle:"روند قیمت بازار",
+    trendHint:"برای دیدن قیمت و ساعت ثبت، روی نمودار حرکت کنید.",
+    rangeDay:"۲۴ ساعت",
+    rangeWeek:"۷ روز",
+    updated:"آخرین به‌روزرسانی:",
+    iranStatus:"وضعیت ایران:",
+    worldStatus:"وضعیت اونس:",
+    dollarStatus:"وضعیت دلار:",
+    iranChart:"طلای ۱۸ عیار ایران",
+    worldChart:"طلای جهانی (دلار به ازای اونس)",
+    dollarChart:"دلار آزاد ایران (تومان)",
+    chartPrompt:"نقطه‌ای را انتخاب کنید",
+    dailyTitle:"خلاصه امروز",
+    dailyDate:"آمار روز جاری",
+    iranDaily:"طلای ۱۸ عیار",
+    iranSub:"بازار ایران · تومان/گرم",
+    worldDaily:"طلای جهانی",
+    worldSub:"اونس تروا · دلار",
+    dollarDaily:"دلار آزاد",
+    dollarSub:"بازار ایران · تومان",
+    open:"شروع", high:"بیشترین", low:"کمترین",
+    manualTitle:"اجرای دستی ربات",
+    manualHint:"صفحه GitHub Actions باز می‌شود؛ سپس روی «Run workflow» بزنید.",
+    manualButton:"▶ اجرای ربات",
+    footer:"GoldWatch Markets · اطلاعات بازار ممکن است با تأخیر همراه باشد. توصیه سرمایه‌گذاری نیست."
+  };
+  let lang = "fa";
+  function set(selector, value){const el=$(selector);if(el)el.textContent=value;}
+  function applyDynamicEnglish(){
+    const status = $("#liveStatusText");
+    if(status){
+      const m={"در حال اتصال":"Connecting","بخشی از داده‌ها ناموجود":"Some data unavailable","داده قدیمی":"Stale data","داده دریافت شد":"Data received","خطای دریافت":"Data error"};
+      status.textContent=m[status.textContent]||status.textContent;
+    }
+    [ "iranChange","worldChange","dollarChange" ].forEach(id=>{
+      const el=document.getElementById(id);if(!el)return;
+      el.textContent=el.textContent.replace("قیمت تازه در دسترس نیست","Fresh price unavailable").replace("قیمت یا آمار روزانه موجود نیست","Price or daily stats unavailable").replace("٪ از شروع روز","% from open");
+    });
+    ["sourceStatus","sourceStatusWorld","sourceStatusDollar"].forEach(id=>{
+      const el=document.getElementById(id);if(!el)return;
+      el.textContent=el.textContent.replace("داده قدیمی؛ زمان دریافت بازار جداگانه موجود نیست","Legacy data; market timestamp unavailable").replace("قیمت تازه ناموجود؛ آخرین موفق:","Fresh price unavailable; last success:").replace("آخرین دریافت موفق:","Last successful fetch:").replace("خطا در دریافت","Fetch error").replace("نامشخص","Unknown");
+    });
+    const n=$(".notice");if(n)n.textContent=n.textContent.replace("قیمت هر بازار فقط پس از دریافت موفق نمایش داده می‌شود؛ زمان آخرین دریافت موفق هر بازار در وضعیت منبع آمده است.","Prices are shown only after a successful fetch. Each market's latest successful update is shown in its source status.").replace("دریافت قیمت ناموفق بود؛ قیمت‌ها برای جلوگیری از نمایش داده قدیمی پنهان شده‌اند.","Price fetch failed. Prices are hidden to avoid showing stale data.");
+    const mood=$("#marketMood");if(mood)mood.textContent=mood.textContent.replace("برای جمع‌بندی، دریافت موفق هر سه بازار لازم است.","A successful fetch from all three markets is required for a summary.").replace("جهت غالب بازار: صعودی نسبت به شروع روز","Overall direction: up versus today's open").replace("جهت غالب بازار: نزولی یا بدون رشد نسبت به شروع روز","Overall direction: down or flat versus today's open").replace("حرکت بازار ترکیبی است؛ هر نماد مسیر متفاوتی دارد.","Mixed market: each instrument is moving differently.");
+    ["chartTip","worldChartTip","dollarChartTip"].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=el.innerHTML.replace("قیمت:","Price:").replace("برای مشاهده جزئیات، روی نمودار حرکت کنید","Hover or touch the chart to inspect details").replace("نقطه‌ای را انتخاب کنید","Touch or hover to inspect a point");});
+  }
+  function applyLanguage(next){
+    lang=next==="en"?"en":"fa";
+    const t=lang==="en"?translations:persian;
+    document.documentElement.lang=lang;
+    document.documentElement.dir=lang==="en"?"ltr":"rtl";
+    $("#langFa").setAttribute("aria-pressed",String(lang==="fa"));
+    $("#langEn").setAttribute("aria-pressed",String(lang==="en"));
+    set(".brand p",t.brandTagline);
+    set(".notice",t.notice);
+    set(".market-strip-title",t.stripTitle);
+    set(".market-strip .chart-hint",t.stripHint);
+    const labels=$(".grid .card .label");
+    [t.iranLabel,t.worldLabel,t.dollarLabel].forEach((v,i)=>{if(labels[i])labels[i].textContent=v;});
+    const units=$(".grid .card .unit");
+    [t.unitIran,t.unitWorld,t.unitDollar].forEach((v,i)=>{if(units[i])units[i].textContent=v;});
+    set(".chartbox .sectionhead h2",t.trendTitle);
+    const hints=$(".chartbox .chart-hint");if(hints[0])hints[0].textContent=t.trendHint;
+    const opts=$("#range option");if(opts[0])opts[0].textContent=t.rangeDay;if(opts[1])opts[1].textContent=t.rangeWeek;
+    const meta=$(".chartmeta span");[t.updated,t.iranStatus,t.worldStatus,t.dollarStatus].forEach((v,i)=>{if(meta[i]){const b=meta[i].querySelector("b");meta[i].firstChild.textContent=v+" ";if(b)meta[i].appendChild(b);}});
+    const charts=$(".mini-chart h3");[t.iranChart,t.worldChart,t.dollarChart].forEach((v,i)=>{if(charts[i])charts[i].textContent=v;});
+    set("#dailyTitle",t.dailyTitle);set(".daily-date",t.dailyDate);
+    const heads=$(".daily-card-head strong"),subs=$(".daily-card-head small");
+    [t.iranDaily,t.worldDaily,t.dollarDaily].forEach((v,i)=>{if(heads[i])heads[i].textContent=v;});
+    [t.iranSub,t.worldSub,t.dollarSub].forEach((v,i)=>{if(subs[i])subs[i].textContent=v;});
+    const stats=$(".daily-values small");[t.open,t.high,t.low,t.open,t.high,t.low,t.open,t.high,t.low].forEach((v,i)=>{if(stats[i])stats[i].textContent=v;});
+    set(".manual-run-copy strong",t.manualTitle);set(".manual-run-copy small",t.manualHint);set(".manual-run",t.manualButton);
+    let foot=$(".foot");if(foot)foot.textContent=t.footer;
+    document.title=lang==="en"?"GoldWatch Markets | Gold & Currency Monitor":"GoldWatch Markets | پایش طلا و ارز";
+    const status=$("#liveStatusText");if(status&&lang==="en")applyDynamicEnglish();
+  }
+  $("#langFa").addEventListener("click",()=>{applyLanguage("fa");if(typeof updateGoldDashboard==="function")updateGoldDashboard();});
+  $("#langEn").addEventListener("click",()=>{applyLanguage("en");if(typeof updateGoldDashboard==="function")updateGoldDashboard();});
+  const originalUpdate=window.updateGoldDashboard;
+  if(typeof originalUpdate==="function"){
+    window.updateGoldDashboard=async function(){await originalUpdate();if(lang==="en")applyLanguage("en");};
+  }
+  applyLanguage("fa");
+})();
 </script>
 </html>
