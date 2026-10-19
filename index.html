@@ -87,7 +87,7 @@ canvas{display:block;width:100%;height:190px;margin-top:10px}
   </div>
   <div class="chartmeta">
     <span>آخرین به‌روزرسانی: <b id="updated">در حال دریافت...</b></span>
-    <span>وضعیت منبع: <b class="up" id="sourceStatus">در حال بررسی</b></span>
+    <span>وضعیت ایران: <b id="sourceStatus">در حال بررسی</b></span><span>وضعیت اونس: <b id="sourceStatusWorld">در حال بررسی</b></span><span>وضعیت دلار: <b id="sourceStatusDollar">در حال بررسی</b></span>
   </div> 
 <div class="mini-chart">
   <h3>طلای ۱۸ عیار ایران</h3>
@@ -262,145 +262,112 @@ function draw() {
 }
 
 async function updateGoldDashboard() {
-  const base =
-    "https://raw.githubusercontent.com/Mirvahidhosseini/tgju-gold-monitor/main/";
-
+  const base = "https://raw.githubusercontent.com/Mirvahidhosseini/tgju-gold-monitor/main/";
   const formatPrice = (value, decimals = 0) =>
-    value == null || !Number.isFinite(Number(value))
-      ? "—"
-      : new Intl.NumberFormat("fa-IR", {
-          maximumFractionDigits: decimals
-        }).format(Number(value));
-
+    value == null || !Number.isFinite(Number(value)) ? "—" :
+      new Intl.NumberFormat("fa-IR", { maximumFractionDigits: decimals }).format(Number(value));
   const setText = (id, value) => {
-    const element = document.getElementById(id);
-    if (element) element.textContent = value;
+    const el = document.getElementById(id);
+    if (el) el.textContent = value;
   };
-
-  const setDailyPrice = (ids, value) => {
-    ids.forEach(id => setText(
-      id,
-      value == null ? "—" : formatPrice(value) + " تومان"
-    ));
+  const setDailyPrice = (ids, value, unit) => ids.forEach(id =>
+    setText(id, value == null ? "—" : formatPrice(value) + " " + unit));
+  const hidePrices = () => {
+    ["iranPrice", "worldPrice", "dollarPrice"].forEach(id => setText(id, "—"));
+    ["iranChange", "worldChange", "dollarChange"].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) { el.textContent = "قیمت تازه در دسترس نیست"; el.className = "change neutral"; }
+    });
   };
 
   try {
-    const response = await fetch(base + "last_price.json?t=" + Date.now());
+    const response = await fetch(base + "last_price.json?t=" + Date.now(), { cache: "no-store" });
     if (!response.ok) throw new Error("Price data unavailable");
-
     const data = await response.json();
     const daily = data.daily || {};
+    const status = data.market_status || {};
+    const hasFreshness = Object.keys(status).length > 0;
+    const marketValue = (key, legacyKeys) => {
+      if (hasFreshness) return status[key]?.current_price ?? null;
+      for (const legacy of legacyKeys) if (data[legacy] != null) return data[legacy];
+      return null;
+    };
+    const iran = marketValue("iran", ["iran_toman", "price_toman", "iran_price_toman"]);
+    const world = marketValue("world", ["world_usd", "world_gold_usd"]);
+    const dollar = marketValue("dollar", ["dollar_toman"]);
 
-    const iran =
-      data.iran_toman ?? data.price_toman ?? data.iran_price_toman;
-    const world = data.world_usd ?? data.world_gold_usd;
-    const dollar = data.dollar_toman;
-
-    if (iran == null) throw new Error("Gold price missing");
-
-    // قیمت‌های فعلی
     setText("iranPrice", formatPrice(iran));
     setText("worldPrice", world == null ? "—" : "$" + formatPrice(world, 2));
     setText("dollarPrice", formatPrice(dollar));
 
-    // آمار روزانه؛ هم شناسه‌های قدیمی و هم شناسه‌های جدید
-    
-setDailyPrice(["iranOpen", "dayOpen"], daily.iran?.open);
-setDailyPrice(["iranHigh", "dayHigh"], daily.iran?.high);
-setDailyPrice(["iranLow", "dayLow"], daily.iran?.low);
+    setDailyPrice(["iranOpen", "dayOpen"], daily.iran?.open, "تومان");
+    setDailyPrice(["iranHigh", "dayHigh"], daily.iran?.high, "تومان");
+    setDailyPrice(["iranLow", "dayLow"], daily.iran?.low, "تومان");
+    setDailyPrice(["worldOpen"], daily.world?.open, "دلار");
+    setDailyPrice(["worldHigh"], daily.world?.high, "دلار");
+    setDailyPrice(["worldLow"], daily.world?.low, "دلار");
+    setDailyPrice(["dollarOpen"], daily.dollar?.open, "تومان");
+    setDailyPrice(["dollarHigh"], daily.dollar?.high, "تومان");
+    setDailyPrice(["dollarLow"], daily.dollar?.low, "تومان");
 
-setDailyPrice(["worldOpen"], daily.world?.open);
-setDailyPrice(["worldHigh"], daily.world?.high);
-setDailyPrice(["worldLow"], daily.world?.low);
-
-setDailyPrice(["dollarOpen"], daily.dollar?.open);
-setDailyPrice(["dollarHigh"], daily.dollar?.high);
-setDailyPrice(["dollarLow"], daily.dollar?.low);
-
-    // زمان آخرین به‌روزرسانی
     const checkedAt = data.last_checked || data.checked_at;
-    setText(
-      "updated",
-      checkedAt ? new Date(checkedAt).toLocaleString("fa-IR") : "نامشخص"
-    );
+    setText("updated", checkedAt ? new Date(checkedAt).toLocaleString("fa-IR") : "نامشخص");
 
-    // وضعیت دریافت داده‌های قیمت
+    const marketStatusText = key => {
+      if (!hasFreshness) return "داده قدیمی؛ زمان دریافت بازار جداگانه موجود نیست";
+      const m = status[key];
+      if (m?.current_price == null) {
+        const last = m?.last_success_at ? new Date(m.last_success_at).toLocaleString("fa-IR") : "ندارد";
+        return "قیمت تازه ناموجود؛ آخرین موفق: " + last;
+      }
+      return "آخرین دریافت موفق: " + new Date(m.last_success_at || m.last_attempt_at).toLocaleString("fa-IR");
+    };
+    setText("sourceStatus", marketStatusText("iran"));
+    setText("sourceStatusWorld", marketStatusText("world"));
+    setText("sourceStatusDollar", marketStatusText("dollar"));
     const notice = document.querySelector(".notice");
-    if (notice) {
-      notice.textContent =
-        "قیمت‌ها از فایل داده ربات دریافت می‌شوند؛ زمان آخرین به‌روزرسانی به اجرای موفق ربات بستگی دارد.";
-    }
+    if (notice) notice.textContent =
+      "قیمت هر بازار فقط پس از دریافت موفق نمایش داده می‌شود؛ زمان آخرین دریافت موفق هر بازار در وضعیت منبع آمده است.";
 
-    setText("sourceStatus", "داده دریافت شد");
-    setText("sourceStatus2", "داده دریافت شد");
-
-    function updateChange(id, current, opening) {
-      const element = document.getElementById(id);
-      if (!element) return;
-
+    function updateChange(id, current, opening, decimals = 2) {
+      const el = document.getElementById(id);
+      if (!el) return;
       if (current == null || opening == null || Number(opening) === 0) {
-        element.textContent = "اطلاعات تغییر موجود نیست";
-        element.className = "change neutral";
+        el.textContent = "قیمت یا آمار روزانه موجود نیست";
+        el.className = "change neutral";
         return;
       }
-
-      const percent = ((Number(current) - Number(opening)) /
-        Number(opening)) * 100;
-
-      const arrow = percent > 0 ? "↗ " : percent < 0 ? "↘ " : "→ ";
-      element.textContent =
-        arrow + (percent > 0 ? "+" : "") +
-        formatPrice(percent, 2) + "٪ از شروع روز";
-
-      element.className =
-        "change " +
-        (percent > 0 ? "up" : percent < 0 ? "down" : "neutral");
+      const pct = ((Number(current) - Number(opening)) / Number(opening)) * 100;
+      el.textContent = (pct > 0 ? "↗ +" : pct < 0 ? "↘ " : "→ ") +
+        formatPrice(pct, decimals) + "٪ از شروع روز";
+      el.className = "change " + (pct > 0 ? "up" : pct < 0 ? "down" : "neutral");
     }
-
     updateChange("iranChange", iran, daily.iran?.open);
     updateChange("worldChange", world, daily.world?.open);
-
+    updateChange("dollarChange", dollar, daily.dollar?.open);
   } catch (error) {
+    console.error("Price loading failed:", error);
+    hidePrices();
     const notice = document.querySelector(".notice");
-    if (notice) {
-      notice.textContent =
-        "دریافت قیمت ناموفق بود؛ اتصال اینترنت و فایل last_price.json را بررسی کنید.";
-    }
-
+    if (notice) notice.textContent = "دریافت قیمت ناموفق بود؛ قیمت‌ها برای جلوگیری از نمایش داده قدیمی پنهان شده‌اند.";
     setText("sourceStatus", "خطا در دریافت");
-    setText("sourceStatus2", "خطا در دریافت");
+    setText("sourceStatusWorld", "خطا در دریافت");
+    setText("sourceStatusDollar", "خطا در دریافت");
   }
 
-  // دریافت تاریخچه مستقل از قیمت‌های فعلی
   try {
-    const historyResponse = await fetch(
-      base + "price_history.json?t=" + Date.now()
-    );
-
-    if (!historyResponse.ok) throw new Error("History unavailable");
-
-    const rows = await historyResponse.json();
+    const response = await fetch(base + "price_history.json?t=" + Date.now(), { cache: "no-store" });
+    if (!response.ok) throw new Error("History unavailable");
+    const rows = await response.json();
     if (!Array.isArray(rows)) throw new Error("Invalid history format");
-
     historyRows = rows;
     draw();
   } catch (error) {
     console.error("History loading failed:", error);
-    const canvas = document.getElementById("chart");
-    if (canvas) {
-      const ctx = canvas.getContext("2d");
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.font = "14px sans-serif";
-      ctx.textAlign = "center";
-      ctx.fillText(
-        "تاریخچه قیمت فعلاً در دسترس نیست",
-        canvas.width / 2,
-        canvas.height / 2
-      );
-    }
+    historyRows = [];
+    draw();
   }
 }
-
 updateGoldDashboard();
 setInterval(updateGoldDashboard, 5 * 60 * 1000);
 </script>

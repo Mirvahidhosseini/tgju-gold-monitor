@@ -411,6 +411,22 @@ def main():
         except Exception as exc:
             errors.append(f"⚠️ خطا در دریافت {name}: {exc}")
 
+    # Record freshness per market so failed fetches cannot look like current prices.
+    old_status = state.get("market_status", {})
+    market_status = {}
+    for key, name, _fetcher in fetchers:
+        prior_status = old_status.get(key, {})
+        market_status[key] = {
+            "current_price": current[key],
+            "last_attempt_at": now.isoformat(),
+            "last_success_at": (
+                now.isoformat() if current[key] is not None
+                else prior_status.get("last_success_at")
+            ),
+            "error": next((item for item in errors if name in item), None),
+        }
+    state["market_status"] = market_status
+
     update_daily_stats(state, today, current)
 
     lines = [
@@ -510,6 +526,7 @@ def main():
         state["dollar_toman"] = current["dollar"]
 
     state["last_checked"] = now.isoformat()
+    state["checked_at"] = now.isoformat()
     save_state(state)
     save_history(now, current)
     
