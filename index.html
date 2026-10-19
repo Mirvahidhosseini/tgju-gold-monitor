@@ -41,6 +41,26 @@ canvas{display:block;width:100%;height:190px;margin-top:10px}
 .foot{text-align:center;color:#7187a5;font-size:11px;margin-top:22px}
 .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#173554;border:1px solid #32628d;color:white;padding:10px 15px;border-radius:12px;font-size:12px;display:none;max-width:90%;text-align:center}
 @media(max-width:650px){.wrap{padding:16px 12px 28px}.grid{grid-template-columns:1fr}.card.market{padding:14px 16px}.price{font-size:25px}.stats{grid-template-columns:1fr}.stat{display:flex;align-items:center;justify-content:space-between}.stat strong{margin:0}.actions{gap:7px}.action{padding:10px 5px}.sectionhead h2{font-size:15px}}
+
+.mini-chart {
+  margin-top: 18px;
+  padding: 12px;
+  background: #0b1728;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.mini-chart h3 {
+  color: var(--text);
+  font-size: 13px;
+  font-weight: normal;
+  margin: 0 0 10px;
+}
+.mini-chart canvas {
+  display: block;
+  width: 100%;
+  height: 190px;
+}
+
 </style>
 </head>
 <body>
@@ -68,8 +88,21 @@ canvas{display:block;width:100%;height:190px;margin-top:10px}
   <div class="chartmeta">
     <span>آخرین به‌روزرسانی: <b id="updated">در حال دریافت...</b></span>
     <span>وضعیت منبع: <b class="up" id="sourceStatus">در حال بررسی</b></span>
-  </div>
-  <canvas id="chart" aria-label="نمودار قیمت واقعی طلا"></canvas>
+  </div> 
+<div class="mini-chart">
+  <h3>طلای ۱۸ عیار ایران</h3>
+  <canvas id="chart" aria-label="نمودار قیمت طلای ۱۸ عیار"></canvas>
+</div>
+
+<div class="mini-chart">
+  <h3>طلای جهانی (دلار به ازای اونس)</h3>
+  <canvas id="worldChart" aria-label="نمودار قیمت طلای جهانی"></canvas>
+</div>
+
+<div class="mini-chart">
+  <h3>دلار آزاد ایران (تومان)</h3>
+  <canvas id="dollarChart" aria-label="نمودار قیمت دلار"></canvas>
+</div>
 </section>
 
 <section class="section">
@@ -96,18 +129,24 @@ canvas{display:block;width:100%;height:190px;margin-top:10px}
 <div class="toast" id="toast" role="status"></div>
 <script>
 
-const canvas = document.getElementById("chart");
-const ctx = canvas.getContext("2d");
+
 let historyRows = [];
 
-function draw() {
+function drawOneChart(canvasId, field, color, decimals = 0, prefix = "") {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+
+  const ctx = canvas.getContext("2d");
   const ratio = window.devicePixelRatio || 1;
   const rect = canvas.getBoundingClientRect();
+  const w = rect.width;
   const h = 190;
-  canvas.width = rect.width * ratio;
-  canvas.height = h * ratio;
+  const pad = 18;
+
+  canvas.width = Math.round(w * ratio);
+  canvas.height = Math.round(h * ratio);
   ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
-  ctx.clearRect(0, 0, rect.width, h);
+  ctx.clearRect(0, 0, w, h);
 
   const now = Date.now();
   const range = document.getElementById("range").value;
@@ -116,15 +155,19 @@ function draw() {
     : 24 * 60 * 60 * 1000;
 
   const rows = historyRows
-    .filter(r => r.timestamp && Number.isFinite(Number(r.iran_toman)))
-    .filter(r => now - new Date(r.timestamp).getTime() <= duration)
-    .sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
-
-  const w = rect.width;
-  const pad = 16;
+    .filter(r =>
+      r.timestamp &&
+      Number.isFinite(Number(r[field])) &&
+      now - new Date(r.timestamp).getTime() >= 0 &&
+      now - new Date(r.timestamp).getTime() <= duration
+    )
+    .sort((a, b) =>
+      new Date(a.timestamp) - new Date(b.timestamp)
+    );
 
   ctx.strokeStyle = "#243a58";
   ctx.lineWidth = 1;
+
   for (let i = 0; i < 4; i++) {
     const y = pad + (h - 2 * pad) * i / 3;
     ctx.beginPath();
@@ -133,69 +176,62 @@ function draw() {
     ctx.stroke();
   }
 
+  ctx.fillStyle = "#9db1cd";
+  ctx.font = "12px Tahoma";
+  ctx.textAlign = "center";
+
   if (rows.length < 2) {
-    ctx.fillStyle = "#9db1cd";
-    ctx.font = "13px Tahoma";
-    ctx.textAlign = "center";
     ctx.fillText(
       rows.length === 1
-        ? "برای رسم نمودار، به ثبت‌های بیشتری نیاز داریم."
-        : "هنوز داده‌ای برای این بازه وجود ندارد.",
+        ? "برای رسم نمودار، ثبت‌های بیشتری لازم است."
+        : "در این بازه داده‌ای وجود ندارد.",
       w / 2,
       h / 2
     );
     return;
   }
 
-  const values = rows.map(r => Number(r.iran_toman));
+  const values = rows.map(r => Number(r[field]));
   const min = Math.min(...values);
   const max = Math.max(...values);
-  const span = max - min || 1;
+  const span = max - min || Math.max(Math.abs(max) * 0.001, 1);
 
-  const points = rows.map((r, i) => ({
-    x: pad + i * (w - 2 * pad) / (rows.length - 1),
-    y: h - pad - (Number(r.iran_toman) - min) / span * (h - 2 * pad)
+  const points = values.map((value, i) => ({
+    x: pad + i * (w - 2 * pad) / (values.length - 1),
+    y: h - pad - (value - min) / span * (h - 2 * pad)
   }));
 
   ctx.beginPath();
   points.forEach((p, i) =>
     i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)
   );
-  ctx.strokeStyle = "#58b7ff";
+  ctx.strokeStyle = color;
   ctx.lineWidth = 2.5;
   ctx.stroke();
 
   const last = points[points.length - 1];
   ctx.beginPath();
   ctx.arc(last.x, last.y, 4, 0, Math.PI * 2);
-  ctx.fillStyle = "#58b7ff";
+  ctx.fillStyle = color;
   ctx.fill();
+
+  const fmt = value =>
+    prefix + new Intl.NumberFormat("fa-IR", {
+      maximumFractionDigits: decimals
+    }).format(value);
 
   ctx.fillStyle = "#9db1cd";
   ctx.font = "11px Tahoma";
   ctx.textAlign = "right";
-  ctx.fillText(
-    new Intl.NumberFormat("fa-IR").format(max),
-    w - pad,
-    12
-  );
-  ctx.fillText(
-    new Intl.NumberFormat("fa-IR").format(min),
-    w - pad,
-    h - 2
-  );
+  ctx.fillText(fmt(max), w - pad, 12);
+  ctx.fillText(fmt(min), w - pad, h - 2);
 }
 
-draw();
-window.addEventListener("resize", draw);
-document.getElementById("range").addEventListener("change", draw);
-document.querySelectorAll('[data-panel]').forEach(b=>b.addEventListener('click',()=>{const p=document.getElementById(b.dataset.panel);document.querySelectorAll('.panel').forEach(x=>x.classList.remove('show'));p.classList.add('show');p.scrollIntoView({behavior:'smooth',block:'nearest'})}));
-function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.display='block';setTimeout(()=>t.style.display='none',2600)}
-document.getElementById('saveSettings').addEventListener('click',()=>{const v=Number(document.getElementById('threshold').value);if(!v||v<.1||v>20){toast('آستانه باید بین ۰٫۱ تا ۲۰ درصد باشد.');return}toast('تنظیمات این نمونه ثبت شد؛ هنوز به ربات متصل نیست.')});
-document.getElementById('historyInfo').addEventListener('click',()=>{const e=document.getElementById('historySample');e.style.display=e.style.display==='none'?'block':'none'});
-</script>
-</body>
-<script>
+function draw() {
+  drawOneChart("chart", "iran_toman", "#58b7ff");
+  drawOneChart("worldChart", "world_usd", "#f5c451", 2, "$");
+  drawOneChart("dollarChart", "dollar_toman", "#45d6a5");
+}
 
 async function updateGoldDashboard() {
   const base =
