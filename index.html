@@ -461,7 +461,7 @@ async function updateGoldDashboard() {
   const base = "https://raw.githubusercontent.com/Mirvahidhosseini/tgju-gold-monitor/main/";
   const formatPrice = (value, decimals = 0) =>
     value == null || !Number.isFinite(Number(value)) ? "—" :
-      new Intl.NumberFormat("fa-IR", { maximumFractionDigits: decimals }).format(Number(value));
+      new Intl.NumberFormat(lang==="en"?"en-US":"fa-IR", { maximumFractionDigits: decimals }).format(Number(value));
   const setText = (id, value) => {
     const el = document.getElementById(id);
     if (el) el.textContent = value;
@@ -508,16 +508,16 @@ async function updateGoldDashboard() {
     setDailyPrice(["dollarLow"], daily.dollar?.low, "تومان");
 
     const checkedAt = data.last_checked || data.checked_at;
-    setText("updated", checkedAt ? new Date(checkedAt).toLocaleString("fa-IR") : "نامشخص");
+    setText("updated", checkedAt ? new Date(checkedAt).toLocaleString(lang==="en"?"en-US":"fa-IR") : "نامشخص");
 
     const marketStatusText = key => {
       if (!hasFreshness) return "داده قدیمی؛ زمان دریافت بازار جداگانه موجود نیست";
       const m = status[key];
       if (m?.current_price == null) {
-        const last = m?.last_success_at ? new Date(m.last_success_at).toLocaleString("fa-IR") : "ندارد";
+        const last = m?.last_success_at ? new Date(m.last_success_at).toLocaleString(lang==="en"?"en-US":"fa-IR") : "ندارد";
         return "قیمت تازه ناموجود؛ آخرین موفق: " + last;
       }
-      return "آخرین دریافت موفق: " + new Date(m.last_success_at || m.last_attempt_at).toLocaleString("fa-IR");
+      return "آخرین دریافت موفق: " + new Date(m.last_success_at || m.last_attempt_at).toLocaleString(lang==="en"?"en-US":"fa-IR");
     };
     setText("sourceStatus", marketStatusText("iran"));
     setText("sourceStatusWorld", marketStatusText("world"));
