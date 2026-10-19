@@ -110,19 +110,47 @@ canvas{display:block;width:100%;height:190px;margin-top:10px}
     <h2>خلاصه امروز</h2>
     <span class="label">آمار روز جاری</span>
   </div>
-  <div class="stats">
-    <div class="stat">
-      <small>شروع روز</small>
-      <strong id="dayOpen">در حال دریافت...</strong>
-    </div>
-    <div class="stat">
-      <small>بیشترین ثبت‌شده</small>
-      <strong id="dayHigh">در حال دریافت...</strong>
-    </div>
-    <div class="stat">
-      <small>کمترین ثبت‌شده</small>
-      <strong id="dayLow">در حال دریافت...</strong>
-    </div>
+  
+<div class="stats">
+  <div class="stat">
+    <small>شروع روز طلای ۱۸ عیار</small>
+    <strong id="dayOpen">—</strong>
+  </div>
+  <div class="stat">
+    <small>بیشترین قیمت طلای ۱۸ عیار</small>
+    <strong id="dayHigh">—</strong>
+  </div>
+  <div class="stat">
+    <small>کمترین قیمت طلای ۱۸ عیار</small>
+    <strong id="dayLow">—</strong>
+  </div>
+
+  <div class="stat">
+    <small>شروع روز طلای جهانی</small>
+    <strong id="worldOpen">—</strong>
+  </div>
+  <div class="stat">
+    <small>بیشترین قیمت طلای جهانی</small>
+    <strong id="worldHigh">—</strong>
+  </div>
+  <div class="stat">
+    <small>کمترین قیمت طلای جهانی</small>
+    <strong id="worldLow">—</strong>
+  </div>
+
+  <div class="stat">
+    <small>شروع روز دلار</small>
+    <strong id="dollarOpen">—</strong>
+  </div>
+  <div class="stat">
+    <small>بیشترین قیمت دلار</small>
+    <strong id="dollarHigh">—</strong>
+  </div>
+  <div class="stat">
+    <small>کمترین قیمت دلار</small>
+    <strong id="dollarLow">—</strong>
+  </div>
+</div>
   </div>
 </section>
 </div>
@@ -276,9 +304,18 @@ async function updateGoldDashboard() {
     setText("dollarPrice", formatPrice(dollar));
 
     // آمار روزانه؛ هم شناسه‌های قدیمی و هم شناسه‌های جدید
-    setDailyPrice(["iranOpen", "dayOpen"], daily.iran?.open);
-    setDailyPrice(["iranHigh", "dayHigh"], daily.iran?.high);
-    setDailyPrice(["iranLow", "dayLow"], daily.iran?.low);
+    
+setDailyPrice(["iranOpen", "dayOpen"], daily.iran?.open);
+setDailyPrice(["iranHigh", "dayHigh"], daily.iran?.high);
+setDailyPrice(["iranLow", "dayLow"], daily.iran?.low);
+
+setDailyPrice(["worldOpen"], daily.world?.open);
+setDailyPrice(["worldHigh"], daily.world?.high);
+setDailyPrice(["worldLow"], daily.world?.low);
+
+setDailyPrice(["dollarOpen"], daily.dollar?.open);
+setDailyPrice(["dollarHigh"], daily.dollar?.high);
+setDailyPrice(["dollarLow"], daily.dollar?.low);
 
     // زمان آخرین به‌روزرسانی
     const checkedAt = data.last_checked || data.checked_at;
