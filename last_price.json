@@ -1,6 +1,6 @@
 {
   "price_toman": 26183300,
-  "checked_at": "2026-10-16T12:44:08.369977+03:30",
+  "checked_at": "2026-10-19T16:24:43.586002+03:30",
   "iran_price_toman": 26255100,
   "world_gold_usd": 4190.899902,
   "daily": {
@@ -27,5 +27,25 @@
   "iran_toman": 26183300,
   "world_usd": 4185.5,
   "dollar_toman": 263075,
-  "last_checked": "2026-10-19T16:24:43.586002+03:30"
+  "last_checked": "2026-10-19T16:24:43.586002+03:30",
+  "market_status": {
+    "iran": {
+      "current_price": 26183300,
+      "last_attempt_at": "2026-10-19T16:24:43.586002+03:30",
+      "last_success_at": "2026-10-19T16:24:43.586002+03:30",
+      "error": null
+    },
+    "world": {
+      "current_price": null,
+      "last_attempt_at": "2026-10-19T16:24:43.586002+03:30",
+      "last_success_at": "2026-10-19T09:30:31.513153+03:30",
+      "error": "آخرین تلاش ناموفق بود؛ در رکورد تاریخچه مقدار world_usd برابر null است."
+    },
+    "dollar": {
+      "current_price": 263075,
+      "last_attempt_at": "2026-10-19T16:24:43.586002+03:30",
+      "last_success_at": "2026-10-19T16:24:43.586002+03:30",
+      "error": null
+    }
+  }
 }
