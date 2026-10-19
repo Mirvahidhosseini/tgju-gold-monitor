@@ -31,7 +31,7 @@ body{
 }
 .brand{flex:1;min-width:0}.brand h1{font-size:clamp(21px,3vw,27px);letter-spacing:-.5px;margin:0;font-weight:800}
 .brand p{margin:2px 0 0;color:var(--muted);font-size:12px}
-.status{white-space:nowrap;font-size:11px;color:#78e4bc;border:1px solid rgba(75,214,162,.25);background:rgba(29,108,82,.17);padding:6px 11px;border-radius:99px}
+.status{white-space:nowrap;font-size:11px;color:#78e4bc;border:1px solid rgba(75,214,162,.25);background:rgba(29,108,82,.17);padding:6px 11px;border-radius:99px;display:inline-flex;align-items:center;gap:7px}.status-dot{width:7px;height:7px;border-radius:50%;background:currentColor;box-shadow:0 0 0 4px rgba(75,214,162,.10)}.status.stale{color:#f0c875;border-color:rgba(232,189,99,.28);background:rgba(82,61,24,.2)}.status.error{color:#ff8795;border-color:rgba(255,120,137,.28);background:rgba(94,30,43,.2)}.status.stale .status-dot,.status.error .status-dot{box-shadow:none}
 .notice{
  position:relative;display:flex;align-items:flex-start;gap:10px;
  border:1px solid rgba(232,189,99,.28);background:linear-gradient(100deg,rgba(52,42,27,.68),rgba(34,31,27,.42));
@@ -60,7 +60,7 @@ body{
 .select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(99,184,255,.12)}
 .chartbox{padding:23px}
 .chartmeta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px 18px;color:var(--muted);font-size:11px;padding:14px 0 2px}
-.chartmeta span{padding:9px 11px;border:1px solid rgba(112,145,180,.12);border-radius:10px;background:rgba(6,15,27,.35);min-width:0}
+.chartmeta span{padding:9px 11px;border:1px solid rgba(112,145,180,.12);border-radius:10px;background:rgba(6,15,27,.35);min-width:0}.market-strip{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;margin:-5px 0 18px;padding:13px 16px;border:1px solid rgba(99,184,255,.18);border-radius:15px;background:linear-gradient(100deg,rgba(17,41,65,.8),rgba(12,25,42,.94))}.market-strip-title{font-size:11px;color:#91a8c3}.market-strip-values{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap}.ticker-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border-radius:9px;background:rgba(4,13,24,.45);border:1px solid rgba(112,145,180,.12);font-size:11px;white-space:nowrap}.ticker-chip b{font-weight:750}.ticker-chip.gold b{color:#f0cf83}.ticker-chip.world b{color:#8bc8ff}.ticker-chip.dollar b{color:#74e5bc}.chart-tooltip{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;min-height:20px;padding:8px 2px 0;color:#a8bad0;font-size:11px}.chart-tooltip b{color:#edf3fb}.chart-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.chart-hint{font-size:10px;color:#8195ad}
 .chartmeta b{color:#dce7f4;font-weight:600}
 .mini-chart{margin-top:15px;padding:16px 17px;background:rgba(6,15,27,.43);border:1px solid rgba(112,145,180,.15);border-radius:15px;min-width:0}
 .mini-chart h3{color:#dce7f4;font-size:12px;font-weight:600;margin:0 0 10px;display:flex;align-items:center;gap:8px}
@@ -127,8 +127,8 @@ canvas{display:block;width:100%;height:210px;margin-top:8px}
 .mini-chart{transition:border-color .2s ease}
 .mini-chart:hover{border-color:rgba(99,184,255,.25)}
 .notice{font-size:11px}
-@media(max-width:850px){.daily-grid{grid-template-columns:1fr}.daily-card{padding:15px 16px}.daily-values strong{font-size:13px}.daily-card-head{padding-bottom:11px}.daily-values{padding-top:11px}}
-@media(max-width:480px){.daily-heading h2{font-size:17px}.daily-date{font-size:9px;padding:5px 8px}.daily-card{border-radius:14px}.daily-card-head strong{font-size:12px}.daily-values strong{font-size:12px}}
+@media(max-width:850px){.market-strip{grid-template-columns:1fr}.market-strip-values{justify-content:flex-start}.daily-grid{grid-template-columns:1fr}.daily-card{padding:15px 16px}.daily-values strong{font-size:13px}.daily-card-head{padding-bottom:11px}.daily-values{padding-top:11px}}
+@media(max-width:480px){.market-strip{padding:12px}.ticker-chip{font-size:10px;padding:5px 7px}.market-strip-values{gap:5px}.daily-heading h2{font-size:17px}.daily-date{font-size:9px;padding:5px 8px}.daily-card{border-radius:14px}.daily-card-head strong{font-size:12px}.daily-values strong{font-size:12px}}
 
 </style>
 </head>
@@ -137,7 +137,7 @@ canvas{display:block;width:100%;height:210px;margin-top:8px}
 <header class="top">
 <div class="logo">⌁</div>
 <div class="brand"><h1>GoldWatch IR</h1><p>داشبورد شخصی پایش طلا و دلار</p></div>
-<div class="status">● پایش خودکار</div>
+<div class="status stale" id="liveStatus" aria-live="polite"><span class="status-dot"></span><span id="liveStatusText">در حال اتصال</span></div>
 </header>
 
 <section class="manual-run-wrap" aria-label="اجرای دستی ربات">
@@ -150,6 +150,7 @@ canvas{display:block;width:100%;height:210px;margin-top:8px}
   </a>
 </section>
 <div class="notice">وضعیت منابع قیمت پس از دریافت اطلاعات به‌روزرسانی می‌شود.</div>
+<section class="market-strip" aria-label="خلاصه زنده بازار"><div><div class="market-strip-title">نمای سریع بازار <span id="marketAsOf">· منتظر داده</span></div><div class="chart-hint" id="marketMood">پس از دریافت قیمت‌ها، جهت حرکت بازار نمایش داده می‌شود.</div></div><div class="market-strip-values"><span class="ticker-chip gold">۱۸ عیار <b id="tickerIran">—</b><span id="tickerIranChange">—</span></span><span class="ticker-chip world">اونس <b id="tickerWorld">—</b><span id="tickerWorldChange">—</span></span><span class="ticker-chip dollar">دلار <b id="tickerDollar">—</b><span id="tickerDollarChange">—</span></span></div></section>
 <section class="grid">
 <article class="card market"><div class="label">طلای ۱۸ عیار · هر گرم</div><div class="price" id="iranPrice">—</div><div class="unit">تومان</div><div class="change neutral" id="iranChange">در حال دریافت اطلاعات…</div></article>
 <article class="card market"><div class="label">اونس جهانی طلا</div><div class="price" id="worldPrice">—</div><div class="unit">دلار آمریکا / اونس</div><div class="change neutral" id="worldChange">در حال دریافت اطلاعات…</div></article>
@@ -158,11 +159,11 @@ canvas{display:block;width:100%;height:210px;margin-top:8px}
 
 <section class="section card chartbox">
   <div class="sectionhead">
-    <h2>روند قیمت طلای ۱۸ عیار</h2>
-    <select class="select" id="range" aria-label="بازه نمودار">
+    <div><h2>روند قیمت بازار</h2><div class="chart-hint">برای دیدن قیمت و ساعت ثبت، روی نمودار حرکت کنید.</div></div>
+    <div class="chart-controls"><select class="select" id="range" aria-label="بازه نمودار">
       <option value="day">۲۴ ساعت</option>
       <option value="week">۷ روز</option>
-    </select>
+    </select></div>
   </div>
   <div class="chartmeta">
     <span>آخرین به‌روزرسانی: <b id="updated">در حال دریافت...</b></span>
@@ -170,17 +171,17 @@ canvas{display:block;width:100%;height:210px;margin-top:8px}
   </div> 
 <div class="mini-chart">
   <h3>طلای ۱۸ عیار ایران</h3>
-  <canvas id="chart" aria-label="نمودار قیمت طلای ۱۸ عیار"></canvas>
+  <canvas id="chart" aria-label="نمودار تعاملی قیمت طلای ۱۸ عیار"></canvas><div class="chart-tooltip" id="chartTip"><span>نقطه‌ای را انتخاب کنید</span><span>—</span></div>
 </div>
 
 <div class="mini-chart">
   <h3>طلای جهانی (دلار به ازای اونس)</h3>
-  <canvas id="worldChart" aria-label="نمودار قیمت طلای جهانی"></canvas>
+  <canvas id="worldChart" aria-label="نمودار تعاملی قیمت طلای جهانی"></canvas><div class="chart-tooltip" id="worldChartTip"><span>نقطه‌ای را انتخاب کنید</span><span>—</span></div>
 </div>
 
 <div class="mini-chart">
   <h3>دلار آزاد ایران (تومان)</h3>
-  <canvas id="dollarChart" aria-label="نمودار قیمت دلار"></canvas>
+  <canvas id="dollarChart" aria-label="نمودار تعاملی قیمت دلار"></canvas><div class="chart-tooltip" id="dollarChartTip"><span>نقطه‌ای را انتخاب کنید</span><span>—</span></div>
 </div>
 </section>
 
@@ -229,98 +230,34 @@ let historyRows = [];
 function drawOneChart(canvasId, field, color, decimals = 0, prefix = "") {
   const canvas = document.getElementById(canvasId);
   if (!canvas) return;
-
   const ctx = canvas.getContext("2d");
   const ratio = window.devicePixelRatio || 1;
-  const rect = canvas.getBoundingClientRect();
-  const w = rect.width;
-  const h = 190;
-  const pad = 18;
-
-  canvas.width = Math.round(w * ratio);
-  canvas.height = Math.round(h * ratio);
-  ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
-  ctx.clearRect(0, 0, w, h);
-
-  const now = Date.now();
-  const range = document.getElementById("range").value;
-  const duration = range === "week"
-    ? 7 * 24 * 60 * 60 * 1000
-    : 24 * 60 * 60 * 1000;
-
-  const rows = historyRows
-    .filter(r =>
-      r.timestamp &&
-      Number.isFinite(Number(r[field])) &&
-      now - new Date(r.timestamp).getTime() >= 0 &&
-      now - new Date(r.timestamp).getTime() <= duration
-    )
-    .sort((a, b) =>
-      new Date(a.timestamp) - new Date(b.timestamp)
-    );
-
-  ctx.strokeStyle = "#243a58";
-  ctx.lineWidth = 1;
-
-  for (let i = 0; i < 4; i++) {
-    const y = pad + (h - 2 * pad) * i / 3;
-    ctx.beginPath();
-    ctx.moveTo(0, y);
-    ctx.lineTo(w, y);
-    ctx.stroke();
-  }
-
-  ctx.fillStyle = "#9db1cd";
-  ctx.font = "12px Tahoma";
-  ctx.textAlign = "center";
-
-  if (rows.length < 2) {
-    ctx.fillText(
-      rows.length === 1
-        ? "برای رسم نمودار، ثبت‌های بیشتری لازم است."
-        : "در این بازه داده‌ای وجود ندارد.",
-      w / 2,
-      h / 2
-    );
-    return;
-  }
-
-  const values = rows.map(r => Number(r[field]));
-  const min = Math.min(...values);
-  const max = Math.max(...values);
-  const span = max - min || Math.max(Math.abs(max) * 0.001, 1);
-
-  const points = values.map((value, i) => ({
-    x: pad + i * (w - 2 * pad) / (values.length - 1),
-    y: h - pad - (value - min) / span * (h - 2 * pad)
-  }));
-
-  ctx.beginPath();
-  points.forEach((p, i) =>
-    i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)
-  );
-  ctx.strokeStyle = color;
-  ctx.lineWidth = 2.5;
-  ctx.stroke();
-
-  const last = points[points.length - 1];
-  ctx.beginPath();
-  ctx.arc(last.x, last.y, 4, 0, Math.PI * 2);
-  ctx.fillStyle = color;
-  ctx.fill();
-
-  const fmt = value =>
-    prefix + new Intl.NumberFormat("fa-IR", {
-      maximumFractionDigits: decimals
-    }).format(value);
-
-  ctx.fillStyle = "#9db1cd";
-  ctx.font = "11px Tahoma";
-  ctx.textAlign = "right";
-  ctx.fillText(fmt(max), w - pad, 12);
-  ctx.fillText(fmt(min), w - pad, h - 2);
+  const w = canvas.getBoundingClientRect().width, h = 190, pad = 22;
+  if (!w) return;
+  canvas.width = Math.round(w*ratio); canvas.height = Math.round(h*ratio);
+  ctx.setTransform(ratio,0,0,ratio,0,0); ctx.clearRect(0,0,w,h);
+  const now=Date.now(), range=document.getElementById("range").value;
+  const duration=range==="week"?7*24*60*60*1000:24*60*60*1000;
+  const rows=historyRows.filter(r=>{const t=new Date(r.timestamp).getTime();return r.timestamp&&Number.isFinite(Number(r[field]))&&t<=now&&now-t<=duration;}).sort((a,b)=>new Date(a.timestamp)-new Date(b.timestamp));
+  const tip=document.getElementById(canvasId+"Tip");
+  const fmt=value=>prefix+new Intl.NumberFormat("fa-IR",{maximumFractionDigits:decimals}).format(value);
+  const setTip=(row,value)=>{if(!tip)return;if(!row){tip.innerHTML="<span>برای مشاهده جزئیات، روی نمودار حرکت کنید</span><span>—</span>";return;}const time=new Date(row.timestamp).toLocaleString("fa-IR",{month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"});tip.innerHTML="<span>"+time+"</span><span>قیمت: <b>"+fmt(value)+"</b></span>";};
+  ctx.strokeStyle="rgba(76,103,137,.42)";ctx.lineWidth=1;
+  for(let i=0;i<4;i++){const y=pad+(h-2*pad)*i/3;ctx.beginPath();ctx.moveTo(pad,y);ctx.lineTo(w-pad,y);ctx.stroke();}
+  if(rows.length<2){ctx.fillStyle="#9db1cd";ctx.font="12px Tahoma";ctx.textAlign="center";ctx.fillText(rows.length===1?"برای رسم نمودار، ثبت‌های بیشتری لازم است.":"در این بازه داده‌ای وجود ندارد.",w/2,h/2);setTip(null);return;}
+  const values=rows.map(r=>Number(r[field])),min=Math.min(...values),max=Math.max(...values),span=max-min||Math.max(Math.abs(max)*.001,1);
+  const points=values.map((v,i)=>({x:pad+i*(w-2*pad)/(values.length-1),y:h-pad-(v-min)/span*(h-2*pad)}));
+  const gradient=ctx.createLinearGradient(0,pad,0,h-pad);gradient.addColorStop(0,color+"38");gradient.addColorStop(1,color+"00");
+  ctx.beginPath();ctx.moveTo(points[0].x,h-pad);points.forEach(p=>ctx.lineTo(p.x,p.y));ctx.lineTo(points[points.length-1].x,h-pad);ctx.closePath();ctx.fillStyle=gradient;ctx.fill();
+  ctx.beginPath();points.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.strokeStyle=color;ctx.lineWidth=2.5;ctx.lineJoin="round";ctx.lineCap="round";ctx.stroke();
+  const hover=Number.isInteger(canvas._hoverIndex)?Math.max(0,Math.min(points.length-1,canvas._hoverIndex)):points.length-1,active=points[hover];
+  if(canvas._hoverIndex!=null){ctx.save();ctx.setLineDash([3,4]);ctx.strokeStyle="rgba(220,235,250,.55)";ctx.beginPath();ctx.moveTo(active.x,pad);ctx.lineTo(active.x,h-pad);ctx.stroke();ctx.restore();}
+  ctx.beginPath();ctx.arc(active.x,active.y,4.5,0,Math.PI*2);ctx.fillStyle=color;ctx.fill();ctx.beginPath();ctx.arc(active.x,active.y,8,0,Math.PI*2);ctx.strokeStyle=color+"66";ctx.lineWidth=2;ctx.stroke();
+  ctx.fillStyle="#a8bad0";ctx.font="10px Tahoma";ctx.textAlign="right";ctx.fillText(fmt(max),w-pad,12);ctx.fillText(fmt(min),w-pad,h-3);setTip(rows[hover],values[hover]);
+  canvas.onmousemove=event=>{const b=canvas.getBoundingClientRect(),x=event.clientX-b.left;canvas._hoverIndex=Math.round(Math.max(0,Math.min(1,(x-pad)/(b.width-2*pad)))*(rows.length-1));drawOneChart(canvasId,field,color,decimals,prefix);};
+  canvas.onmouseleave=()=>{canvas._hoverIndex=null;drawOneChart(canvasId,field,color,decimals,prefix);};
+  canvas.ontouchstart=event=>{if(!event.touches||!event.touches[0])return;const b=canvas.getBoundingClientRect(),x=event.touches[0].clientX-b.left;canvas._hoverIndex=Math.round(Math.max(0,Math.min(1,(x-pad)/(b.width-2*pad)))*(rows.length-1));drawOneChart(canvasId,field,color,decimals,prefix);};
 }
-
 function draw() {
   drawOneChart("chart", "iran_toman", "#58b7ff");
   drawOneChart("worldChart", "world_usd", "#f5c451", 2, "$");
@@ -411,6 +348,14 @@ async function updateGoldDashboard() {
     updateChange("iranChange", iran, daily.iran?.open);
     updateChange("worldChange", world, daily.world?.open);
     updateChange("dollarChange", dollar, daily.dollar?.open);
+    const pctText=(current,opening)=>{if(current==null||opening==null||!Number(opening))return "—";const pct=(Number(current)-Number(opening))/Number(opening)*100;return(pct>0?"↗ +":pct<0?"↘ ":"→ ")+formatPrice(pct,2)+"٪";};
+    setText("tickerIran",formatPrice(iran));setText("tickerWorld",world==null?"—":"$"+formatPrice(world,2));setText("tickerDollar",formatPrice(dollar));
+    setText("tickerIranChange",pctText(iran,daily.iran?.open));setText("tickerWorldChange",pctText(world,daily.world?.open));setText("tickerDollarChange",pctText(dollar,daily.dollar?.open));
+    const pricesAvailable=iran!=null&&world!=null&&dollar!=null,statusEl=document.getElementById("liveStatus"),statusText=document.getElementById("liveStatusText"),checkedDate=checkedAt?new Date(checkedAt):null,ageMs=checkedDate&&Number.isFinite(checkedDate.getTime())?Date.now()-checkedDate.getTime():Infinity;
+    if(statusEl&&statusText){statusEl.className="status "+(!pricesAvailable||ageMs>90*60*1000?"stale":"live");statusText.textContent=!pricesAvailable?"بخشی از داده‌ها ناموجود":ageMs>90*60*1000?"داده قدیمی":"داده دریافت شد";}
+    setText("marketAsOf",checkedDate?"· "+checkedDate.toLocaleTimeString("fa-IR",{hour:"2-digit",minute:"2-digit"}):"· زمان نامشخص");
+    const upCount=[iran!=null&&daily.iran?.open!=null&&iran>daily.iran.open,world!=null&&daily.world?.open!=null&&world>daily.world.open,dollar!=null&&daily.dollar?.open!=null&&dollar>daily.dollar.open].filter(Boolean).length;
+    setText("marketMood",!pricesAvailable?"برای جمع‌بندی، دریافت موفق هر سه بازار لازم است.":upCount>=2?"جهت غالب بازار: صعودی نسبت به شروع روز":upCount===0?"جهت غالب بازار: نزولی یا بدون رشد نسبت به شروع روز":"حرکت بازار ترکیبی است؛ هر نماد مسیر متفاوتی دارد.");
   } catch (error) {
     console.error("Price loading failed:", error);
     hidePrices();
@@ -419,6 +364,7 @@ async function updateGoldDashboard() {
     setText("sourceStatus", "خطا در دریافت");
     setText("sourceStatusWorld", "خطا در دریافت");
     setText("sourceStatusDollar", "خطا در دریافت");
+    const statusEl=document.getElementById("liveStatus"),statusText=document.getElementById("liveStatusText");if(statusEl)statusEl.className="status error";if(statusText)statusText.textContent="خطای دریافت";
   }
 
   try {
@@ -436,5 +382,6 @@ async function updateGoldDashboard() {
 }
 updateGoldDashboard();
 setInterval(updateGoldDashboard, 5 * 60 * 1000);
+window.addEventListener("resize",()=>draw());
 </script>
 </html>
