@@ -723,7 +723,7 @@ window.addEventListener("resize",()=>draw());
       ["داده در دسترس است","Data available"],["داده دریافت شد","Data received"],["در حال اتصال","Connecting"],["بخشی از داده‌ها ناموجود","Some data unavailable"],["داده قدیمی","Stale data"],["خطای دریافت","Data error"],
       ["تومان","toman"],["دلار","USD"],["آمار روز جاری","Current day"]
     ];
-    document.querySelectorAll("#iranChange,#worldChange,#dollarChange,#sourceStatus,#sourceStatusWorld,#sourceStatusDollar,#updated,#dayOpen,#dayHigh,#dayLow,#worldOpen,#worldHigh,#worldLow,#dollarOpen,#dollarHigh,#dollarLow,#liveStatusText,.daily-date").forEach(el=>{let v=el.textContent;replacements.forEach(([fa,en])=>{v=v.split(fa).join(en);});el.textContent=v;});
+    document.querySelectorAll("#iranChange,#worldChange,#dollarChange,#sourceStatus,#sourceStatusWorld,#sourceStatusDollar,#updated,#dayOpen,#dayHigh,#dayLow,#worldOpen,#worldHigh,#worldLow,#dollarOpen,#dollarHigh,#dollarLow,#liveStatusText").forEach(el=>{let v=el.textContent;replacements.forEach(([fa,en])=>{v=v.split(fa).join(en);});el.textContent=v;});
   }
   function applyLanguage(next){
     lang=next==="en"?"en":"fa";
