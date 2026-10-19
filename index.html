@@ -87,7 +87,7 @@ canvas{display:block;width:100%;height:190px;margin-top:10px}
   </div>
   <div class="chartmeta">
     <span>آخرین به‌روزرسانی: <b id="updated">در حال دریافت...</b></span>
-    <span>وضعیت منبع: <b class="up" id="sourceStatus">در حال بررسی</b></span>
+    <span>وضعیت ایران: <b id="sourceStatus">در حال بررسی</b></span><span>وضعیت اونس: <b id="sourceStatusWorld">در حال بررسی</b></span><span>وضعیت دلار: <b id="sourceStatusDollar">در حال بررسی</b></span>
   </div> 
 <div class="mini-chart">
   <h3>طلای ۱۸ عیار ایران</h3>
@@ -323,7 +323,8 @@ async function updateGoldDashboard() {
       return "آخرین دریافت موفق: " + new Date(m.last_success_at || m.last_attempt_at).toLocaleString("fa-IR");
     };
     setText("sourceStatus", marketStatusText("iran"));
-    setText("sourceStatus2", marketStatusText("world"));
+    setText("sourceStatusWorld", marketStatusText("world"));
+    setText("sourceStatusDollar", marketStatusText("dollar"));
     const notice = document.querySelector(".notice");
     if (notice) notice.textContent =
       "قیمت هر بازار فقط پس از دریافت موفق نمایش داده می‌شود؛ زمان آخرین دریافت موفق هر بازار در وضعیت منبع آمده است.";
@@ -350,7 +351,8 @@ async function updateGoldDashboard() {
     const notice = document.querySelector(".notice");
     if (notice) notice.textContent = "دریافت قیمت ناموفق بود؛ قیمت‌ها برای جلوگیری از نمایش داده قدیمی پنهان شده‌اند.";
     setText("sourceStatus", "خطا در دریافت");
-    setText("sourceStatus2", "خطا در دریافت");
+    setText("sourceStatusWorld", "خطا در دریافت");
+    setText("sourceStatusDollar", "خطا در دریافت");
   }
 
   try {
