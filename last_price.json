@@ -1,6 +1,6 @@
 {
-  "price_toman": 26514400,
-  "checked_at": "2026-10-20T16:25:17.471169+03:30",
+  "price_toman": 26449700,
+  "checked_at": "2026-10-20T21:24:37.372462+03:30",
   "iran_price_toman": 26255100,
   "world_gold_usd": 4190.899902,
   "daily": {
@@ -9,42 +9,42 @@
       "open": 26177800,
       "high": 26514400,
       "low": 26177800,
-      "last": 26514400
+      "last": 26449700
     },
     "world": {
       "open": 4135.600098,
       "high": 4135.600098,
       "low": 4119.299805,
-      "last": 4119.299805
+      "last": 4124.700195
     },
     "dollar": {
       "open": 263395,
       "high": 265800,
       "low": 263395,
-      "last": 265800
+      "last": 264800
     }
   },
-  "iran_toman": 26514400,
-  "world_usd": 4119.299805,
-  "dollar_toman": 265800,
-  "last_checked": "2026-10-20T16:25:17.471169+03:30",
+  "iran_toman": 26449700,
+  "world_usd": 4124.700195,
+  "dollar_toman": 264800,
+  "last_checked": "2026-10-20T21:24:37.372462+03:30",
   "market_status": {
     "iran": {
-      "current_price": 26514400,
-      "last_attempt_at": "2026-10-20T16:25:17.471169+03:30",
-      "last_success_at": "2026-10-20T16:25:17.471169+03:30",
+      "current_price": 26449700,
+      "last_attempt_at": "2026-10-20T21:24:37.372462+03:30",
+      "last_success_at": "2026-10-20T21:24:37.372462+03:30",
       "error": null
     },
     "world": {
-      "current_price": 4119.299805,
-      "last_attempt_at": "2026-10-20T16:25:17.471169+03:30",
-      "last_success_at": "2026-10-20T16:25:17.471169+03:30",
+      "current_price": 4124.700195,
+      "last_attempt_at": "2026-10-20T21:24:37.372462+03:30",
+      "last_success_at": "2026-10-20T21:24:37.372462+03:30",
       "error": null
     },
     "dollar": {
-      "current_price": 265800,
-      "last_attempt_at": "2026-10-20T16:25:17.471169+03:30",
-      "last_success_at": "2026-10-20T16:25:17.471169+03:30",
+      "current_price": 264800,
+      "last_attempt_at": "2026-10-20T21:24:37.372462+03:30",
+      "last_success_at": "2026-10-20T21:24:37.372462+03:30",
       "error": null
     }
   }
