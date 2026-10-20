@@ -483,6 +483,63 @@ canvas{height:240px;border-radius:10px}
  .manual-run{width:100%}
 }
 
+
+/* Structural redesign: market terminal, not a cosmetic reskin */
+.hero-terminal{grid-template-columns:minmax(0,1.25fr) minmax(285px,.75fr);align-items:stretch;gap:35px;background:linear-gradient(115deg,#0d1b2b 0%,#0c1927 55%,#131c25 100%);padding:clamp(24px,4vw,42px);border-radius:26px;border-color:rgba(211,177,102,.28)}
+.hero-terminal .hero-copy{align-self:center}
+.hero-terminal .hero-art{display:none}
+.hero-terminal-side{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:center;gap:9px;padding:17px;border-radius:18px;border:1px solid rgba(131,186,255,.18);background:rgba(4,12,21,.42);box-shadow:inset 0 1px 0 rgba(255,255,255,.025)}
+.terminal-label{display:flex;align-items:center;gap:8px;font-size:9px;letter-spacing:1.4px;color:#8ea8c4;padding-bottom:10px;border-bottom:1px solid rgba(145,162,184,.14)}
+.terminal-label #marketAsOf{margin-inline-start:auto;letter-spacing:0}
+.terminal-market{display:grid;grid-template-columns:1fr auto;align-items:center;gap:4px 12px;padding:9px 2px;border-bottom:1px solid rgba(145,162,184,.1)}
+.terminal-market span{font-size:11px;color:#9eafc4}
+.terminal-market strong{font-size:clamp(14px,1.7vw,20px);color:#f0d18a;direction:ltr}
+.terminal-market:nth-of-type(3) strong{color:#a6d7ff}
+.terminal-market:nth-of-type(4) strong{color:#70e0b6}
+.terminal-market small{grid-column:1/-1;font-size:10px;color:#91a2b8}
+.hero-terminal-side>p{font-size:10px;line-height:1.8;color:#9eafc4;margin:2px 0 0}
+.market-strip{display:none!important}
+.grid{gap:12px}
+.card.market{min-height:184px;display:flex;flex-direction:column;justify-content:center;padding:23px 24px 21px;border-radius:18px}
+.card.market .label{font-size:12px}
+.card.market .price{font-size:clamp(26px,3vw,36px);margin:14px 0 3px}
+.card.market:nth-child(1){background:linear-gradient(145deg,rgba(45,37,24,.75),rgba(16,25,36,.98));border-color:rgba(217,182,108,.27)}
+.card.market:nth-child(2){background:linear-gradient(145deg,rgba(16,37,58,.98),rgba(10,22,36,.98))}
+.card.market:nth-child(3){background:linear-gradient(145deg,rgba(12,42,39,.65),rgba(10,23,36,.98));border-color:rgba(81,223,172,.2)}
+.chartbox{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;padding:20px}
+.chartbox>.sectionhead,.chartbox>.chartmeta{grid-column:1/-1}
+.chartbox>.sectionhead{margin-bottom:0}
+.chartbox>.chartmeta{grid-template-columns:repeat(4,minmax(0,1fr));padding:0}
+.chartbox>.mini-chart{margin-top:0;min-width:0}
+.chartbox>.chart-main{grid-column:1/-1;background:linear-gradient(145deg,#0c1b2c,#091522);padding:19px 20px}
+.chartbox>.chart-main canvas{height:285px}
+.chartbox>.chart-secondary{background:rgba(5,15,27,.66);padding:17px 18px}
+.chartbox>.chart-secondary canvas{height:185px}
+.daily-card{border-radius:17px}
+.faq-section{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 24px}
+.faq-section>h2{grid-column:1/-1;margin-bottom:10px}
+.faq-item{min-width:0}
+@media(max-width:800px){
+ .hero-terminal{grid-template-columns:1fr;gap:20px}
+ .hero-terminal-side{padding:13px}
+ .terminal-market{grid-template-columns:1fr auto}
+ .chartbox{grid-template-columns:1fr;padding:15px}
+ .chartbox>.sectionhead,.chartbox>.chartmeta,.chartbox>.chart-main{grid-column:1}
+ .chartbox>.chartmeta{grid-template-columns:1fr 1fr}
+ .chartbox>.chart-main canvas{height:225px}
+ .chartbox>.chart-secondary canvas{height:190px}
+ .faq-section{grid-template-columns:1fr}
+ .faq-section>h2{grid-column:1}
+}
+@media(max-width:480px){
+ .hero-terminal{padding:19px 15px}
+ .hero-terminal h2{font-size:29px}
+ .terminal-market strong{font-size:16px}
+ .card.market{min-height:0}
+ .chartbox>.chartmeta{grid-template-columns:1fr}
+ .chartbox>.chart-main{padding:13px 10px}
+}
+
 </style>
 </head>
 <body>
@@ -499,27 +556,26 @@ canvas{height:240px;border-radius:10px}
   <a href="#daily" data-nav="daily">خلاصه روزانه</a>
   <a class="nav-cta" href="#markets" data-nav="telegram">شروع بررسی ↓</a>
 </nav>
-<section class="hero" aria-labelledby="heroTitle">
+<section class="hero hero-terminal" aria-labelledby="heroTitle">
   <div class="hero-copy">
-    <div class="hero-kicker" id="heroKicker">MARKET INTELLIGENCE · IRAN & GLOBAL</div>
-    <h2 id="heroTitle">بازار طلا را<br><em>شفاف‌تر ببین.</em></h2>
-    <p id="heroText">قیمت طلا در ایران، اونس جهانی و دلار را در یک نمای یکپارچه دنبال کن؛ با نمودار، تغییرات روزانه و وضعیت روشن داده‌ها.</p>
+    <div class="hero-kicker" id="heroKicker">LIVE MARKET TERMINAL · IRAN & GLOBAL</div>
+    <h2 id="heroTitle">تصویر روشن‌تری از<br><em>بازار طلا و ارز.</em></h2>
+    <p id="heroText">سه بازار مهم، یک نمای ساده؛ قیمت لحظه‌ای، تغییرات روزانه و روندها را بدون شلوغی دنبال کن.</p>
     <div class="hero-links">
-      <a class="hero-button primary" href="#markets" id="heroPrimary">مشاهده بازارها ↓</a>
-      <a class="hero-button secondary" href="#charts" id="heroSecondary">بررسی روند قیمت</a>
+      <a class="hero-button primary" href="#markets" id="heroPrimary">مشاهده قیمت‌ها ↓</a>
+      <a class="hero-button secondary" href="#charts" id="heroSecondary">تحلیل روندها</a>
     </div>
   </div>
-  <div class="hero-art" aria-hidden="true">
-    <div class="orbit">
-      <div class="orbit-center">Au</div>
-      <span class="orbit-label one">XAU / USD</span>
-      <span class="orbit-label two">18K · IR</span>
-      <span class="orbit-label three">USD / IRR</span>
-    </div>
+  <div class="hero-terminal-side">
+    <div class="terminal-label"><span class="live-dot"></span> MARKET OVERVIEW <span id="marketAsOf">· منتظر داده</span></div>
+    <div class="terminal-market"><span>طلای ۱۸ عیار</span><strong id="tickerIran">—</strong><small id="tickerIranChange">—</small></div>
+    <div class="terminal-market"><span>اونس جهانی</span><strong id="tickerWorld">—</strong><small id="tickerWorldChange">—</small></div>
+    <div class="terminal-market"><span>دلار آزاد</span><strong id="tickerDollar">—</strong><small id="tickerDollarChange">—</small></div>
+    <p id="marketMood">پس از دریافت قیمت‌ها، جهت حرکت بازار نمایش داده می‌شود.</p>
   </div>
 </section>
 <div class="notice">وضعیت منابع قیمت پس از دریافت اطلاعات به‌روزرسانی می‌شود.</div>
-<section class="market-strip" aria-label="خلاصه زنده بازار"><div><div class="market-strip-title">نمای سریع بازار <span id="marketAsOf">· منتظر داده</span></div><div class="chart-hint" id="marketMood">پس از دریافت قیمت‌ها، جهت حرکت بازار نمایش داده می‌شود.</div></div><div class="market-strip-values"><span class="ticker-chip gold">۱۸ عیار <b id="tickerIran">—</b><span id="tickerIranChange">—</span></span><span class="ticker-chip world">اونس <b id="tickerWorld">—</b><span id="tickerWorldChange">—</span></span><span class="ticker-chip dollar">دلار <b id="tickerDollar">—</b><span id="tickerDollarChange">—</span></span></div></section>
+
 <section class="grid" id="markets" aria-label="Market prices">
 <article class="card market"><div class="label">طلای ۱۸ عیار · هر گرم</div><div class="price" id="iranPrice">—</div><div class="unit">تومان</div><div class="change neutral" id="iranChange">در حال دریافت اطلاعات…</div></article>
 <article class="card market"><div class="label">اونس جهانی طلا</div><div class="price" id="worldPrice">—</div><div class="unit">دلار آمریکا / اونس</div><div class="change neutral" id="worldChange">در حال دریافت اطلاعات…</div></article>
@@ -560,17 +616,17 @@ canvas{height:240px;border-radius:10px}
     <span>آخرین به‌روزرسانی: <b id="updated">در حال دریافت...</b></span>
     <span>وضعیت ایران: <b id="sourceStatus">در حال بررسی</b></span><span>وضعیت اونس: <b id="sourceStatusWorld">در حال بررسی</b></span><span>وضعیت دلار: <b id="sourceStatusDollar">در حال بررسی</b></span>
   </div> 
-<div class="mini-chart">
+<div class="mini-chart chart-main">
   <h3>طلای ۱۸ عیار ایران</h3>
   <canvas id="chart" aria-label="نمودار تعاملی قیمت طلای ۱۸ عیار"></canvas><div class="chart-tooltip" id="chartTip"><span>نقطه‌ای را انتخاب کنید</span><span>—</span></div>
 </div>
 
-<div class="mini-chart">
+<div class="mini-chart chart-secondary">
   <h3>طلای جهانی (دلار به ازای اونس)</h3>
   <canvas id="worldChart" aria-label="نمودار تعاملی قیمت طلای جهانی"></canvas><div class="chart-tooltip" id="worldChartTip"><span>نقطه‌ای را انتخاب کنید</span><span>—</span></div>
 </div>
 
-<div class="mini-chart">
+<div class="mini-chart chart-secondary">
   <h3>دلار آزاد ایران (تومان)</h3>
   <canvas id="dollarChart" aria-label="نمودار تعاملی قیمت دلار"></canvas><div class="chart-tooltip" id="dollarChartTip"><span>نقطه‌ای را انتخاب کنید</span><span>—</span></div>
 </div>
