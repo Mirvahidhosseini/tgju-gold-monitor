@@ -354,6 +354,135 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
  .tool-panel{grid-template-columns:minmax(0,1.35fr) minmax(260px,.85fr)}
 }
 
+
+/* GoldWatch Studio redesign v2 — analytics-first layout */
+:root{
+ --bg:#060d18;--bg2:#0a1626;--panel:#0d1b2d;--panel2:#12253b;--line:#243b55;
+ --text:#eff5fd;--muted:#8fa5be;--blue:#55b8ff;--green:#43d6a4;--red:#ff7186;--gold:#f4ca62;
+ --radius:20px;--shadow:0 18px 48px rgba(0,0,0,.25)
+}
+body{background:radial-gradient(ellipse at 12% 0%,rgba(33,111,172,.17),transparent 33%),radial-gradient(ellipse at 95% 25%,rgba(28,92,131,.12),transparent 28%),linear-gradient(180deg,#060d18,#091524 52%,#060d18)}
+.wrap{width:min(1320px,100%);padding:24px 26px 42px}
+.top{position:relative;padding:15px 18px;margin-bottom:14px;border:1px solid rgba(105,151,196,.22);border-radius:22px;background:linear-gradient(110deg,rgba(13,30,49,.97),rgba(8,21,36,.97));box-shadow:0 14px 36px rgba(0,0,0,.16)}
+.logo{width:58px;height:58px;flex-basis:58px;border-radius:18px;background:radial-gradient(circle at 35% 25%,#f8df92,#b78622 48%,#573b0b 100%);border:1px solid #f1d17c;color:#172338;font-weight:900;box-shadow:0 0 0 5px rgba(244,202,98,.07),inset 0 1px 0 rgba(255,255,255,.45)}
+.brand h1{font-size:clamp(21px,2.3vw,29px);letter-spacing:-.7px}
+.brand p{font-size:12px}
+.status{font-size:11px;padding:8px 12px}
+.public-nav{position:sticky;top:8px;z-index:10;margin:0 0 17px;padding:7px;display:flex;gap:5px;align-items:center;border:1px solid rgba(105,151,196,.19);border-radius:14px;background:rgba(7,18,31,.92);backdrop-filter:blur(16px);box-shadow:0 8px 22px rgba(0,0,0,.14)}
+.public-nav a{border-radius:9px;padding:8px 13px;font-size:12px;color:#a9bdd3}
+.public-nav a:hover{background:#142b43;color:#fff}
+.public-nav .nav-cta{margin-inline-start:auto;background:#153e60;color:#e8f6ff;border:1px solid rgba(85,184,255,.3)}
+.hero{position:relative;overflow:hidden;min-height:210px;padding:28px 32px;margin-bottom:16px;border:1px solid rgba(85,155,208,.25);border-radius:24px;background:linear-gradient(105deg,rgba(14,42,67,.98),rgba(8,23,40,.98) 70%,rgba(13,36,55,.98));box-shadow:var(--shadow)}
+.hero:after{content:"";position:absolute;inset:auto -5% -80% 30%;height:260px;background:radial-gradient(ellipse,rgba(36,145,216,.18),transparent 68%);pointer-events:none}
+.hero-copy{position:relative;z-index:1;max-width:660px}
+.hero-kicker,.tool-kicker{font-size:9px;letter-spacing:2px;color:#80b9e7;font-weight:800}
+.hero h2{font-size:clamp(30px,4vw,44px);line-height:1.4;margin:5px 0 8px;letter-spacing:-.8px}
+.hero h2 em{color:#f4d278;font-style:normal}
+.hero p{max-width:600px;font-size:13px;line-height:2;color:#b3c7dc}
+.hero-art{transform:scale(.92);opacity:.95}
+.orbit{border-color:rgba(109,186,239,.3);box-shadow:0 0 70px rgba(30,125,190,.12),inset 0 0 35px rgba(30,125,190,.06)}
+.orbit-center{background:linear-gradient(145deg,#f8df92,#a77b1a);color:#1a2634;box-shadow:0 0 35px rgba(244,202,98,.18)}
+.notice{border-radius:12px;padding:10px 13px;font-size:11px;margin-bottom:14px;background:rgba(40,36,27,.48)}
+.market-strip{grid-template-columns:minmax(180px,.7fr) minmax(0,1.8fr);padding:15px 17px;margin:0 0 15px;border-radius:17px;background:linear-gradient(100deg,#10243a,#0b192a);border-color:rgba(105,151,196,.23)}
+.market-strip-title{font-size:12px;color:#d5e3f2;font-weight:800}
+.market-strip-values{gap:9px}
+.ticker-chip{padding:8px 12px;border-radius:11px;font-size:11px;background:rgba(4,13,24,.6)}
+.grid{gap:14px}
+.card.market{padding:24px 23px 20px;border-radius:21px;background:linear-gradient(150deg,rgba(17,39,61,.98),rgba(9,23,38,.99));border-color:rgba(107,154,199,.23);box-shadow:var(--shadow)}
+.card.market:before{height:3px;opacity:1}
+.card.market:nth-child(1):before{background:linear-gradient(90deg,transparent,#f4ca62,transparent)}
+.card.market:nth-child(2):before{background:linear-gradient(90deg,transparent,#55b8ff,transparent)}
+.card.market:nth-child(3):before{background:linear-gradient(90deg,transparent,#43d6a4,transparent)}
+.card.market .label{font-size:13px;color:#c4d5e7}
+.card.market:nth-child(1) .label:before{content:"Au";display:grid;place-items:center;width:25px;height:25px;border-radius:9px;background:rgba(244,202,98,.12);color:#f4ca62;font-size:11px;font-weight:900}
+.card.market:nth-child(2) .label:before{content:"✦";display:grid;place-items:center;width:25px;height:25px;border-radius:9px;background:rgba(85,184,255,.12);color:#8bcaff;font-size:14px}
+.card.market:nth-child(3) .label:before{content:"$";display:grid;place-items:center;width:25px;height:25px;border-radius:9px;background:rgba(67,214,164,.12);color:#43d6a4;font-size:13px;font-weight:900}
+.price{font-size:clamp(27px,3.15vw,38px);margin:15px 0 4px;letter-spacing:-.8px}
+.card.market:nth-child(1) .price{color:#f4d278}
+.card.market:nth-child(2) .price{color:#a3d8ff}
+.card.market:nth-child(3) .price{color:#8ce8c7}
+.change{margin-top:12px;font-size:12px}
+.tool-panel{margin-top:15px;padding:22px 24px;border-radius:21px;background:linear-gradient(110deg,#10253b,#0a192a);border-color:rgba(105,151,196,.23);box-shadow:var(--shadow)}
+.tool-panel h2{font-size:19px;margin:4px 0 7px}
+.tool-panel p{font-size:12px;line-height:1.9;color:#aebfd2}
+.calc-controls input{border:1px solid #36536f;background:#071525;border-radius:11px;padding:11px 13px}
+.calc-result{border-radius:17px;background:linear-gradient(145deg,rgba(5,16,29,.8),rgba(13,31,49,.9));border-color:rgba(105,151,196,.23);padding:20px}
+.calc-result strong{font-size:clamp(24px,3vw,33px);color:#f4d278}
+.tool-actions{gap:8px}
+.tool-action{border-radius:11px;padding:10px 13px}
+.section{margin-top:22px}
+.chartbox{padding:23px 25px;border-radius:22px;background:linear-gradient(145deg,#0e1e31,#091625);border-color:rgba(105,151,196,.23);box-shadow:var(--shadow)}
+.sectionhead{margin-bottom:17px}
+.sectionhead h2{font-size:19px}
+.chart-controls .select{min-width:125px;background:#091728;border-color:#2c4865;border-radius:11px}
+.chartmeta{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.chartmeta span{padding:11px 13px;border-radius:12px;background:rgba(4,14,25,.6);border-color:rgba(105,151,196,.14)}
+.chartmeta b{color:#dceafa}
+.mini-chart{margin-top:14px;padding:16px 17px;background:rgba(5,15,27,.55);border-color:rgba(105,151,196,.19);border-radius:17px}
+.mini-chart h3{font-size:13px;margin-bottom:13px}
+canvas{height:240px;border-radius:10px}
+.daily-section{margin-top:25px}
+.daily-heading h2{font-size:23px}
+.daily-date{border-radius:11px;background:#0c1c2e}
+.daily-grid{gap:14px}
+.daily-card{padding:19px;border-radius:19px;background:linear-gradient(145deg,#10253b,#0a192a);border-color:rgba(105,151,196,.22);box-shadow:0 10px 28px rgba(0,0,0,.12)}
+.daily-card-head{padding-bottom:15px}
+.daily-icon{border-radius:12px}
+.daily-values{gap:12px}
+.daily-values>div{padding:11px;border-radius:11px;background:rgba(4,14,25,.38)}
+.daily-values strong{font-size:14px;color:#e8f1fb}
+.faq-section{margin-top:24px;padding:22px 24px;border-radius:20px;background:linear-gradient(145deg,#0d1d30,#091625);border-color:rgba(105,151,196,.2)}
+.faq-section h2{font-size:18px}
+.faq-item{padding:14px 0;border-bottom:1px solid rgba(105,151,196,.13)}
+.faq-item:last-child{border-bottom:0}
+.faq-item h3{font-size:13px}
+.faq-item p{font-size:12px;line-height:1.9;color:#aebfd2}
+.manual-run-wrap{margin-top:18px;padding:16px 18px;border-radius:16px}
+.manual-run{border-radius:11px}
+.foot{font-size:10px;margin-top:24px}
+.toast{backdrop-filter:blur(12px)}
+@media(min-width:1000px){
+ .grid{grid-template-columns:1.1fr 1fr 1fr}
+ .card.market{min-height:190px}
+ .daily-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:760px){
+ .wrap{padding:12px 11px 25px}
+ .top{padding:11px 12px;gap:9px;border-radius:17px;flex-wrap:wrap}
+ .logo{width:45px;height:45px;flex-basis:45px;border-radius:14px}
+ .brand h1{font-size:18px}
+ .brand p{font-size:10px}
+ .status{font-size:10px;padding:6px 9px}
+ .public-nav{top:5px;overflow-x:auto;white-space:nowrap;border-radius:12px;padding:5px}
+ .public-nav a{padding:8px 10px;font-size:11px}
+ .hero{min-height:0;padding:20px 17px;border-radius:19px}
+ .hero-art{display:none}
+ .hero h2{font-size:29px}
+ .hero p{font-size:12px}
+ .market-strip{grid-template-columns:1fr;padding:13px}
+ .market-strip-values{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+ .ticker-chip{display:flex;flex-direction:column;gap:3px;padding:8px 3px;font-size:10px;overflow-wrap:anywhere}
+ .grid{grid-template-columns:1fr;gap:10px}
+ .card.market{padding:17px 17px 15px;border-radius:17px;min-height:0}
+ .price{font-size:30px;margin:8px 0 2px}
+ .change{margin-top:7px}
+ .tool-panel{grid-template-columns:1fr;padding:17px;gap:13px}
+ .calc-result{padding:16px}
+ .section{margin-top:18px}
+ .chartbox{padding:15px 12px}
+ .sectionhead{align-items:flex-start;flex-wrap:wrap}
+ .sectionhead h2{font-size:16px}
+ .chartmeta{grid-template-columns:1fr}
+ .mini-chart{padding:12px 10px}
+ canvas{height:205px}
+ .daily-grid{grid-template-columns:1fr;gap:10px}
+ .daily-card{padding:15px}
+ .daily-values>div{padding:8px 5px}
+ .faq-section{padding:16px}
+ .manual-run-wrap{align-items:stretch;flex-direction:column}
+ .manual-run{width:100%}
+}
+
 </style>
 </head>
 <body>
@@ -422,6 +551,7 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
   <div class="sectionhead">
     <div><h2>روند قیمت بازار</h2><div class="chart-hint">برای دیدن قیمت و ساعت ثبت، روی نمودار حرکت کنید.</div></div>
     <div class="chart-controls"><select class="select" id="range" aria-label="بازه نمودار">
+      <option value="12h">۱۲ ساعت</option>
       <option value="day">۲۴ ساعت</option>
       <option value="week">۷ روز</option>
     </select></div>
@@ -516,7 +646,7 @@ function drawOneChart(canvasId, field, color, decimals = 0, prefix = "") {
   canvas.width = Math.round(w*ratio); canvas.height = Math.round(h*ratio);
   ctx.setTransform(ratio,0,0,ratio,0,0); ctx.clearRect(0,0,w,h);
   const now=Date.now(), range=document.getElementById("range").value;
-  const duration=range==="week"?7*24*60*60*1000:24*60*60*1000;
+  const duration=range==="week"?7*24*60*60*1000:range==="12h"?12*60*60*1000:24*60*60*1000;
   const rows=historyRows.filter(r=>{const t=new Date(r.timestamp).getTime();return r.timestamp&&Number.isFinite(Number(r[field]))&&t<=now&&now-t<=duration;}).sort((a,b)=>new Date(a.timestamp)-new Date(b.timestamp));
   const tip=document.getElementById(canvasId+"Tip");
   const fmt=value=>prefix+new Intl.NumberFormat(document.documentElement.lang==="en"?"en-US":"fa-IR",{maximumFractionDigits:decimals}).format(value);
