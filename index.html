@@ -3,716 +3,372 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#07182a">
-<meta name="description" content="GoldWatch Markets helps you monitor Iranian 18K gold, global gold and USD/IRR prices with market charts and daily ranges.">
-<meta property="og:title" content="GoldWatch Markets | Gold & Currency Monitor">
-<meta property="og:description" content="Track Iranian gold, global gold and currency markets in one clear dashboard.">
-<meta property="og:type" content="website">
-<meta name="robots" content="index,follow">
-<title>GoldWatch Markets | پایش هوشمند طلا و ارز</title>
+<meta name="theme-color" content="#030712">
+<meta name="description" content="GoldWatch Markets | پیشرفته‌ترین ترمینال پایش لحظه‌ای طلا، اونس جهانی و دلار">
+<title>GoldWatch Terminal | ترمینال هوشمند طلا و ارز</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #060e1a;
-  --bg-gradient: radial-gradient(circle at 50% -20%, #112d4e 0%, #060e1a 70%);
-  --panel-bg: rgba(13, 27, 46, 0.75);
-  --panel-border: rgba(147, 197, 253, 0.15);
-  --panel-hover: rgba(147, 197, 253, 0.28);
-  --card-gold-bg: linear-gradient(145deg, rgba(38, 30, 14, 0.85), rgba(15, 23, 38, 0.95));
-  --card-gold-border: rgba(245, 158, 11, 0.35);
-  --card-blue-bg: linear-gradient(145deg, rgba(16, 37, 66, 0.85), rgba(10, 20, 36, 0.95));
-  --card-blue-border: rgba(59, 130, 246, 0.3);
-  --card-green-bg: linear-gradient(145deg, rgba(10, 38, 30, 0.85), rgba(10, 20, 36, 0.95));
-  --card-green-border: rgba(16, 185, 129, 0.3);
-  --text-main: #f1f5f9;
-  --text-muted: #94a3b8;
-  --gold: #fbbf24;
-  --gold-glow: rgba(251, 191, 36, 0.25);
-  --blue: #38bdf8;
-  --green: #34d399;
-  --red: #f87171;
-  --radius: 20px;
-  --shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+  --bg-core: #030712;
+  --bg-card: rgba(17, 24, 39, 0.7);
+  --bg-card-hover: rgba(31, 41, 55, 0.8);
+  --border-glow: rgba(245, 158, 11, 0.25);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --gold-primary: #fbbf24;
+  --gold-secondary: #d97706;
+  --gold-gradient: linear-gradient(135deg, #fef08a 0%, #f59e0b 50%, #b45309 100%);
+  --blue-accent: #38bdf8;
+  --green-accent: #10b981;
+  --red-accent: #f43f5e;
+  --text-main: #f9fafb;
+  --text-muted: #9ca3af;
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --shadow-main: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+  --shadow-glow: 0 0 30px rgba(245, 158, 11, 0.15);
 }
 
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; background: var(--bg); }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; background: var(--bg-core); }
 body {
-  margin: 0; min-height: 100vh; color: var(--text-main);
-  background: var(--bg-gradient);
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Tahoma, sans-serif;
-  line-height: 1.6;
+  min-height: 100vh; color: var(--text-main);
+  background: radial-gradient(circle at 50% -10%, #1e1b4b 0%, #030712 60%);
+  font-family: 'Vazirmatn', system-ui, -apple-system, sans-serif;
+  line-height: 1.6; overflow-x: hidden;
 }
 
-.gwx-shell {
-  width: min(1280px, 94%);
-  margin: 0 auto;
-  padding: 24px 0 40px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+/* Background Animated Grid Effect */
+body::before {
+  content: ""; position: fixed; inset: 0;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px; pointer-events: none; z-index: 0;
 }
 
-/* Topbar */
-.gwx-topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 22px;
-  background: var(--panel-bg);
-  border: 1px solid var(--panel-border);
-  border-radius: 99px;
-  backdrop-filter: blur(12px);
-  box-shadow: var(--shadow);
-}
-.gwx-brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
-  color: var(--text-main);
-}
-.gwx-mark {
-  width: 38px; height: 38px;
-  background: linear-gradient(135deg, #f59e0b, #b45309);
-  color: #0f172a; font-weight: 900;
-  display: grid; place-items: center;
-  border-radius: 50%;
-  box-shadow: 0 0 15px var(--gold-glow);
-  font-size: 15px;
-}
-.gwx-brand strong { font-size: 18px; letter-spacing: -0.5px; display: block; }
-.gwx-brand small { font-size: 10px; color: var(--text-muted); display: block; letter-spacing: 1px; }
-
-.gwx-top-title {
-  display: flex; align-items: center; gap: 8px;
-  font-size: 12px; color: var(--text-muted);
-  font-weight: 600;
-}
-.gwx-live-led {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: var(--green);
-  box-shadow: 0 0 10px var(--green);
-  animation: pulse 2s infinite;
-}
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
+.terminal-container {
+  position: relative; z-index: 1; width: min(1380px, 95%);
+  margin: 0 auto; padding: 20px 0 60px; display: flex; flex-direction: column; gap: 24px;
 }
 
-.gwx-top-actions { display: flex; align-items: center; gap: 12px; }
-.lang-switch {
-  display: flex; gap: 2px; padding: 3px;
-  background: rgba(15, 23, 42, 0.6);
-  border: 1px solid var(--panel-border);
-  border-radius: 99px;
+/* Glass Header */
+.header-glass {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 16px 28px; background: rgba(17, 24, 39, 0.6);
+  border: 1px solid var(--border-subtle); border-radius: var(--radius-lg);
+  backdrop-filter: blur(20px); box-shadow: var(--shadow-main);
 }
-.lang-switch button {
+.brand-box { display: flex; align-items: center; gap: 14px; }
+.brand-logo {
+  width: 46px; height: 46px; border-radius: 14px;
+  background: var(--gold-gradient); color: #000; font-weight: 900;
+  display: grid; place-items: center; font-size: 18px;
+  box-shadow: var(--shadow-glow); border: 1px solid rgba(255, 255, 255, 0.4);
+}
+.brand-title { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; }
+.brand-subtitle { font-size: 11px; color: var(--text-muted); font-weight: 400; }
+
+.live-badge {
+  display: flex; align-items: center; gap: 8px; font-size: 12px;
+  background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3);
+  padding: 6px 14px; border-radius: 99px; color: var(--green-accent); font-weight: 700;
+}
+.pulse-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--green-accent);
+  box-shadow: 0 0 12px var(--green-accent); animation: pulse 1.8s infinite;
+}
+@keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.85); } }
+
+.lang-btn-group {
+  display: flex; gap: 4px; padding: 4px; background: rgba(31, 41, 55, 0.6);
+  border: 1px solid var(--border-subtle); border-radius: 99px;
+}
+.lang-btn {
   border: 0; background: transparent; color: var(--text-muted);
-  padding: 4px 10px; border-radius: 99px; font-weight: 700;
-  font-size: 11px; cursor: pointer; transition: all 0.2s;
+  padding: 4px 12px; border-radius: 99px; font-weight: 700; font-size: 12px;
+  cursor: pointer; transition: all 0.25s ease;
 }
-.lang-switch button[aria-pressed="true"] {
-  background: #2563eb; color: #fff;
-}
+.lang-btn[aria-pressed="true"] { background: var(--gold-primary); color: #000; box-shadow: 0 2px 10px rgba(245, 158, 11, 0.4); }
 
-.status {
-  font-size: 11px; font-weight: 600; padding: 5px 12px;
-  border-radius: 99px; display: inline-flex; align-items: center; gap: 6px;
-  background: rgba(15, 23, 42, 0.6); border: 1px solid var(--panel-border);
-}
-.status-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
-.status.live { color: var(--green); }
-.status.stale { color: var(--gold); }
-.status.error { color: var(--red); }
-
-/* Welcome / Hero */
-.gwx-welcome {
+/* Hero Banner */
+.hero-banner {
   display: flex; justify-content: space-between; align-items: center;
-  padding: 24px 30px; background: var(--panel-bg);
-  border: 1px solid var(--panel-border); border-radius: var(--radius);
-  backdrop-filter: blur(12px); gap: 20px;
+  padding: 32px 40px; background: linear-gradient(135deg, rgba(30, 27, 75, 0.5) 0%, rgba(17, 24, 39, 0.8) 100%);
+  border: 1px solid var(--border-glow); border-radius: var(--radius-lg);
+  backdrop-filter: blur(16px); position: relative; overflow: hidden; box-shadow: var(--shadow-main);
 }
-.gwx-eyebrow { font-size: 10px; letter-spacing: 2px; color: var(--blue); font-weight: 800; margin-bottom: 4px; }
-.gwx-welcome h1 { font-size: 26px; margin: 0 0 6px; font-weight: 800; }
-.gwx-welcome h1 em { font-style: normal; color: var(--gold); }
-.gwx-welcome p { margin: 0; color: var(--text-muted); font-size: 13px; max-width: 600px; }
-.gwx-session {
-  display: flex; align-items: center; gap: 12px; padding: 12px 18px;
-  background: rgba(15, 23, 42, 0.5); border: 1px solid var(--panel-border);
-  border-radius: 14px; font-size: 12px; white-space: nowrap;
+.hero-banner::after {
+  content: "Au"; position: absolute; left: -20px; bottom: -30px;
+  font-size: 180px; font-weight: 900; color: rgba(245, 158, 11, 0.03);
+  pointer-events: none; line-height: 1;
 }
-.gwx-session-icon { font-size: 18px; color: var(--gold); }
-.gwx-session small { color: var(--text-muted); display: block; font-size: 10px; }
-.gwx-session a { color: var(--blue); text-decoration: none; font-weight: 700; margin-top: 2px; display: inline-block; }
+.hero-content h1 { font-size: 32px; font-weight: 900; margin-bottom: 8px; }
+.hero-content h1 span { background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero-content p { color: var(--text-muted); font-size: 14px; max-width: 650px; }
 
-/* Ticker Grid */
-.gwx-ticker {
-  display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 16px;
+/* Market Cards Grid */
+.market-cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.market-card {
+  position: relative; background: var(--bg-card); border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg); padding: 28px; backdrop-filter: blur(16px);
+  box-shadow: var(--shadow-main); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden; display: flex; flex-direction: column; justify-content: space-between;
 }
-.gwx-quote {
-  position: relative; overflow: hidden; padding: 22px 24px;
-  border-radius: var(--radius); backdrop-filter: blur(10px);
-  box-shadow: var(--shadow); transition: transform 0.2s, border-color 0.2s;
-  display: flex; flex-direction: column; justify-content: space-between;
+.market-card:hover {
+  transform: translateY(-5px); border-color: var(--border-glow);
+  box-shadow: var(--shadow-main), var(--shadow-glow); background: var(--bg-card-hover);
 }
-.gwx-quote:hover { transform: translateY(-3px); }
-.gwx-quote-gold { background: var(--card-gold-bg); border: 1px solid var(--card-gold-border); }
-.gwx-quote-world { background: var(--card-blue-bg); border: 1px solid var(--card-blue-border); }
-.gwx-quote-dollar { background: var(--card-green-bg); border: 1px solid var(--card-green-border); }
+.market-card::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--card-accent, var(--gold-primary)); opacity: 0.8;
+}
+.card-gold { --card-accent: var(--gold-primary); }
+.card-world { --card-accent: var(--blue-accent); }
+.card-dollar { --card-accent: var(--green-accent); }
 
-.gwx-quote-head { display: flex; align-items: center; gap: 12px; }
-.gwx-coin {
-  width: 38px; height: 38px; border-radius: 12px; font-weight: 800;
-  display: grid; place-items: center; font-size: 15px; flex-shrink: 0;
+.card-header { display: flex; align-items: center; justify-content: space-between; }
+.symbol-icon {
+  width: 44px; height: 44px; border-radius: 12px; font-weight: 800; font-size: 18px;
+  display: grid; place-items: center; background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1); color: var(--card-accent);
 }
-.gwx-quote-gold .gwx-coin { background: rgba(251, 191, 36, 0.15); color: var(--gold); }
-.gwx-quote-world .gwx-coin { background: rgba(56, 189, 248, 0.15); color: var(--blue); }
-.gwx-quote-dollar .gwx-coin { background: rgba(52, 211, 153, 0.15); color: var(--green); }
+.market-title { font-size: 16px; font-weight: 800; }
+.market-subtitle { font-size: 12px; color: var(--text-muted); font-weight: 400; }
 
-.gwx-quote-label { font-weight: 700; font-size: 14px; flex: 1; }
-.gwx-quote-label small { display: block; font-size: 11px; color: var(--text-muted); font-weight: 400; }
-.gwx-quote-tag { font-size: 10px; font-weight: 700; opacity: 0.6; padding: 2px 6px; border: 1px solid currentColor; border-radius: 6px; }
-
-.gwx-quote-value {
-  font-size: 34px; font-weight: 900; margin: 18px 0 8px;
-  letter-spacing: -1px; line-height: 1.1; font-variant-numeric: tabular-nums;
+.price-display {
+  font-size: 38px; font-weight: 900; margin: 24px 0 12px;
+  letter-spacing: -1.5px; font-variant-numeric: tabular-nums;
+  color: var(--card-accent); text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
-.gwx-quote-gold .gwx-quote-value { color: var(--gold); }
-.gwx-quote-world .gwx-quote-value { color: var(--blue); }
-.gwx-quote-dollar .gwx-quote-value { color: var(--green); }
-
-.gwx-quote-foot { display: flex; justify-content: space-between; align-items: center; font-size: 12px; }
-.unit { color: var(--text-muted); }
-.change { font-weight: 700; }
-.change.up { color: var(--green); }
-.change.down { color: var(--red); }
-.change.neutral { color: var(--text-muted); }
-
-/* Main Grid & Panels */
-.gwx-main-grid {
-  display: grid; grid-template-columns: 1.8fr 1fr; gap: 20px; align-items: start;
-}
-.gwx-panel {
-  background: var(--panel-bg); border: 1px solid var(--panel-border);
-  border-radius: var(--radius); padding: 22px; backdrop-filter: blur(12px);
-  box-shadow: var(--shadow);
-}
-.gwx-panel-head {
-  display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 18px;
-}
-.gwx-panel-head h2 { font-size: 18px; margin: 2px 0 0; font-weight: 800; }
-.gwx-panel-head p { margin: 2px 0 0; color: var(--text-muted); font-size: 12px; }
-.gwx-range-label { font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 8px; }
-.select {
-  background: rgba(15, 23, 42, 0.8); color: var(--text-main);
-  border: 1px solid var(--panel-border); border-radius: 10px;
-  padding: 6px 12px; font-size: 12px; outline: none; cursor: pointer;
-}
-
-/* Charts */
-.gwx-chart-primary {
-  background: rgba(10, 18, 30, 0.6); border: 1px solid var(--panel-border);
-  border-radius: 16px; padding: 16px; margin-bottom: 16px;
-}
-.gwx-chart-title { display: flex; align-items: center; gap: 8px; font-size: 13px; margin-bottom: 8px; }
-.gwx-chart-dot { width: 8px; height: 8px; border-radius: 50%; }
-.gwx-chart-dot.gold { background: var(--gold); }
-.gwx-chart-dot.blue { background: var(--blue); }
-.gwx-chart-dot.mint { background: var(--green); }
-.gwx-chart-live { margin-inline-start: auto; font-size: 9px; font-weight: 800; color: var(--blue); background: rgba(56, 189, 248, 0.1); padding: 2px 6px; border-radius: 4px; }
-
-canvas { display: block; width: 100%; }
-.chart-tooltip {
-  display: flex; justify-content: space-between; font-size: 11px;
-  color: var(--text-muted); margin-top: 8px; padding-top: 6px; border-top: 1px dashed rgba(255, 255, 255, 0.1);
-}
-.chart-tooltip b { color: var(--text-main); }
-
-.gwx-chart-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
-.gwx-chart-small {
-  background: rgba(10, 18, 30, 0.6); border: 1px solid var(--panel-border);
-  border-radius: 16px; padding: 14px;
-}
-.gwx-source-row {
-  display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;
-  font-size: 11px; color: var(--text-muted); background: rgba(10, 18, 30, 0.4);
-  padding: 10px 14px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05);
-}
-.gwx-source-row b { color: var(--text-main); font-weight: 600; }
-
-/* Side Column */
-.gwx-side-column { display: flex; flex-direction: column; gap: 20px; }
-.gwx-day-badge { font-size: 11px; font-weight: 700; color: var(--blue); }
-.gwx-range-card {
-  background: rgba(10, 18, 30, 0.5); border: 1px solid var(--panel-border);
-  border-radius: 14px; padding: 12px 14px; margin-bottom: 10px;
-}
-.gwx-range-card:last-child { margin-bottom: 0; }
-.gwx-range-title { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; margin-bottom: 8px; }
-.gwx-range-title small { margin-inline-start: auto; color: var(--text-muted); font-weight: 400; }
-.gwx-range-values { display: grid; grid-template-columns: repeat(3, 1fr); text-align: center; gap: 4px; }
-.gwx-range-values small { display: block; font-size: 10px; color: var(--text-muted); }
-.gwx-range-values strong { font-size: 12px; color: var(--text-main); font-variant-numeric: tabular-nums; }
-
-/* Calculator */
-.gwx-calc-panel { display: flex; flex-direction: column; gap: 12px; }
-.gwx-calc-field label { display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
-.gwx-input-wrap {
-  display: flex; align-items: center; background: rgba(10, 18, 30, 0.8);
-  border: 1px solid var(--panel-border); border-radius: 12px; padding: 0 12px;
-}
-.gwx-input-wrap input {
-  width: 100%; background: transparent; border: 0; color: #fff;
-  padding: 10px 0; font-size: 14px; font-weight: 700; outline: none;
-}
-.gwx-input-wrap span { color: var(--text-muted); font-size: 12px; font-weight: 700; }
-.gwx-result-label { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
-.gwx-result-number { font-size: 24px; font-weight: 900; color: var(--gold); }
-.calc-note { font-size: 10px; color: var(--text-muted); line-height: 1.4; }
-.gwx-calc-actions { display: flex; gap: 8px; margin-top: 6px; }
-.tool-action {
-  flex: 1; border: 1px solid var(--panel-border); border-radius: 10px;
-  padding: 8px 10px; font-size: 11px; font-weight: 700; cursor: pointer;
-  background: rgba(15, 23, 42, 0.6); color: var(--text-main); transition: all 0.2s;
-}
-.tool-action.primary { background: #2563eb; border-color: #3b82f6; color: #fff; }
-.tool-action:hover { opacity: 0.9; }
-
-/* FAQ Strip */
-.gwx-bottom-strip {
-  background: var(--panel-bg); border: 1px solid var(--panel-border);
-  border-radius: var(--radius); padding: 22px; backdrop-filter: blur(12px);
-}
-.gwx-bottom-strip h2 { font-size: 18px; margin: 4px 0 16px; font-weight: 800; }
-.gwx-faq-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.gwx-faq-grid article h3 { font-size: 13px; margin: 0 0 6px; color: var(--blue); }
-.gwx-faq-grid article p { font-size: 12px; color: var(--text-muted); margin: 0; line-height: 1.6; }
-
-/* Footer */
-.gwx-footer {
+.card-footer {
   display: flex; justify-content: space-between; align-items: center;
-  font-size: 11px; color: var(--text-muted); padding: 12px 10px;
-  border-top: 1px solid var(--panel-border); margin-top: 10px;
+  font-size: 13px; padding-top: 14px; border-top: 1px dashed rgba(255, 255, 255, 0.08);
 }
-.gwx-footer a { color: var(--blue); text-decoration: none; font-weight: 700; }
-.notice {
-  font-size: 11px; color: var(--gold); background: rgba(251, 191, 36, 0.08);
-  border: 1px solid rgba(251, 191, 36, 0.2); padding: 10px 14px; border-radius: 12px; margin-bottom: 16px;
+.change-tag {
+  font-weight: 700; padding: 4px 10px; border-radius: 8px; font-size: 12px;
+  display: inline-flex; align-items: center; gap: 4px;
 }
+.change-tag.up { background: rgba(16, 185, 129, 0.15); color: var(--green-accent); }
+.change-tag.down { background: rgba(244, 63, 94, 0.15); color: var(--red-accent); }
+.change-tag.neutral { background: rgba(156, 163, 175, 0.15); color: var(--text-muted); }
+
+/* Main Section Layout */
+.main-dashboard { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; }
+.panel-box {
+  background: var(--bg-card); border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg); padding: 28px; backdrop-filter: blur(16px);
+  box-shadow: var(--shadow-main);
+}
+.panel-header {
+  display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;
+}
+.panel-header h2 { font-size: 20px; font-weight: 800; display: flex; align-items: center; gap: 10px; }
+.panel-header h2::before {
+  content: ""; width: 4px; height: 20px; background: var(--gold-primary); border-radius: 4px;
+}
+
+/* Chart Canvas styling */
+.chart-container-main {
+  background: rgba(10, 15, 29, 0.7); border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md); padding: 20px; margin-bottom: 20px; position: relative;
+}
+.chart-sub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+.chart-container-sub {
+  background: rgba(10, 15, 29, 0.7); border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md); padding: 16px;
+}
+.chart-tooltip-box {
+  display: flex; justify-content: space-between; font-size: 12px;
+  color: var(--text-muted); margin-top: 10px; padding-top: 8px; border-top: 1px dashed rgba(255, 255, 255, 0.08);
+}
+.select-custom {
+  background: rgba(31, 41, 55, 0.8); color: #fff; border: 1px solid var(--border-subtle);
+  padding: 8px 16px; border-radius: 12px; font-size: 13px; font-family: inherit; outline: none; cursor: pointer;
+}
+
+/* Sidebar Widgets */
+.sidebar-widgets { display: flex; flex-direction: column; gap: 24px; }
+.stat-row {
+  display: flex; justify-content: space-between; padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05); font-size: 13px;
+}
+.stat-row:last-child { border-bottom: 0; }
+.stat-row span { color: var(--text-muted); }
+.stat-row strong { color: var(--text-main); font-variant-numeric: tabular-nums; }
+
+/* Calculator Widget */
+.calc-box { display: flex; flex-direction: column; gap: 16px; }
+.input-custom-group {
+  display: flex; align-items: center; background: rgba(10, 15, 29, 0.9);
+  border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 0 16px;
+  transition: border-color 0.25s;
+}
+.input-custom-group:focus-within { border-color: var(--gold-primary); box-shadow: var(--shadow-glow); }
+.input-custom-group input {
+  width: 100%; background: transparent; border: 0; color: #fff; padding: 14px 0;
+  font-size: 16px; font-weight: 700; font-family: inherit; outline: none;
+}
+.input-custom-group span { color: var(--text-muted); font-size: 13px; font-weight: 700; }
+
+.result-banner {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(17, 24, 39, 0.5) 100%);
+  border: 1px solid var(--border-glow); border-radius: var(--radius-md); padding: 18px; text-align: center;
+}
+.result-banner small { color: var(--text-muted); font-size: 12px; display: block; margin-bottom: 4px; }
+.result-banner strong { font-size: 28px; font-weight: 900; color: var(--gold-primary); display: block; }
+
+.btn-action {
+  width: 100%; border: 0; border-radius: var(--radius-md); padding: 14px;
+  font-size: 14px; font-weight: 800; font-family: inherit; cursor: pointer;
+  background: var(--gold-gradient); color: #000; box-shadow: var(--shadow-glow);
+  transition: transform 0.2s, opacity 0.2s;
+}
+.btn-action:hover { opacity: 0.95; transform: translateY(-2px); }
 
 /* Toast */
 .toast {
-  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-  background: #1e293b; border: 1px solid var(--blue); color: #fff;
-  padding: 10px 20px; border-radius: 99px; font-size: 12px; font-weight: 600;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.5); z-index: 100; display: none;
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  background: rgba(17, 24, 39, 0.95); border: 1px solid var(--gold-primary);
+  color: #fff; padding: 12px 28px; border-radius: 99px; font-size: 13px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px);
+  display: none; z-index: 1000; font-weight: 700;
 }
 
-/* Responsive */
-@media (max-width: 960px) {
-  .gwx-ticker { grid-template-columns: 1fr; }
-  .gwx-main-grid { grid-template-columns: 1fr; }
-  .gwx-faq-grid { grid-template-columns: 1fr; }
-  .gwx-welcome { flex-direction: column; align-items: flex-start; }
+/* Responsive Styles */
+@media (max-width: 1024px) {
+  .market-cards-grid { grid-template-columns: 1fr; }
+  .main-dashboard { grid-template-columns: 1fr; }
+  .hero-banner { flex-direction: column; text-align: center; gap: 16px; }
+  .chart-sub-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
 <body>
-<div class="gwx-shell">
-  <header class="gwx-topbar">
-    <a class="gwx-brand" href="#" aria-label="GoldWatch Markets home">
-      <span class="gwx-mark">Au</span>
-      <span>
-        <strong>GoldWatch</strong>
-        <small>MARKET INTELLIGENCE</small>
-      </span>
-    </a>
-    <div class="gwx-top-title">
-      <span class="gwx-live-led"></span>
-      <span id="heroKicker">پایش لحظه‌ای بازار طلا و ارز</span>
+
+<div class="terminal-container">
+  <!-- Glass Top Header -->
+  <header class="header-glass">
+    <div class="brand-box">
+      <div class="brand-logo">Au</div>
+      <div>
+        <div class="brand-title">GoldWatch Terminal</div>
+        <div class="brand-subtitle">پلتفرم هوشمند پایش طلا و ارز</div>
+      </div>
     </div>
-    <div class="gwx-top-actions">
-      <div class="lang-switch" aria-label="Language">
-        <button type="button" id="langFa" aria-pressed="true">فا</button>
-        <button type="button" id="langEn" aria-pressed="false">EN</button>
-      </div>
-      <div class="status stale" id="liveStatus" aria-live="polite">
-        <span class="status-dot"></span>
-        <span id="liveStatusText">در حال اتصال</span>
-      </div>
+
+    <div class="live-badge">
+      <span class="pulse-dot"></span>
+      <span id="liveStatusText">اتصال زنده</span>
+    </div>
+
+    <div class="lang-btn-group">
+      <button class="lang-btn" id="langFa" aria-pressed="true">فا</button>
+      <button class="lang-btn" id="langEn" aria-pressed="false">EN</button>
     </div>
   </header>
 
-  <section class="gwx-welcome">
-    <div>
-      <div class="gwx-eyebrow">YOUR MARKET, AT A GLANCE</div>
-      <h1 id="heroTitle">تصویر روشن‌تری از <em>بازار طلا و ارز.</em></h1>
-      <p id="heroText">قیمت لحظه‌ای، تغییرات روزانه و روند شاخص‌های کلیدی طلا و ارز را در یک نمای مدرن دنبال کنید.</p>
-    </div>
-    <div class="gwx-session">
-      <span class="gwx-session-icon">◷</span>
-      <div>
-        <small>آخرین بروزرسانی</small>
-        <strong id="marketAsOf">منتظر داده</strong>
-        <a href="#charts">مشاهده تحلیل‌ها ↗</a>
-      </div>
+  <!-- Hero Title -->
+  <section class="hero-banner">
+    <div class="hero-content">
+      <h1>ترمینال تحلیل <span>طلا و ارز</span></h1>
+      <p>مشاهده لحظه‌ای قیمت طلای ۱۸ عیار، اونس جهانی و دلار آزاد همراه با نمودارهای روند و محاسبه‌گر هوشمند.</p>
     </div>
   </section>
 
-  <div class="notice">
-    قیمت‌ها مستقیماً از منابع رسمی دریافت شده و پس از تأیید به‌روزرسانی می‌شوند.
-  </div>
-
-  <section class="gwx-ticker" id="markets" aria-label="Market prices">
-    <article class="gwx-quote gwx-quote-gold">
-      <div class="gwx-quote-head">
-        <span class="gwx-coin">Au</span>
-        <span class="gwx-quote-label">طلای ۱۸ عیار <small>بازار ایران · هر گرم</small></span>
-        <span class="gwx-quote-tag">IR / TOMAN</span>
-      </div>
-      <div class="gwx-quote-value price" id="iranPrice">—</div>
-      <div class="gwx-quote-foot">
-        <span class="unit">تومان</span>
-        <span class="change neutral" id="iranChange">در حال دریافت اطلاعات…</span>
-      </div>
-    </article>
-
-    <article class="gwx-quote gwx-quote-world">
-      <div class="gwx-quote-head">
-        <span class="gwx-coin">✦</span>
-        <span class="gwx-quote-label">اونس جهانی <small>Spot Gold · Troy ounce</small></span>
-        <span class="gwx-quote-tag">XAU / USD</span>
-      </div>
-      <div class="gwx-quote-value price" id="worldPrice">—</div>
-      <div class="gwx-quote-foot">
-        <span class="unit">دلار آمریکا / اونس</span>
-        <span class="change neutral" id="worldChange">در حال دریافت اطلاعات…</span>
-      </div>
-    </article>
-
-    <article class="gwx-quote gwx-quote-dollar">
-      <div class="gwx-quote-head">
-        <span class="gwx-coin">$</span>
-        <span class="gwx-quote-label">دلار آزاد <small>بازار ارز ایران</small></span>
-        <span class="gwx-quote-tag">USD / IRR</span>
-      </div>
-      <div class="gwx-quote-value price" id="dollarPrice">—</div>
-      <div class="gwx-quote-foot">
-        <span class="unit">تومان</span>
-        <span class="change neutral" id="dollarChange">در حال دریافت اطلاعات…</span>
-      </div>
-    </article>
-  </section>
-
-  <main class="gwx-main-grid">
-    <section class="gwx-panel gwx-chart-panel" id="charts">
-      <div class="gwx-panel-head">
+  <!-- Real-time Market Cards -->
+  <section class="market-cards-grid">
+    <!-- Iran Gold -->
+    <article class="market-card card-gold">
+      <div class="card-header">
         <div>
-          <div class="gwx-eyebrow">PRICE ACTION</div>
-          <h2>نمودار روند قیمت‌ها</h2>
-          <p>روند تغییرات را بررسی کرده و جهت جزئیات روی نمودار حرکت کنید.</p>
+          <div class="market-title">طلای ۱۸ عیار</div>
+          <div class="market-subtitle">هر گرم · تومان</div>
         </div>
-        <label class="gwx-range-label" for="range">بازه 
-          <select class="select" id="range" aria-label="بازه نمودار">
-            <option value="12h">۱۲ ساعت</option>
-            <option value="day" selected>۲۴ ساعت</option>
-            <option value="week">۷ روز</option>
-          </select>
-        </label>
+        <div class="symbol-icon">Au</div>
       </div>
+      <div class="price-display" id="iranPrice">—</div>
+      <div class="card-footer">
+        <span class="change-tag neutral" id="iranChange">در حال به‌روزرسانی…</span>
+        <span style="color: var(--text-muted); font-size: 11px;">ایران</span>
+      </div>
+    </article>
 
-      <div class="gwx-chart-primary">
-        <div class="gwx-chart-title">
-          <span class="gwx-chart-dot gold"></span>
-          <div><strong>طلای ۱۸ عیار ایران</strong> <small>(تومان/گرم)</small></div>
-          <span class="gwx-chart-live">LIVE</span>
+    <!-- World Gold -->
+    <article class="market-card card-world">
+      <div class="card-header">
+        <div>
+          <div class="market-title">اونس جهانی طلا</div>
+          <div class="market-subtitle">Spot Gold · USD</div>
         </div>
-        <canvas id="chart" height="200" aria-label="نمودار تعاملی قیمت طلای ۱۸ عیار"></canvas>
-        <div class="chart-tooltip" id="chartTip"><span>نقطه‌ای را انتخاب کنید</span><span>—</span></div>
+        <div class="symbol-icon">✦</div>
+      </div>
+      <div class="price-display" id="worldPrice">—</div>
+      <div class="card-footer">
+        <span class="change-tag neutral" id="worldChange">در حال به‌روزرسانی…</span>
+        <span style="color: var(--text-muted); font-size: 11px;">XAU / USD</span>
+      </div>
+    </article>
+
+    <!-- Dollar Rate -->
+    <article class="market-card card-dollar">
+      <div class="card-header">
+        <div>
+          <div class="market-title">دلار آزاد</div>
+          <div class="market-subtitle">بازار ارز · تومان</div>
+        </div>
+        <div class="symbol-icon">$</div>
+      </div>
+      <div class="price-display" id="dollarPrice">—</div>
+      <div class="card-footer">
+        <span class="change-tag neutral" id="dollarChange">در حال به‌روزرسانی…</span>
+        <span style="color: var(--text-muted); font-size: 11px;">USD / IRR</span>
+      </div>
+    </article>
+  </section>
+
+  <!-- Main Section: Charts + Side Analytics -->
+  <main class="main-dashboard">
+    <!-- Chart Box -->
+    <section class="panel-box">
+      <div class="panel-header">
+        <h2>نمودار روند قیمت‌ها</h2>
+        <select class="select-custom" id="range">
+          <option value="12h">۱۲ ساعت گذشته</option>
+          <option value="day" selected>۲۴ ساعت گذشته</option>
+          <option value="week">۷ روز گذشته</option>
+        </select>
       </div>
 
-      <div class="gwx-chart-pair">
-        <article class="gwx-chart-small">
-          <div class="gwx-chart-title">
-            <span class="gwx-chart-dot blue"></span>
-            <div><strong>اونس جهانی</strong> <small>(USD/oz)</small></div>
-          </div>
-          <canvas id="worldChart" height="140" aria-label="نمودار تعاملی قیمت طلای جهانی"></canvas>
-          <div class="chart-tooltip" id="worldChartTip"><span>نقطه‌ای را انتخاب کنید</span><span>—</span></div>
-        </article>
-
-        <article class="gwx-chart-small">
-          <div class="gwx-chart-title">
-            <span class="gwx-chart-dot mint"></span>
-            <div><strong>دلار آزاد</strong> <small>(تومان)</small></div>
-          </div>
-          <canvas id="dollarChart" height="140" aria-label="نمودار تعاملی قیمت دلار"></canvas>
-          <div class="chart-tooltip" id="dollarChartTip"><span>نقطه‌ای را انتخاب کنید</span><span>—</span></div>
-        </article>
+      <!-- Main Chart (Iran Gold) -->
+      <div class="chart-container-main">
+        <div style="font-size: 13px; font-weight: 700; margin-bottom: 10px; color: var(--gold-primary);">
+          ● طلای ۱۸ عیار ایران (تومان)
+        </div>
+        <canvas id="chart" height="220"></canvas>
+        <div class="chart-tooltip-box" id="chartTip">
+          <span>روی نمودار حرکت کنید</span><span>—</span>
+        </div>
       </div>
 
-      <div class="gwx-source-row">
-        <span>آخرین به‌روزرسانی: <b id="updated">در حال دریافت...</b></span>
-        <span>طلا: <b id="sourceStatus">در حال بررسی</b></span>
-        <span>اونس: <b id="sourceStatusWorld">در حال بررسی</b></span>
-        <span>دلار: <b id="sourceStatusDollar">در حال بررسی</b></span>
+      <!-- Sub Charts Grid -->
+      <div class="chart-sub-grid">
+        <div class="chart-container-sub">
+          <div style="font-size: 12px; font-weight: 700; margin-bottom: 8px; color: var(--blue-accent);">
+            ● اونس جهانی (USD)
+          </div>
+          <canvas id="worldChart" height="130"></canvas>
+          <div class="chart-tooltip-box" id="worldChartTip"><span>—</span></div>
+        </div>
+
+        <div class="chart-container-sub">
+          <div style="font-size: 12px; font-weight: 700; margin-bottom: 8px; color: var(--green-accent);">
+            ● دلار آزاد (تومان)
+          </div>
+          <canvas id="dollarChart" height="130"></canvas>
+          <div class="chart-tooltip-box" id="dollarChartTip"><span>—</span></div>
+        </div>
       </div>
     </section>
 
-    <aside class="gwx-side-column">
-      <section class="gwx-panel gwx-daily-panel" id="daily">
-        <div class="gwx-panel-head">
-          <div>
-            <div class="gwx-eyebrow">DAILY RANGE</div>
-            <h2 id="dailyTitle">خلاصه امروز</h2>
-          </div>
-          <span class="gwx-day-badge">● امروز</span>
-        </div>
-
-        <article class="gwx-range-card">
-          <div class="gwx-range-title"><span class="gwx-chart-dot gold"></span> <strong>طلای ۱۸ عیار</strong> <small>تومان</small></div>
-          <div class="gwx-range-values">
-            <div><small>شروع</small><strong id="dayOpen">—</strong></div>
-            <div><small>بیشترین</small><strong id="dayHigh">—</strong></div>
-            <div><small>کمترین</small><strong id="dayLow">—</strong></div>
-          </div>
-        </article>
-
-        <article class="gwx-range-card">
-          <div class="gwx-range-title"><span class="gwx-chart-dot blue"></span> <strong>طلای جهانی</strong> <small>دلار</small></div>
-          <div class="gwx-range-values">
-            <div><small>شروع</small><strong id="worldOpen">—</strong></div>
-            <div><small>بیشترین</small><strong id="worldHigh">—</strong></div>
-            <div><small>کمترین</small><strong id="worldLow">—</strong></div>
-          </div>
-        </article>
-
-        <article class="gwx-range-card">
-          <div class="gwx-range-title"><span class="gwx-chart-dot mint"></span> <strong>دلار آزاد</strong> <small>تومان</small></div>
-          <div class="gwx-range-values">
-            <div><small>شروع</small><strong id="dollarOpen">—</strong></div>
-            <div><small>بیشترین</small><strong id="dollarHigh">—</strong></div>
-            <div><small>کمترین</small><strong id="dollarLow">—</strong></div>
-          </div>
-        </article>
-      </section>
-
-      <section class="gwx-panel gwx-calc-panel" id="tools">
-        <div class="gwx-eyebrow">QUICK CALCULATOR</div>
-        <h2 id="calcTitle">محاسبه ارزش طلا</h2>
-        <p id="calcDescription">وزن را وارد کنید تا ارزش تقریبی بر اساس قیمت لحظه‌ای طلای ۱۸ عیار محاسبه شود (بدون اجرت و مالیات).</p>
-        
-        <div class="gwx-calc-field">
-          <label for="goldGrams" id="gramsLabel">وزن طلا (گرم):</label>
-          <div class="gwx-input-wrap">
-            <input id="goldGrams" type="number" min="0.01" max="1000000" step="0.01" value="1" inputmode="decimal">
-            <span>گرم</span>
-          </div>
-        </div>
-
-        <div>
-          <div class="gwx-result-label" id="calcResultLabel">ارزش تقریبی:</div>
-          <div class="gwx-result-number" id="calcResult">—</div>
-        </div>
-
-        <div class="calc-note" id="calcNote">برآورد بر پایه قیمت خام طلای ۱۸ عیار است.</div>
-
-        <div class="gwx-calc-actions">
-          <button type="button" class="tool-action primary" id="shareSnapshot">اشتراک‌گذاری</button>
-          <button type="button" class="tool-action" id="copySnapshot">کپی خلاصه</button>
-        </div>
-      </section>
-    </aside>
-  </main>
-
-  <section class="gwx-bottom-strip">
-    <div class="gwx-eyebrow">MARKET GUIDE</div>
-    <h2 id="faqTitle">راهنمای GoldWatch Markets</h2>
-    <div class="gwx-faq-grid">
-      <article>
-        <h3 id="faqQ1">قیمت‌ها هر چند وقت به‌روزرسانی می‌شوند؟</h3>
-        <p id="faqA1">داشبورد آخرین داده منتشرشده را می‌خواند و زمان دریافت و وضعیت منبع را به صورت هوشمند نمایش می‌دهد.</p>
-      </article>
-      <article>
-        <h3 id="faqQ2">محاسبه‌گر چه چیزی را حساب می‌کند؟</h3>
-        <p id="faqA2">ارزش خام وزن واردشده را با قیمت هر گرم طلای ۱۸ عیار تخمین می‌زند؛ اجرت و مالیات در آن لحاظ نمی‌شود.</p>
-      </article>
-      <article>
-        <h3 id="faqQ3">آیا این سایت توصیه سرمایه‌گذاری است؟</h3>
-        <p id="faqA3">خیر. این داشبورد صرفاً برای پایش اطلاعات بازار است و نباید مبنای مستقیم معاملات قرار گیرد.</p>
-      </article>
-    </div>
-  </section>
-
-  <footer class="gwx-footer">
-    <span>GoldWatch Markets · داده‌های بازار ممکن است با کمی تأخیر همراه باشند.</span>
-    <a href="https://github.com/Mirvahidhosseini/tgju-gold-monitor/actions/workflows/monitor.yml" target="_blank" rel="noopener noreferrer">▶ اجرای دستی ربات</a>
-  </footer>
-</div>
-
-<div class="toast" id="toast" role="status"></div>
-
-<script>
-let historyRows = [];
-
-function drawOneChart(canvasId, field, color, decimals = 0, prefix = "") {
-  const canvas = document.getElementById(canvasId);
-  if (!canvas) return;
-  const ctx = canvas.getContext("2d");
-  const ratio = window.devicePixelRatio || 1;
-  const w = canvas.getBoundingClientRect().width, h = canvas.height / ratio || 160, pad = 20;
-  if (!w) return;
-  canvas.width = Math.round(w * ratio); canvas.height = Math.round(h * ratio);
-  ctx.setTransform(ratio, 0, 0, ratio, 0, 0); ctx.clearRect(0, 0, w, h);
-
-  const now = Date.now(), range = document.getElementById("range").value;
-  const duration = range === "week" ? 7*24*60*60*1000 : range === "12h" ? 12*60*60*1000 : 24*60*60*1000;
-  const rows = historyRows.filter(r => {
-    const t = new Date(r.timestamp).getTime();
-    return r.timestamp && Number.isFinite(Number(r[field])) && t <= now && now - t <= duration;
-  }).sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
-
-  const tip = document.getElementById(canvasId + "Tip");
-  const fmt = value => prefix + new Intl.NumberFormat(document.documentElement.lang === "en" ? "en-US" : "fa-IR", { maximumFractionDigits: decimals }).format(value);
-  
-  const setTip = (row, value) => {
-    if (!tip) return;
-    if (!row) {
-      tip.innerHTML = "<span>" + (document.documentElement.lang === "en" ? "Hover chart for details" : "برای جزئیات روی نمودار حرکت کنید") + "</span><span>—</span>";
-      return;
-    }
-    const time = new Date(row.timestamp).toLocaleString(document.documentElement.lang === "en" ? "en-US" : "fa-IR", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
-    tip.innerHTML = "<span>" + time + "</span><span>قیمت: <b>" + fmt(value) + "</b></span>";
-  };
-
-  ctx.strokeStyle = "rgba(148, 163, 184, 0.15)"; ctx.lineWidth = 1;
-  for (let i = 0; i < 3; i++) {
-    const y = pad + (h - 2 * pad) * i / 2;
-    ctx.beginPath(); ctx.moveTo(pad, y); ctx.lineTo(w - pad, y); ctx.stroke();
-  }
-
-  if (rows.length < 2) {
-    ctx.fillStyle = "#94a3b8"; ctx.font = "11px sans-serif"; ctx.textAlign = "center";
-    ctx.fillText(document.documentElement.lang === "en" ? "Not enough data" : "داده کافی موجود نیست", w / 2, h / 2);
-    setTip(null); return;
-  }
-
-  const values = rows.map(r => Number(r[field])), min = Math.min(...values), max = Math.max(...values), span = max - min || 1;
-  const points = values.map((v, i) => ({ x: pad + i * (w - 2 * pad) / (values.length - 1), y: h - pad - (v - min) / span * (h - 2 * pad) }));
-
-  const gradient = ctx.createLinearGradient(0, pad, 0, h - pad);
-  gradient.addColorStop(0, color + "40"); gradient.addColorStop(1, color + "00");
-
-  ctx.beginPath(); ctx.moveTo(points[0].x, h - pad);
-  points.forEach(p => ctx.lineTo(p.x, p.y));
-  ctx.lineTo(points[points.length - 1].x, h - pad); ctx.closePath();
-  ctx.fillStyle = gradient; ctx.fill();
-
-  ctx.beginPath(); points.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y));
-  ctx.strokeStyle = color; ctx.lineWidth = 2; ctx.stroke();
-
-  const hover = Number.isInteger(canvas._hoverIndex) ? Math.max(0, Math.min(points.length - 1, canvas._hoverIndex)) : points.length - 1;
-  const active = points[hover];
-
-  ctx.beginPath(); ctx.arc(active.x, active.y, 4, 0, Math.PI * 2); ctx.fillStyle = color; ctx.fill();
-  setTip(rows[hover], values[hover]);
-
-  canvas.onmousemove = event => {
-    const b = canvas.getBoundingClientRect(), x = event.clientX - b.left;
-    canvas._hoverIndex = Math.round(Math.max(0, Math.min(1, (x - pad) / (b.width - 2 * pad))) * (rows.length - 1));
-    drawOneChart(canvasId, field, color, decimals, prefix);
-  };
-  canvas.onmouseleave = () => { canvas._hoverIndex = null; drawOneChart(canvasId, field, color, decimals, prefix); };
-}
-
-function draw() {
-  drawOneChart("chart", "iran_toman", "#fbbf24");
-  drawOneChart("worldChart", "world_usd", "#38bdf8", 2, "$");
-  drawOneChart("dollarChart", "dollar_toman", "#34d399");
-}
-
-async function updateGoldDashboard() {
-  const base = "https://raw.githubusercontent.com/Mirvahidhosseini/tgju-gold-monitor/main/";
-  const formatPrice = (value, decimals = 0) => value == null || !Number.isFinite(Number(value)) ? "—" : new Intl.NumberFormat(document.documentElement.lang === "en" ? "en-US" : "fa-IR", { maximumFractionDigits: decimals }).format(Number(value));
-  const setText = (id, value) => { const el = document.getElementById(id); if (el) el.textContent = value; };
-
-  try {
-    const response = await fetch(base + "last_price.json?t=" + Date.now(), { cache: "no-store" });
-    if (!response.ok) throw new Error("Price data unavailable");
-    const data = await response.json();
-    const daily = data.daily || {};
-    const status = data.market_status || {};
-
-    const iran = status.iran?.current_price ?? data.iran_toman ?? null;
-    const world = status.world?.current_price ?? data.world_usd ?? null;
-    const dollar = status.dollar?.current_price ?? data.dollar_toman ?? null;
-    window.currentMarketPrices = { iran, world, dollar, checkedAt: data.last_checked || data.checked_at };
-
-    setText("iranPrice", formatPrice(iran));
-    setText("worldPrice", world == null ? "—" : "$" + formatPrice(world, 2));
-    setText("dollarPrice", formatPrice(dollar));
-
-    setText("dayOpen", formatPrice(daily.iran?.open));
-    setText("dayHigh", formatPrice(daily.iran?.high));
-    setText("dayLow", formatPrice(daily.iran?.low));
-
-    setText("worldOpen", formatPrice(daily.world?.open, 2));
-    setText("worldHigh", formatPrice(daily.world?.high, 2));
-    setText("worldLow", formatPrice(daily.world?.low, 2));
-
-    setText("dollarOpen", formatPrice(daily.dollar?.open));
-    setText("dollarHigh", formatPrice(daily.dollar?.high));
-    setText("dollarLow", formatPrice(daily.dollar?.low));
-
-    const checkedAt = data.last_checked || data.checked_at;
-    setText("updated", checkedAt ? new Date(checkedAt).toLocaleTimeString("fa-IR", { hour: "2-digit", minute: "2-digit" }) : "نامشخص");
-    setText("marketAsOf", checkedAt ? new Date(checkedAt).toLocaleTimeString("fa-IR", { hour: "2-digit", minute: "2-digit" }) : "نامشخص");
-
-    function updateChange(id, current, opening) {
-      const el = document.getElementById(id); if (!el) return;
-      if (current == null || opening == null || !Number(opening)) { el.textContent = "—"; el.className = "change neutral"; return; }
-      const pct = ((Number(current) - Number(opening)) / Number(opening)) * 100;
-      el.textContent = (pct > 0 ? "▲ +" : pct < 0 ? "▼ " : "● ") + formatPrice(pct, 2) + "%";
-      el.className = "change " + (pct > 0 ? "up" : pct < 0 ? "down" : "neutral");
-    }
-    updateChange("iranChange", iran, daily.iran?.open);
-    updateChange("worldChange", world, daily.world?.open);
-    updateChange("dollarChange", dollar, daily.dollar?.open);
-
-    const statusEl = document.getElementById("liveStatus"), statusText = document.getElementById("liveStatusText");
-    if (statusEl) { statusEl.className = "status live"; statusText.textContent = "فعال"; }
-
-    updateGoldCalculator();
-  } catch (error) {
-    console.error("Failed to fetch price:", error);
-    const statusEl = document.getElementById("liveStatus"), statusText = document.getElementById("liveStatusText");
-    if (statusEl) { statusEl.className = "status error"; statusText.textContent = "خطا در اتصال"; }
-  }
-
-  try {
-    const response = await fetch(base + "price_history.json?t=" + Date.now(), { cache: "no-store" });
-    if (!response.ok) throw new Error("History unavailable");
-    historyRows = await response.json();
-    draw();
-  } catch (error) {
-    console.error("Failed to fetch history:", error);
-  }
-}
-
-function updateGoldCalculator() {
-  const input = document.getElementById("goldGrams"), out = document.getElementById("calcResult");
-  if (!input || !out) return;
-  const grams = Number(input.value), price = window.currentMarketPrices?.iran;
-  if (!Number.isFinite(grams) || grams <= 0 || !price) { out.textContent = "—"; return; }
-  out.textContent = new Intl.NumberFormat("fa-IR").format(Math.round(grams * Number(price))) + " تومان";
-}
-
-document.getElementById("goldGrams")?.addEventListener("input", updateGoldCalculator);
-document.getElementById("range")?.addEventListener("change", draw);
-window.addEventListener("resize", draw);
-
-updateGoldDashboard();
-setInterval(updateGoldDashboard, 5 * 60 * 1000);
-</script>
-</body>
-</html>
+    <!--
