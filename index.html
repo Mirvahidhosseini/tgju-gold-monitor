@@ -1,833 +1,558 @@
-
 <!doctype html>
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#0b1426">
+<meta name="theme-color" content="#07182a">
 <meta name="description" content="GoldWatch Markets helps you monitor Iranian 18K gold, global gold and USD/IRR prices with market charts and daily ranges.">
 <meta property="og:title" content="GoldWatch Markets | Gold & Currency Monitor">
 <meta property="og:description" content="Track Iranian gold, global gold and currency markets in one clear dashboard.">
 <meta property="og:type" content="website">
 <meta name="robots" content="index,follow">
-<title>GoldWatch Markets | Gold & Currency Monitor</title>
+<title>GoldWatch Markets | پایش هوشمند طلا و ارز</title>
 <style>
-:root{
- --bg:#080f1b;--bg2:#0d1727;--panel:#101d30;--panel2:#14243a;--line:#263a52;
- --text:#edf3fb;--muted:#93a6bd;--blue:#63b8ff;--blue2:#2c8fe0;
- --green:#4bd6a2;--red:#ff7889;--gold:#8fa9c5;--gold-soft:#1b2b40;
- --radius:20px;--shadow:0 16px 42px rgba(0,0,0,.18)
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
- margin:0;min-height:100vh;color:var(--text);
- background:radial-gradient(ellipse at 50% -18%,rgba(44,111,175,.22),transparent 48%),
- linear-gradient(180deg,#080f1b 0%,#0a1422 50%,#080f1b 100%);
- font-family:Tahoma,"Segoe UI",Arial,sans-serif;line-height:1.75;
- font-variant-numeric:tabular-nums
-}
-.wrap{width:min(1180px,100%);margin:0 auto;padding:30px 24px 42px}
-.top{display:flex;align-items:center;gap:15px;margin-bottom:24px;padding:2px 0 20px;border-bottom:1px solid rgba(147,166,189,.14)}
-.lang-switch{display:flex;align-items:center;gap:3px;padding:4px;border:1px solid rgba(112,145,180,.22);border-radius:11px;background:rgba(5,13,23,.55);flex-shrink:0}
-.lang-switch button{border:0;background:transparent;color:var(--muted);padding:5px 8px;border-radius:7px;font:700 10px Tahoma,Arial,sans-serif;cursor:pointer}
-.lang-switch button[aria-pressed="true"]{background:#1d4265;color:#fff}
-html[dir="ltr"] body{font-family:Inter,"Segoe UI",Arial,sans-serif}
-html[dir="ltr"] .price{text-align:left}
-html[dir="ltr"] .notice:before{content:"ⓘ"}
-html[dir="ltr"] .daily-card:before{right:auto;left:0}
-html[dir="ltr"] .daily-values>div{border-left:0;border-right:1px solid rgba(147,166,189,.1)}
-html[dir="ltr"] .daily-values>div:first-child{padding-left:0;padding-right:5px}
-html[dir="ltr"] .daily-values>div:last-child{border-right:0;padding-right:0;padding-left:5px}
-html[dir="ltr"] .stat strong{text-align:right}
-html[dir="ltr"] .manual-run-wrap{direction:ltr}
-html[dir="ltr"] .daily-date{direction:ltr}
-.logo{
- width:54px;height:54px;flex:0 0 54px;border-radius:17px;display:grid;place-items:center;
- color:#a9c4df;font-size:28px;background:linear-gradient(145deg,#1b3654,#102035);
- border:1px solid #34516f;box-shadow:inset 0 1px 0 rgba(255,255,255,.07)
-}
-.brand{flex:1;min-width:0}.brand h1{font-size:clamp(21px,3vw,27px);letter-spacing:-.5px;margin:0;font-weight:800}
-.brand p{margin:2px 0 0;color:var(--muted);font-size:12px}
-.status{white-space:nowrap;font-size:11px;color:#78e4bc;border:1px solid rgba(75,214,162,.25);background:rgba(29,108,82,.17);padding:6px 11px;border-radius:99px;display:inline-flex;align-items:center;gap:7px}.status-dot{width:7px;height:7px;border-radius:50%;background:currentColor;box-shadow:0 0 0 4px rgba(75,214,162,.10)}.status.stale{color:#a9c4df;border-color:rgba(99,184,255,.28);background:rgba(82,61,24,.2)}.status.error{color:#ff8795;border-color:rgba(255,120,137,.28);background:rgba(94,30,43,.2)}.status.stale .status-dot,.status.error .status-dot{box-shadow:none}
-.notice{
- position:relative;display:flex;align-items:flex-start;gap:10px;
- border:1px solid rgba(232,189,99,.28);background:linear-gradient(100deg,rgba(52,42,27,.68),rgba(34,31,27,.42));
- color:#b4c7dc;border-radius:14px;padding:12px 15px;font-size:12px;margin-bottom:20px
-}
-.notice:before{content:"ⓘ";font-size:15px;color:var(--gold);line-height:1.5}
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
-.card{
- min-width:0;position:relative;overflow:hidden;background:linear-gradient(145deg,rgba(21,39,62,.96),rgba(14,27,44,.98));
- border:1px solid rgba(112,145,180,.2);border-radius:var(--radius);padding:22px;
- box-shadow:var(--shadow)
-}
-.card.market:before{content:"";position:absolute;inset:0 0 auto;height:3px;background:linear-gradient(90deg,transparent,var(--blue),transparent);opacity:.75}
-.card.market:nth-child(2):before{background:linear-gradient(90deg,transparent,var(--gold),transparent)}
-.card.market:nth-child(3):before{background:linear-gradient(90deg,transparent,var(--green),transparent)}
-.label{color:var(--muted);font-size:12px;display:flex;align-items:center;gap:7px}
-.price{font-size:clamp(24px,3vw,34px);font-weight:800;letter-spacing:-.7px;direction:ltr;text-align:right;line-height:1.35;margin:16px 0 5px;overflow-wrap:anywhere}
-.unit{font-size:11px;color:#7f93ab}
-.change{font-size:12px;display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:13px;min-height:24px}
-.up{color:var(--green)}.down{color:var(--red)}.neutral{color:var(--muted)}
-.section{margin-top:24px}
-.sectionhead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
-.sectionhead h2{font-size:17px;letter-spacing:-.2px;margin:0;font-weight:750}
-.sectionhead .label{font-size:11px}
-.select{background:#0b1727;color:var(--text);border:1px solid #30455e;border-radius:10px;padding:8px 12px;font:inherit;font-size:12px;outline:none}
-.select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(99,184,255,.12)}
-.chartbox{padding:23px}
-.chartmeta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px 18px;color:var(--muted);font-size:11px;padding:14px 0 2px}
-.chartmeta span{padding:9px 11px;border:1px solid rgba(112,145,180,.12);border-radius:10px;background:rgba(6,15,27,.35);min-width:0}.market-strip{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;margin:-5px 0 18px;padding:13px 16px;border:1px solid rgba(99,184,255,.18);border-radius:15px;background:linear-gradient(100deg,rgba(17,41,65,.8),rgba(12,25,42,.94))}.market-strip-title{font-size:11px;color:#91a8c3}.market-strip-values{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap}.ticker-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border-radius:9px;background:rgba(4,13,24,.45);border:1px solid rgba(112,145,180,.12);font-size:11px;white-space:nowrap}.ticker-chip b{font-weight:750}.ticker-chip.gold b{color:#f0cf83}.ticker-chip.world b{color:#8bc8ff}.ticker-chip.dollar b{color:#74e5bc}.chart-tooltip{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;min-height:20px;padding:8px 2px 0;color:#a8bad0;font-size:11px}.chart-tooltip b{color:#edf3fb}.chart-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.chart-hint{font-size:10px;color:#8195ad}
-.chartmeta b{color:#dce7f4;font-weight:600}
-.mini-chart{margin-top:15px;padding:16px 17px;background:rgba(6,15,27,.43);border:1px solid rgba(112,145,180,.15);border-radius:15px;min-width:0}
-.mini-chart h3{color:#dce7f4;font-size:12px;font-weight:600;margin:0 0 10px;display:flex;align-items:center;gap:8px}
-.mini-chart h3:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--blue);box-shadow:0 0 12px rgba(99,184,255,.45)}
-.mini-chart:nth-of-type(2) h3:before{background:var(--gold)}
-.mini-chart:nth-of-type(3) h3:before{background:var(--green)}
-canvas{display:block;width:100%;height:210px;margin-top:8px}
-.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.stat{display:flex;align-items:center;justify-content:space-between;gap:12px;background:linear-gradient(145deg,#111f32,#0d1929);border:1px solid rgba(112,145,180,.16);border-radius:14px;padding:15px 17px;min-width:0}
-.stat small{display:block;color:var(--muted);font-size:11px;line-height:1.6}
-.stat strong{font-size:14px;display:block;margin-top:3px;text-align:left;overflow-wrap:anywhere}
-.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.action{border:1px solid var(--line);border-radius:13px;background:#10213a;color:var(--text);padding:13px 8px;text-align:center;cursor:pointer;font:inherit;font-size:12px}
-.action span{display:block;font-size:21px;margin-bottom:4px}
-.action:hover,.action:focus{border-color:var(--blue);outline:none}
-.panel{display:none;margin-top:12px}.panel.show{display:block}
-.settingsrow{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:13px}
-.settingsrow:last-child{border:0}
-.settingsrow input{width:105px;background:#091525;border:1px solid var(--line);color:var(--text);border-radius:8px;padding:8px;font:inherit}
-.save{background:#1c5b91;border:0;color:white;border-radius:10px;padding:10px 15px;margin-top:12px;font:inherit;cursor:pointer}
-.manual-run-wrap{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:0 0 20px;padding:17px 19px;background:linear-gradient(110deg,rgba(21,55,85,.92),rgba(15,31,51,.95));border:1px solid rgba(99,184,255,.25);border-radius:17px}
-.manual-run-copy{min-width:0}.manual-run-copy strong{display:block;font-size:14px}.manual-run-copy small{display:block;color:var(--muted);font-size:11px;margin-top:3px}
-.manual-run{display:inline-flex;align-items:center;justify-content:center;gap:8px;flex-shrink:0;padding:11px 17px;border-radius:11px;background:linear-gradient(135deg,#2187d0,#1766a5);color:#fff;text-decoration:none;font-size:12px;font-weight:700;border:1px solid rgba(143,210,255,.42);box-shadow:0 5px 16px rgba(22,112,177,.18);transition:transform .18s ease,filter .18s ease}
-.manual-run:hover,.manual-run:focus{filter:brightness(1.12);transform:translateY(-1px);outline:2px solid #8bd0ff;outline-offset:2px}
-.foot{text-align:center;color:#7187a5;font-size:11px;margin-top:28px;padding-top:18px;border-top:1px solid rgba(147,166,189,.12)}
-.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#173554;border:1px solid #32628d;color:white;padding:10px 15px;border-radius:12px;font-size:12px;display:none;max-width:90%;text-align:center;z-index:20}
-@media(min-width:900px){.chartbox{padding:25px 27px}.mini-chart canvas{height:230px}}
-@media(max-width:760px){.wrap{padding:22px 16px 32px}.grid{grid-template-columns:1fr;gap:12px}.card.market{padding:19px 20px}.price{font-size:29px;margin:10px 0 4px}.change{margin-top:8px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.stat{padding:13px}.chartbox{padding:18px}.chartmeta{grid-template-columns:1fr}}
-@media(max-width:480px){.wrap{padding:17px 12px 26px}.top{gap:11px;margin-bottom:18px;padding-bottom:16px}.logo{width:45px;height:45px;flex-basis:45px;border-radius:14px;font-size:24px}.brand h1{font-size:20px}.brand p{font-size:11px}.status{font-size:10px;padding:5px 8px}.manual-run-wrap{align-items:stretch;flex-direction:column;padding:15px}.manual-run{width:100%}.stats{grid-template-columns:1fr}.stat{padding:12px 14px}.sectionhead h2{font-size:15px}.chartbox{padding:14px}.mini-chart{padding:12px 10px}canvas{height:190px}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
-
-/* Premium market snapshot and final polish */
-.eyebrow{font-size:9px;letter-spacing:2px;color:#6f91b5;font-weight:800;margin-bottom:2px}
-.daily-heading{align-items:flex-end;margin-bottom:13px}
-.daily-heading h2{font-size:20px}
-.daily-date{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border:1px solid rgba(112,145,180,.18);background:rgba(13,27,44,.65);border-radius:99px;color:#a8bad0;font-size:10px;white-space:nowrap}
-.live-dot{width:6px;height:6px;background:var(--green);border-radius:50%;box-shadow:0 0 0 4px rgba(75,214,162,.1)}
-.daily-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.daily-card{position:relative;min-width:0;padding:17px 16px 14px;border-radius:17px;overflow:hidden;background:linear-gradient(145deg,rgba(19,35,55,.96),rgba(11,23,38,.98));border:1px solid rgba(112,145,180,.18);box-shadow:0 10px 28px rgba(0,0,0,.13)}
-.daily-card:before{content:"";position:absolute;right:0;top:0;bottom:0;width:3px;background:var(--accent)}
-.daily-gold{--accent:#e8bd63;--accent-bg:rgba(232,189,99,.12)}
-.daily-world{--accent:#70baff;--accent-bg:rgba(112,186,255,.12)}
-.daily-dollar{--accent:#4bd6a2;--accent-bg:rgba(75,214,162,.12)}
-.daily-card-head{display:flex;align-items:center;gap:10px;min-width:0;padding-bottom:13px;border-bottom:1px solid rgba(147,166,189,.12)}
-.daily-icon{width:36px;height:36px;flex:0 0 36px;display:grid;place-items:center;border-radius:11px;background:var(--accent-bg);color:var(--accent);font-size:15px;font-weight:800}
-.daily-card-head>div{min-width:0;flex:1}
-.daily-card-head strong{display:block;font-size:12px;font-weight:750;color:#edf3fb}
-.daily-card-head small{display:block;font-size:10px;color:var(--muted);margin-top:1px}
-.daily-symbol{font-size:9px;color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 28%,transparent);border-radius:6px;padding:2px 5px;letter-spacing:.5px}
-.daily-values{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;padding-top:13px}
-.daily-values>div{min-width:0;padding:0 5px;border-left:1px solid rgba(147,166,189,.1)}
-.daily-values>div:first-child{padding-right:0}
-.daily-values>div:last-child{border-left:0;padding-left:0}
-.daily-values small{display:block;font-size:10px;color:#8195ad;margin-bottom:5px}
-.daily-values strong{display:block;font-size:clamp(11px,1.15vw,14px);font-weight:750;letter-spacing:-.25px;color:#e6edf7;overflow-wrap:anywhere;line-height:1.45}
-.daily-gold .daily-values>div:nth-child(2) strong{color:#f0cf83}
-.daily-world .daily-values>div:nth-child(2) strong{color:#8bc8ff}
-.daily-dollar .daily-values>div:nth-child(2) strong{color:#74e5bc}
-.card.market{transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}
-.card.market:hover{transform:translateY(-3px);border-color:rgba(99,184,255,.38);box-shadow:0 20px 46px rgba(0,0,0,.24)}
-.grid .label{font-size:12px}
-.price{font-variant-numeric:tabular-nums}
-.chartbox{background:linear-gradient(150deg,rgba(17,32,51,.97),rgba(10,21,35,.98))}
-.mini-chart{transition:border-color .2s ease}
-.mini-chart:hover{border-color:rgba(99,184,255,.25)}
-.notice{font-size:11px}
-@media(max-width:850px){.market-strip{grid-template-columns:1fr}.market-strip-values{justify-content:flex-start}.daily-grid{grid-template-columns:1fr}.daily-card{padding:15px 16px}.daily-values strong{font-size:13px}.daily-card-head{padding-bottom:11px}.daily-values{padding-top:11px}}
-@media(max-width:480px){.market-strip{padding:12px}.ticker-chip{font-size:10px;padding:5px 7px}.market-strip-values{gap:5px}.daily-heading h2{font-size:17px}.daily-date{font-size:9px;padding:5px 8px}.daily-card{border-radius:14px}.daily-card-head strong{font-size:12px}.daily-values strong{font-size:12px}}
-
-
-/* GoldWatch Markets — premium editorial redesign */
-:root{--bg:#070b12;--bg2:#0a111c;--panel:#0e1725;--panel2:#111e2e;--line:#243449;--text:#f4f7fb;--muted:#91a2b8;--blue:#83baff;--blue2:#377fc0;--green:#51dfac;--red:#ff7c8c;--gold:#d9b66c;--gold-soft:#302719;--radius:22px;--shadow:0 22px 60px rgba(0,0,0,.25)}
-body{background:radial-gradient(ellipse at 80% -10%,rgba(38,86,132,.22),transparent 38%),radial-gradient(ellipse at 4% 35%,rgba(166,123,47,.06),transparent 28%),#070b12;letter-spacing:0}
-.wrap{width:min(1320px,100%);padding:26px 30px 50px}
-.top{position:relative;gap:16px;margin-bottom:24px;padding:0 0 22px;border-bottom:1px solid rgba(146,169,198,.15)}
-.logo{position:relative;width:50px;height:50px;flex-basis:50px;border-radius:16px;background:linear-gradient(145deg,#d6b568,#8e6a2d 70%,#5e4724);color:#101723;border:1px solid rgba(255,229,165,.6);box-shadow:0 8px 28px rgba(201,161,77,.16);font-size:29px;font-weight:900}
-.brand h1{font-size:clamp(22px,2.4vw,29px);font-weight:850;letter-spacing:-1px}
-.brand p{font-size:12px;color:#9eafc4;margin-top:3px}
-.status{font-size:10px;padding:7px 11px;backdrop-filter:blur(12px)}
-.lang-switch{border-radius:99px;padding:3px;background:#0b1320;border-color:#26384d}
-.lang-switch button{padding:7px 10px;border-radius:99px;font-size:10px}
-.lang-switch button[aria-pressed=true]{background:#2c8fe0;color:#ffffff}
-.public-nav{display:flex;align-items:center;gap:7px;margin:-7px 0 28px;flex-wrap:wrap}
-.public-nav a{color:#9eafc4;text-decoration:none;font-size:11px;padding:7px 12px;border-radius:99px;border:1px solid transparent;transition:.18s}
-.public-nav a:hover{color:#f5d88e;border-color:#3b4655;background:#111a27}
-.public-nav .nav-cta{margin-inline-start:auto;color:#171a20;background:linear-gradient(135deg,#e8cc83,#c29a4c);font-weight:800;border:0;padding:9px 15px}
-.hero{position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(240px,.75fr);gap:25px;align-items:center;padding:clamp(24px,4vw,48px);margin-bottom:22px;border:1px solid rgba(180,151,91,.24);border-radius:28px;background:linear-gradient(115deg,rgba(18,29,43,.98),rgba(11,20,32,.97) 62%,rgba(25,29,31,.97));box-shadow:0 26px 70px rgba(0,0,0,.22)}
-.hero:before{content:"";position:absolute;inset:0 auto 0 0;width:3px;background:linear-gradient(180deg,transparent,#e0bd6f,transparent)}
-.hero:after{content:"";position:absolute;width:320px;height:320px;border-radius:50%;border:1px solid rgba(220,190,120,.10);right:-90px;top:-155px;box-shadow:0 0 0 35px rgba(220,190,120,.025),0 0 0 75px rgba(220,190,120,.018);pointer-events:none}
-.hero-copy,.hero-art{position:relative;z-index:1}
-.hero-kicker{display:inline-flex;align-items:center;gap:8px;color:#e5c777;text-transform:uppercase;letter-spacing:2px;font-size:9px;font-weight:800;margin-bottom:13px}
-.hero-kicker:before{content:"";width:19px;height:1px;background:#e5c777}
-.hero h2{font-size:clamp(30px,4.3vw,52px);line-height:1.2;letter-spacing:-1.8px;max-width:670px;margin:0;font-weight:850}
-.hero h2 em{font-style:normal;color:#e5c777}
-.hero-copy p{max-width:570px;color:#9eafc4;font-size:13px;line-height:2;margin:16px 0 22px}
-.hero-links{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.hero-button{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:12px;padding:12px 17px;text-decoration:none;font-size:11px;font-weight:800;transition:transform .18s,filter .18s}
-.hero-button:hover{transform:translateY(-2px);filter:brightness(1.08)}
-.hero-button.primary{background:linear-gradient(135deg,#e9cd83,#c59c4c);color:#171b22;box-shadow:0 8px 22px rgba(197,156,76,.16)}
-.hero-button.secondary{border:1px solid #34465b;color:#dce5ef;background:rgba(8,15,25,.5)}
-.hero-art{min-height:210px;display:flex;align-items:center;justify-content:center}
-.orbit{width:min(100%,300px);aspect-ratio:1;position:relative;display:grid;place-items:center;border-radius:50%;border:1px solid rgba(221,190,118,.22);background:radial-gradient(circle,rgba(218,180,99,.11),rgba(218,180,99,.025) 46%,transparent 68%)}
-.orbit:before,.orbit:after{content:"";position:absolute;border:1px solid rgba(221,190,118,.13);border-radius:50%;inset:13%}
-.orbit:after{inset:27%;border-style:dashed;transform:rotate(-18deg)}
-.orbit-center{width:42%;aspect-ratio:1;display:grid;place-items:center;border-radius:25px;background:linear-gradient(145deg,#e7ca82,#a87c35);color:#171b21;font-size:clamp(34px,4vw,52px);font-weight:900;box-shadow:0 14px 45px rgba(215,176,92,.19);transform:rotate(-7deg)}
-.orbit-label{position:absolute;padding:8px 11px;border:1px solid rgba(221,190,118,.2);border-radius:10px;background:#101a27;color:#e8d29a;font-size:10px;box-shadow:0 8px 22px rgba(0,0,0,.18)}
-.orbit-label.one{top:13%;right:2%}.orbit-label.two{bottom:16%;left:0;color:#9bcfff;border-color:rgba(131,186,255,.22)}.orbit-label.three{bottom:5%;right:17%;color:#75e2b9;border-color:rgba(81,223,172,.22)}
-.notice{border-radius:12px;padding:10px 14px;margin-bottom:18px;background:rgba(42,35,22,.45);border-color:rgba(217,182,108,.17);color:#c7b98f}
-.market-strip{margin:0 0 14px;padding:13px 17px;border-radius:16px;border-color:#25384d;background:rgba(13,22,34,.78)}
-.market-strip-title{font-size:10px;letter-spacing:.5px;color:#b6c3d4}
-.market-strip .chart-hint{margin-top:3px}
-.ticker-chip{border-radius:8px;background:#0a121e;border-color:#233246;font-size:10px;padding:7px 10px}
-.grid{gap:13px}
-.card{border-radius:20px;background:linear-gradient(150deg,#111e2e,#0b1421);border-color:#24364a;box-shadow:0 16px 35px rgba(0,0,0,.16)}
-.card.market{padding:24px 25px}
-.card.market:before{height:2px;opacity:1}
-.label{font-size:11px;color:#a6b6c9}
-.price{font-size:clamp(27px,3vw,38px);letter-spacing:-1.2px;margin:17px 0 3px}
-.unit{font-size:10px;color:#7288a2}
-.change{font-size:11px;margin-top:15px}
-.section{margin-top:28px}
-.sectionhead{margin-bottom:17px}
-.sectionhead h2{font-size:18px;letter-spacing:-.35px}
-.chartbox{padding:25px;background:linear-gradient(150deg,#0e1927,#0a121e);border-radius:23px}
-.chart-controls .select{background:#111d2c;border-color:#304158;border-radius:99px;padding:8px 14px}
-.chartmeta{gap:8px 10px;padding-top:15px}
-.chartmeta span{background:rgba(6,13,22,.42);border-color:#1e2e41;border-radius:10px;padding:10px 12px}
-.mini-chart{background:rgba(5,12,21,.48);border-color:#1d2d40;border-radius:17px;padding:17px 18px}
-.mini-chart h3{font-size:12px}
-.daily-heading h2{font-size:21px}
-.daily-card{border-radius:17px;background:linear-gradient(145deg,#111d2b,#0b1420);border-color:#25364a}
-.daily-card-head strong{font-size:12px}
-.daily-values strong{font-size:13px}
-.foot{color:#70839b;border-color:#1a2838}
-.manual-run-wrap{display:none;margin-top:18px;border-radius:17px;background:linear-gradient(110deg,#101d2d,#0b1420);border-color:#293d52}
-.manual-run{background:linear-gradient(135deg,#d9b66c,#b48a3f);color:#111821;border:0;box-shadow:none}
-html[dir="ltr"] .hero:before{right:auto;left:0}
-html[dir="ltr"] .hero:after{right:auto;left:-90px}
-html[dir="ltr"] .hero h2{letter-spacing:-1.5px}
-html[dir="ltr"] .hero-kicker:before{display:none}
-html[dir="ltr"] .hero-kicker:after{content:"";width:19px;height:1px;background:#e5c777}
-html[dir="ltr"] .orbit-label.one{right:auto;left:2%}
-html[dir="ltr"] .orbit-label.two{left:auto;right:0}
-html[dir="ltr"] .orbit-label.three{right:auto;left:17%}
-html[dir="ltr"] .daily-card:before{left:0;right:auto}
-html[dir="ltr"] .public-nav .nav-cta{margin-inline-start:auto}
-@media(max-width:760px){.wrap{padding:19px 15px 35px}.hero{grid-template-columns:1fr;padding:27px 23px;gap:5px}.hero-art{min-height:165px}.orbit{width:205px}.hero h2{font-size:clamp(29px,8vw,42px)}.hero-copy p{font-size:12px;margin:12px 0 17px}.public-nav{margin-bottom:20px}.public-nav a{padding:6px 9px}.public-nav .nav-cta{margin-inline-start:0}.card.market{padding:20px}.price{font-size:32px}.chartbox{padding:18px}.daily-grid{grid-template-columns:1fr}}
-@media(max-width:480px){.wrap{padding:15px 11px 28px}.top{gap:9px;padding-bottom:15px}.logo{width:42px;height:42px;flex-basis:42px;border-radius:13px;font-size:24px}.brand h1{font-size:18px}.brand p{font-size:10px;line-height:1.5}.status{font-size:9px;padding:5px 7px}.lang-switch button{padding:6px 7px}.hero{padding:23px 18px;border-radius:22px}.hero h2{font-size:31px;letter-spacing:-1px}.hero-copy p{font-size:11px}.hero-button{padding:11px 12px}.hero-art{min-height:150px}.orbit{width:180px}.orbit-label{font-size:9px;padding:6px 8px}.public-nav a{font-size:10px;padding:5px 8px}.market-strip{padding:11px}.ticker-chip{font-size:9px;padding:6px 7px}.sectionhead h2{font-size:16px}}
-
-
-/* Refined blue-first visual system */
-:root{--gold:#9bb5d1;--gold-soft:#1b2b40}
-.logo{color:#a9c9e8;border-color:#2d4c6d}
-.public-nav .nav-cta{color:#fff;background:linear-gradient(135deg,#368bd0,#2367a7);border:1px solid rgba(115,185,246,.25)}
-.hero{border-color:rgba(99,184,255,.20);background:linear-gradient(115deg,rgba(18,29,43,.98),rgba(11,20,32,.97) 62%,rgba(16,28,43,.97))}
-.hero:before{background:linear-gradient(180deg,transparent,#63b8ff,transparent)}
-.hero:after{border-color:rgba(99,184,255,.09);box-shadow:0 0 0 35px rgba(99,184,255,.02),0 0 0 75px rgba(99,184,255,.014)}
-.hero-kicker,.hero h2 em{color:#8fc9ff}
-.hero-kicker:before,.hero-kicker:after{background:#8fc9ff}
-.hero-button.primary{background:linear-gradient(135deg,#4aa6ed,#2777bb);color:#fff;box-shadow:0 8px 22px rgba(39,119,187,.18)}
-.orbit{border-color:rgba(99,184,255,.20);background:radial-gradient(circle,rgba(70,145,211,.12),rgba(70,145,211,.025) 46%,transparent 68%)}
-.orbit:before,.orbit:after{border-color:rgba(99,184,255,.13)}
-.orbit-center{background:linear-gradient(145deg,#8fc9ff,#347db8);color:#071525;box-shadow:0 14px 45px rgba(75,153,220,.18)}
-.orbit-label{border-color:rgba(99,184,255,.20);color:#b9dcfb}
-.notice{background:rgba(23,42,62,.55);border-color:rgba(99,184,255,.17);color:#b6cbe0}
-.hero-copy p{color:#a9bbd0}
-.hero-button.secondary{border-color:#344b64}
-html[dir="ltr"] .hero-kicker:after{background:#8fc9ff}
-.tool-panel{margin:24px 0 0;padding:24px;border:1px solid #263b52;border-radius:22px;background:linear-gradient(145deg,#111f31,#0b1421);display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,.8fr);gap:22px;align-items:center}
-.tool-panel h2{font-size:20px;letter-spacing:-.3px;margin:0 0 7px}
-.tool-panel p{font-size:12px;color:var(--muted);margin:0 0 15px;line-height:1.9}
-.tool-kicker{font-size:10px;letter-spacing:1px;color:#8fc9ff;font-weight:800;margin-bottom:8px}
-.calc-controls{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
-.calc-controls input{width:120px;background:#081321;color:var(--text);border:1px solid #30465f;border-radius:10px;padding:11px 12px;font:inherit;font-size:13px}
-.calc-controls label{font-size:11px;color:#a9bbd0}
-.calc-result{padding:18px;border-radius:16px;border:1px solid #2b4560;background:rgba(5,14,24,.55)}
-.calc-result small{display:block;font-size:11px;color:var(--muted)}
-.calc-result strong{display:block;font-size:clamp(24px,3vw,34px);letter-spacing:-.8px;margin:5px 0;color:#e8f3ff;overflow-wrap:anywhere}
-.calc-result .calc-note{font-size:10px;color:#7f95ae;line-height:1.8}
-.tool-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px}
-.tool-action{cursor:pointer;border:1px solid #2d4964;border-radius:10px;padding:10px 13px;background:#142941;color:#dceeff;font:700 11px Tahoma,Arial,sans-serif}
-.tool-action.primary{background:#2c7dbb;color:#fff;border-color:#3b91d0}
-.faq-section{margin-top:30px;padding:23px;border-top:1px solid #24374d}
-.faq-section h2{font-size:19px;margin:0 0 14px}
-.faq-item{padding:13px 0;border-bottom:1px solid rgba(147,166,189,.12)}
-.faq-item:last-child{border-bottom:0}
-.faq-item h3{font-size:13px;margin:0 0 5px;color:#dce8f5}
-.faq-item p{font-size:12px;line-height:1.9;color:var(--muted);margin:0}
-@media(max-width:700px){.tool-panel{grid-template-columns:1fr;padding:19px;gap:16px}.tool-panel h2{font-size:18px}.calc-result strong{font-size:27px}}
-
-/* GoldWatch refresh: clean, compact and action-first dashboard */
-:root{--bg:#06101e;--bg2:#0b1a2c;--panel:#0d1d30;--panel2:#122842;--line:#203a55;--text:#f2f6fc;--muted:#9aadc4;--blue:#42adff;--green:#35d6a0;--red:#ff6f83;--gold:#f4c95d;--radius:18px;--shadow:0 12px 32px rgba(0,0,0,.2)}
-body{background:radial-gradient(ellipse at 50% -20%,rgba(25,108,176,.25),transparent 50%),#06101e}
-.wrap{width:min(1160px,100%);padding:22px 22px 36px}
-.top{padding:12px 16px;margin-bottom:14px;border:1px solid rgba(111,157,201,.2);border-radius:20px;background:rgba(9,24,41,.82);gap:13px}
-.logo{border-radius:50%;background:linear-gradient(145deg,#d8a832,#5f3d0c);border:2px solid #f7d776;color:#fff7d7;box-shadow:0 0 0 4px rgba(239,190,62,.08);font-size:25px}
-.brand h1{font-size:clamp(20px,2.6vw,26px)}
-.brand p{font-size:12px}
-.public-nav{margin-bottom:14px}
-.hero{padding:22px 25px;margin-bottom:15px;border-radius:20px;background:linear-gradient(115deg,rgba(14,40,65,.94),rgba(9,22,38,.96));border:1px solid rgba(85,151,205,.2);min-height:0}
-.hero-copy{max-width:650px}
-.hero h2{font-size:clamp(26px,4vw,40px);line-height:1.45;margin:5px 0 8px}
-.hero p{font-size:13px;max-width:570px;margin:0 0 13px;color:#b7c7d9}
-.hero-art{transform:scale(.82);opacity:.82}
-.hero-button{padding:9px 14px;border-radius:11px;font-size:12px}
-.notice{margin:0 0 13px;padding:10px 13px;font-size:11px;border-radius:12px}
-.market-strip{margin:0 0 14px;padding:12px 14px;border-radius:14px;background:rgba(12,29,48,.88)}
-.market-strip-title{font-size:12px;color:#c3d5e9;font-weight:700}
-.market-strip-values{gap:7px}
-.ticker-chip{font-size:11px;padding:6px 9px}
-.grid{gap:13px}
-.card.market{padding:21px 22px 18px;border-radius:18px;background:linear-gradient(145deg,#10253b,#0a192a);border-color:rgba(110,156,200,.24)}
-.card.market:before{height:3px}
-.card.market:nth-child(1) .price{color:#f6cf67}
-.card.market:nth-child(2) .price{color:#8bcaff}
-.card.market:nth-child(3) .price{color:#7be5bf}
-.card.market .label{font-size:13px;color:#c0d0e2}
-.price{font-size:clamp(25px,3vw,35px);margin:13px 0 3px;line-height:1.4}
-.unit{font-size:12px}
-.change{margin-top:10px;font-size:12px}
-.tool-panel{margin-top:15px;padding:19px 21px;border-radius:18px;border-color:rgba(104,153,198,.22);background:linear-gradient(110deg,#10253b,#0b1a2c);gap:20px}
-.tool-panel h2{font-size:17px;margin:3px 0 4px}
-.tool-panel p{font-size:12px;color:#aebfd2;margin:0 0 10px}
-.calc-result{border-radius:15px;background:rgba(3,13,24,.45);border-color:rgba(104,153,198,.2);padding:17px}
-.calc-result strong{font-size:clamp(21px,3vw,29px);color:#f6cf67}
-.tool-action{border-radius:10px}
-.section{margin-top:17px}
-.section.card{border-radius:18px}
-.sectionhead h2{font-size:18px}
-.chartmeta{gap:8px}
-.chartmeta span{background:rgba(5,15,27,.48);padding:9px 11px}
-.mini-chart{margin-top:12px;padding:13px 15px;border-radius:14px}
-.mini-chart h3{font-size:13px}
-.daily-section{margin-top:22px}
-.daily-heading h2{font-size:21px}
-.daily-card{border-radius:16px;background:linear-gradient(145deg,#10253b,#0a192a);border-color:rgba(110,156,200,.22)}
-.daily-card-head{padding-bottom:12px}
-.daily-icon{border-radius:13px}
-.daily-values strong{font-size:14px}
-.faq-section{margin-top:22px;padding:19px 21px;border-radius:18px;background:rgba(12,28,46,.75);border:1px solid rgba(110,156,200,.18)}
-.faq-section h2{font-size:17px}
-.faq-item p{font-size:12px;color:#aebfd2}
-.manual-run-wrap{margin-top:17px;border-radius:15px;padding:13px 16px}
-.foot{margin-top:20px;padding-top:14px}
-button,a,select,input{transition:background .18s ease,border-color .18s ease,transform .18s ease}
-button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid #65c1ff;outline-offset:3px}
-@media(max-width:760px){
- .wrap{padding:13px 12px 25px}
- .top{padding:10px 11px;gap:9px;flex-wrap:wrap}
- .brand{flex:1 1 calc(100% - 70px)}
- .brand h1{font-size:19px}
- .brand p{font-size:10px}
- .status{margin-right:auto}
- .public-nav{gap:5px;overflow-x:auto}
- .hero{padding:17px 16px}
- .hero-art{display:none}
- .hero h2{font-size:27px}
- .hero p{font-size:12px}
- .market-strip{grid-template-columns:1fr}
- .market-strip-values{justify-content:stretch;display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
- .ticker-chip{justify-content:center;flex-wrap:wrap;white-space:normal;text-align:center;padding:7px 4px;font-size:10px}
- .grid{grid-template-columns:1fr;gap:10px}
- .card.market{padding:16px 17px}
- .card.market .price{font-size:29px;margin:7px 0 2px}
- .tool-panel{grid-template-columns:1fr;padding:16px}
- .daily-grid{grid-template-columns:1fr;gap:10px}
- .daily-card{padding:15px}
- .chartbox{padding:15px}
- .chartmeta{grid-template-columns:1fr}
- .mini-chart{padding:12px}
-}
-@media(min-width:761px){
- .tool-panel{grid-template-columns:minmax(0,1.35fr) minmax(260px,.85fr)}
+:root {
+  --bg: #060e1a;
+  --bg-gradient: radial-gradient(circle at 50% -20%, #112d4e 0%, #060e1a 70%);
+  --panel-bg: rgba(13, 27, 46, 0.75);
+  --panel-border: rgba(147, 197, 253, 0.15);
+  --panel-hover: rgba(147, 197, 253, 0.28);
+  --card-gold-bg: linear-gradient(145deg, rgba(38, 30, 14, 0.85), rgba(15, 23, 38, 0.95));
+  --card-gold-border: rgba(245, 158, 11, 0.35);
+  --card-blue-bg: linear-gradient(145deg, rgba(16, 37, 66, 0.85), rgba(10, 20, 36, 0.95));
+  --card-blue-border: rgba(59, 130, 246, 0.3);
+  --card-green-bg: linear-gradient(145deg, rgba(10, 38, 30, 0.85), rgba(10, 20, 36, 0.95));
+  --card-green-border: rgba(16, 185, 129, 0.3);
+  --text-main: #f1f5f9;
+  --text-muted: #94a3b8;
+  --gold: #fbbf24;
+  --gold-glow: rgba(251, 191, 36, 0.25);
+  --blue: #38bdf8;
+  --green: #34d399;
+  --red: #f87171;
+  --radius: 20px;
+  --shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
 }
 
-
-/* GoldWatch Studio redesign v2 — analytics-first layout */
-:root{
- --bg:#060d18;--bg2:#0a1626;--panel:#0d1b2d;--panel2:#12253b;--line:#243b55;
- --text:#eff5fd;--muted:#8fa5be;--blue:#55b8ff;--green:#43d6a4;--red:#ff7186;--gold:#f4ca62;
- --radius:20px;--shadow:0 18px 48px rgba(0,0,0,.25)
-}
-body{background:radial-gradient(ellipse at 12% 0%,rgba(33,111,172,.17),transparent 33%),radial-gradient(ellipse at 95% 25%,rgba(28,92,131,.12),transparent 28%),linear-gradient(180deg,#060d18,#091524 52%,#060d18)}
-.wrap{width:min(1320px,100%);padding:24px 26px 42px}
-.top{position:relative;padding:15px 18px;margin-bottom:14px;border:1px solid rgba(105,151,196,.22);border-radius:22px;background:linear-gradient(110deg,rgba(13,30,49,.97),rgba(8,21,36,.97));box-shadow:0 14px 36px rgba(0,0,0,.16)}
-.logo{width:58px;height:58px;flex-basis:58px;border-radius:18px;background:radial-gradient(circle at 35% 25%,#f8df92,#b78622 48%,#573b0b 100%);border:1px solid #f1d17c;color:#172338;font-weight:900;box-shadow:0 0 0 5px rgba(244,202,98,.07),inset 0 1px 0 rgba(255,255,255,.45)}
-.brand h1{font-size:clamp(21px,2.3vw,29px);letter-spacing:-.7px}
-.brand p{font-size:12px}
-.status{font-size:11px;padding:8px 12px}
-.public-nav{position:sticky;top:8px;z-index:10;margin:0 0 17px;padding:7px;display:flex;gap:5px;align-items:center;border:1px solid rgba(105,151,196,.19);border-radius:14px;background:rgba(7,18,31,.92);backdrop-filter:blur(16px);box-shadow:0 8px 22px rgba(0,0,0,.14)}
-.public-nav a{border-radius:9px;padding:8px 13px;font-size:12px;color:#a9bdd3}
-.public-nav a:hover{background:#142b43;color:#fff}
-.public-nav .nav-cta{margin-inline-start:auto;background:#153e60;color:#e8f6ff;border:1px solid rgba(85,184,255,.3)}
-.hero{position:relative;overflow:hidden;min-height:210px;padding:28px 32px;margin-bottom:16px;border:1px solid rgba(85,155,208,.25);border-radius:24px;background:linear-gradient(105deg,rgba(14,42,67,.98),rgba(8,23,40,.98) 70%,rgba(13,36,55,.98));box-shadow:var(--shadow)}
-.hero:after{content:"";position:absolute;inset:auto -5% -80% 30%;height:260px;background:radial-gradient(ellipse,rgba(36,145,216,.18),transparent 68%);pointer-events:none}
-.hero-copy{position:relative;z-index:1;max-width:660px}
-.hero-kicker,.tool-kicker{font-size:9px;letter-spacing:2px;color:#80b9e7;font-weight:800}
-.hero h2{font-size:clamp(30px,4vw,44px);line-height:1.4;margin:5px 0 8px;letter-spacing:-.8px}
-.hero h2 em{color:#f4d278;font-style:normal}
-.hero p{max-width:600px;font-size:13px;line-height:2;color:#b3c7dc}
-.hero-art{transform:scale(.92);opacity:.95}
-.orbit{border-color:rgba(109,186,239,.3);box-shadow:0 0 70px rgba(30,125,190,.12),inset 0 0 35px rgba(30,125,190,.06)}
-.orbit-center{background:linear-gradient(145deg,#f8df92,#a77b1a);color:#1a2634;box-shadow:0 0 35px rgba(244,202,98,.18)}
-.notice{border-radius:12px;padding:10px 13px;font-size:11px;margin-bottom:14px;background:rgba(40,36,27,.48)}
-.market-strip{grid-template-columns:minmax(180px,.7fr) minmax(0,1.8fr);padding:15px 17px;margin:0 0 15px;border-radius:17px;background:linear-gradient(100deg,#10243a,#0b192a);border-color:rgba(105,151,196,.23)}
-.market-strip-title{font-size:12px;color:#d5e3f2;font-weight:800}
-.market-strip-values{gap:9px}
-.ticker-chip{padding:8px 12px;border-radius:11px;font-size:11px;background:rgba(4,13,24,.6)}
-.grid{gap:14px}
-.card.market{padding:24px 23px 20px;border-radius:21px;background:linear-gradient(150deg,rgba(17,39,61,.98),rgba(9,23,38,.99));border-color:rgba(107,154,199,.23);box-shadow:var(--shadow)}
-.card.market:before{height:3px;opacity:1}
-.card.market:nth-child(1):before{background:linear-gradient(90deg,transparent,#f4ca62,transparent)}
-.card.market:nth-child(2):before{background:linear-gradient(90deg,transparent,#55b8ff,transparent)}
-.card.market:nth-child(3):before{background:linear-gradient(90deg,transparent,#43d6a4,transparent)}
-.card.market .label{font-size:13px;color:#c4d5e7}
-.card.market:nth-child(1) .label:before{content:"Au";display:grid;place-items:center;width:25px;height:25px;border-radius:9px;background:rgba(244,202,98,.12);color:#f4ca62;font-size:11px;font-weight:900}
-.card.market:nth-child(2) .label:before{content:"✦";display:grid;place-items:center;width:25px;height:25px;border-radius:9px;background:rgba(85,184,255,.12);color:#8bcaff;font-size:14px}
-.card.market:nth-child(3) .label:before{content:"$";display:grid;place-items:center;width:25px;height:25px;border-radius:9px;background:rgba(67,214,164,.12);color:#43d6a4;font-size:13px;font-weight:900}
-.price{font-size:clamp(27px,3.15vw,38px);margin:15px 0 4px;letter-spacing:-.8px}
-.card.market:nth-child(1) .price{color:#f4d278}
-.card.market:nth-child(2) .price{color:#a3d8ff}
-.card.market:nth-child(3) .price{color:#8ce8c7}
-.change{margin-top:12px;font-size:12px}
-.tool-panel{margin-top:15px;padding:22px 24px;border-radius:21px;background:linear-gradient(110deg,#10253b,#0a192a);border-color:rgba(105,151,196,.23);box-shadow:var(--shadow)}
-.tool-panel h2{font-size:19px;margin:4px 0 7px}
-.tool-panel p{font-size:12px;line-height:1.9;color:#aebfd2}
-.calc-controls input{border:1px solid #36536f;background:#071525;border-radius:11px;padding:11px 13px}
-.calc-result{border-radius:17px;background:linear-gradient(145deg,rgba(5,16,29,.8),rgba(13,31,49,.9));border-color:rgba(105,151,196,.23);padding:20px}
-.calc-result strong{font-size:clamp(24px,3vw,33px);color:#f4d278}
-.tool-actions{gap:8px}
-.tool-action{border-radius:11px;padding:10px 13px}
-.section{margin-top:22px}
-.chartbox{padding:23px 25px;border-radius:22px;background:linear-gradient(145deg,#0e1e31,#091625);border-color:rgba(105,151,196,.23);box-shadow:var(--shadow)}
-.sectionhead{margin-bottom:17px}
-.sectionhead h2{font-size:19px}
-.chart-controls .select{min-width:125px;background:#091728;border-color:#2c4865;border-radius:11px}
-.chartmeta{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
-.chartmeta span{padding:11px 13px;border-radius:12px;background:rgba(4,14,25,.6);border-color:rgba(105,151,196,.14)}
-.chartmeta b{color:#dceafa}
-.mini-chart{margin-top:14px;padding:16px 17px;background:rgba(5,15,27,.55);border-color:rgba(105,151,196,.19);border-radius:17px}
-.mini-chart h3{font-size:13px;margin-bottom:13px}
-canvas{height:240px;border-radius:10px}
-.daily-section{margin-top:25px}
-.daily-heading h2{font-size:23px}
-.daily-date{border-radius:11px;background:#0c1c2e}
-.daily-grid{gap:14px}
-.daily-card{padding:19px;border-radius:19px;background:linear-gradient(145deg,#10253b,#0a192a);border-color:rgba(105,151,196,.22);box-shadow:0 10px 28px rgba(0,0,0,.12)}
-.daily-card-head{padding-bottom:15px}
-.daily-icon{border-radius:12px}
-.daily-values{gap:12px}
-.daily-values>div{padding:11px;border-radius:11px;background:rgba(4,14,25,.38)}
-.daily-values strong{font-size:14px;color:#e8f1fb}
-.faq-section{margin-top:24px;padding:22px 24px;border-radius:20px;background:linear-gradient(145deg,#0d1d30,#091625);border-color:rgba(105,151,196,.2)}
-.faq-section h2{font-size:18px}
-.faq-item{padding:14px 0;border-bottom:1px solid rgba(105,151,196,.13)}
-.faq-item:last-child{border-bottom:0}
-.faq-item h3{font-size:13px}
-.faq-item p{font-size:12px;line-height:1.9;color:#aebfd2}
-.manual-run-wrap{margin-top:18px;padding:16px 18px;border-radius:16px}
-.manual-run{border-radius:11px}
-.foot{font-size:10px;margin-top:24px}
-.toast{backdrop-filter:blur(12px)}
-@media(min-width:1000px){
- .grid{grid-template-columns:1.1fr 1fr 1fr}
- .card.market{min-height:190px}
- .daily-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
-}
-@media(max-width:760px){
- .wrap{padding:12px 11px 25px}
- .top{padding:11px 12px;gap:9px;border-radius:17px;flex-wrap:wrap}
- .logo{width:45px;height:45px;flex-basis:45px;border-radius:14px}
- .brand h1{font-size:18px}
- .brand p{font-size:10px}
- .status{font-size:10px;padding:6px 9px}
- .public-nav{top:5px;overflow-x:auto;white-space:nowrap;border-radius:12px;padding:5px}
- .public-nav a{padding:8px 10px;font-size:11px}
- .hero{min-height:0;padding:20px 17px;border-radius:19px}
- .hero-art{display:none}
- .hero h2{font-size:29px}
- .hero p{font-size:12px}
- .market-strip{grid-template-columns:1fr;padding:13px}
- .market-strip-values{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
- .ticker-chip{display:flex;flex-direction:column;gap:3px;padding:8px 3px;font-size:10px;overflow-wrap:anywhere}
- .grid{grid-template-columns:1fr;gap:10px}
- .card.market{padding:17px 17px 15px;border-radius:17px;min-height:0}
- .price{font-size:30px;margin:8px 0 2px}
- .change{margin-top:7px}
- .tool-panel{grid-template-columns:1fr;padding:17px;gap:13px}
- .calc-result{padding:16px}
- .section{margin-top:18px}
- .chartbox{padding:15px 12px}
- .sectionhead{align-items:flex-start;flex-wrap:wrap}
- .sectionhead h2{font-size:16px}
- .chartmeta{grid-template-columns:1fr}
- .mini-chart{padding:12px 10px}
- canvas{height:205px}
- .daily-grid{grid-template-columns:1fr;gap:10px}
- .daily-card{padding:15px}
- .daily-values>div{padding:8px 5px}
- .faq-section{padding:16px}
- .manual-run-wrap{align-items:stretch;flex-direction:column}
- .manual-run{width:100%}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; background: var(--bg); }
+body {
+  margin: 0; min-height: 100vh; color: var(--text-main);
+  background: var(--bg-gradient);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Tahoma, sans-serif;
+  line-height: 1.6;
 }
 
-
-/* Structural redesign: market terminal, not a cosmetic reskin */
-.hero-terminal{grid-template-columns:minmax(0,1.25fr) minmax(285px,.75fr);align-items:stretch;gap:35px;background:linear-gradient(115deg,#0d1b2b 0%,#0c1927 55%,#131c25 100%);padding:clamp(24px,4vw,42px);border-radius:26px;border-color:rgba(211,177,102,.28)}
-.hero-terminal .hero-copy{align-self:center}
-.hero-terminal .hero-art{display:none}
-.hero-terminal-side{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:center;gap:9px;padding:17px;border-radius:18px;border:1px solid rgba(131,186,255,.18);background:rgba(4,12,21,.42);box-shadow:inset 0 1px 0 rgba(255,255,255,.025)}
-.terminal-label{display:flex;align-items:center;gap:8px;font-size:9px;letter-spacing:1.4px;color:#8ea8c4;padding-bottom:10px;border-bottom:1px solid rgba(145,162,184,.14)}
-.terminal-label #marketAsOf{margin-inline-start:auto;letter-spacing:0}
-.terminal-market{display:grid;grid-template-columns:1fr auto;align-items:center;gap:4px 12px;padding:9px 2px;border-bottom:1px solid rgba(145,162,184,.1)}
-.terminal-market span{font-size:11px;color:#9eafc4}
-.terminal-market strong{font-size:clamp(14px,1.7vw,20px);color:#f0d18a;direction:ltr}
-.terminal-market:nth-of-type(3) strong{color:#a6d7ff}
-.terminal-market:nth-of-type(4) strong{color:#70e0b6}
-.terminal-market small{grid-column:1/-1;font-size:10px;color:#91a2b8}
-.hero-terminal-side>p{font-size:10px;line-height:1.8;color:#9eafc4;margin:2px 0 0}
-.market-strip{display:none!important}
-.grid{gap:12px}
-.card.market{min-height:184px;display:flex;flex-direction:column;justify-content:center;padding:23px 24px 21px;border-radius:18px}
-.card.market .label{font-size:12px}
-.card.market .price{font-size:clamp(26px,3vw,36px);margin:14px 0 3px}
-.card.market:nth-child(1){background:linear-gradient(145deg,rgba(45,37,24,.75),rgba(16,25,36,.98));border-color:rgba(217,182,108,.27)}
-.card.market:nth-child(2){background:linear-gradient(145deg,rgba(16,37,58,.98),rgba(10,22,36,.98))}
-.card.market:nth-child(3){background:linear-gradient(145deg,rgba(12,42,39,.65),rgba(10,23,36,.98));border-color:rgba(81,223,172,.2)}
-.chartbox{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;padding:20px}
-.chartbox>.sectionhead,.chartbox>.chartmeta{grid-column:1/-1}
-.chartbox>.sectionhead{margin-bottom:0}
-.chartbox>.chartmeta{grid-template-columns:repeat(4,minmax(0,1fr));padding:0}
-.chartbox>.mini-chart{margin-top:0;min-width:0}
-.chartbox>.chart-main{grid-column:1/-1;background:linear-gradient(145deg,#0c1b2c,#091522);padding:19px 20px}
-.chartbox>.chart-main canvas{height:285px}
-.chartbox>.chart-secondary{background:rgba(5,15,27,.66);padding:17px 18px}
-.chartbox>.chart-secondary canvas{height:185px}
-.daily-card{border-radius:17px}
-.faq-section{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 24px}
-.faq-section>h2{grid-column:1/-1;margin-bottom:10px}
-.faq-item{min-width:0}
-@media(max-width:800px){
- .hero-terminal{grid-template-columns:1fr;gap:20px}
- .hero-terminal-side{padding:13px}
- .terminal-market{grid-template-columns:1fr auto}
- .chartbox{grid-template-columns:1fr;padding:15px}
- .chartbox>.sectionhead,.chartbox>.chartmeta,.chartbox>.chart-main{grid-column:1}
- .chartbox>.chartmeta{grid-template-columns:1fr 1fr}
- .chartbox>.chart-main canvas{height:225px}
- .chartbox>.chart-secondary canvas{height:190px}
- .faq-section{grid-template-columns:1fr}
- .faq-section>h2{grid-column:1}
-}
-@media(max-width:480px){
- .hero-terminal{padding:19px 15px}
- .hero-terminal h2{font-size:29px}
- .terminal-market strong{font-size:16px}
- .card.market{min-height:0}
- .chartbox>.chartmeta{grid-template-columns:1fr}
- .chartbox>.chart-main{padding:13px 10px}
+.gwx-shell {
+  width: min(1280px, 94%);
+  margin: 0 auto;
+  padding: 24px 0 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
+/* Topbar */
+.gwx-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 22px;
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: 99px;
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow);
+}
+.gwx-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--text-main);
+}
+.gwx-mark {
+  width: 38px; height: 38px;
+  background: linear-gradient(135deg, #f59e0b, #b45309);
+  color: #0f172a; font-weight: 900;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  box-shadow: 0 0 15px var(--gold-glow);
+  font-size: 15px;
+}
+.gwx-brand strong { font-size: 18px; letter-spacing: -0.5px; display: block; }
+.gwx-brand small { font-size: 10px; color: var(--text-muted); display: block; letter-spacing: 1px; }
 
-/* === GoldWatch: blue-gold market terminal redesign v2 === */
-:root{
- --bg:#07182a;--bg2:#0a2036;--panel:#183650;--panel2:#214663;--line:rgba(158,198,229,.22);
- --text:#f4f8fc;--muted:#b2c5d8;--blue:#8acbff;--blue2:#48a5ed;--green:#49e0ad;--red:#ff7b8b;
- --gold:#ffd36f;--gold-soft:#3a3528;--radius:23px;--shadow:0 16px 42px rgba(0,8,20,.28)
+.gwx-top-title {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px; color: var(--text-muted);
+  font-weight: 600;
 }
-html{background:#07182a}
-body{
- background:
-  radial-gradient(ellipse at 50% -15%,rgba(72,154,216,.34),transparent 45%),
-  radial-gradient(ellipse at 100% 48%,rgba(44,115,166,.17),transparent 35%),
-  linear-gradient(145deg,#07182a 0%,#0d2942 50%,#081a2d 100%);
- color:var(--text)
+.gwx-live-led {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 10px var(--green);
+  animation: pulse 2s infinite;
 }
-.wrap{width:min(1500px,100%);padding:18px 22px 38px}
-.top{
- padding:15px 20px;margin-bottom:12px;border:1px solid rgba(153,198,230,.25);
- border-radius:22px;background:linear-gradient(110deg,rgba(31,66,96,.93),rgba(14,39,63,.96));
- box-shadow:0 12px 30px rgba(0,0,0,.16)
-}
-.logo{background:linear-gradient(145deg,#f9dc8a,#c39132);color:#172c40;border:1px solid #ffe6a2;box-shadow:0 0 0 5px rgba(255,211,111,.08)}
-.brand h1{color:#f7fbff}
-.brand p{color:#b7cbe0}
-.status{background:rgba(16,95,77,.32)}
-.lang-switch{background:#0b2034;border-color:rgba(157,197,226,.28)}
-.public-nav{position:relative;top:auto;margin:0 0 14px;border-radius:15px;background:rgba(11,31,50,.88);border-color:rgba(157,197,226,.19);box-shadow:0 9px 24px rgba(0,0,0,.12)}
-.public-nav a{color:#c2d6e9}
-.public-nav a:hover{background:#244967;color:white}
-.public-nav .nav-cta{background:linear-gradient(135deg,#f7d77f,#d4a64e);color:#162a3d;border:0}
-.hero.hero-terminal{
- grid-template-columns:minmax(0,1.15fr) minmax(300px,.85fr);gap:26px;
- min-height:260px;margin-bottom:14px;padding:clamp(24px,3.4vw,42px);
- border-radius:28px;border:1px solid rgba(172,211,238,.34);
- background:linear-gradient(120deg,rgba(42,82,116,.97),rgba(23,54,81,.98) 54%,rgba(13,36,59,.98));
- box-shadow:0 22px 55px rgba(0,0,0,.24)
-}
-.hero.hero-terminal:before{width:4px;background:linear-gradient(180deg,transparent,#ffd36f,transparent)}
-.hero.hero-terminal:after{width:360px;height:360px;right:-110px;top:-180px;border-color:rgba(255,211,111,.13);box-shadow:0 0 0 38px rgba(255,211,111,.035),0 0 0 78px rgba(255,211,111,.02)}
-.hero-kicker{color:#ffda83}
-.hero h2{font-size:clamp(32px,4.1vw,53px);line-height:1.32;letter-spacing:-1.3px}
-.hero h2 em{color:#ffd36f}
-.hero-copy p{color:#d0dfec;font-size:13px;max-width:620px}
-.hero-button{display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;border-radius:12px;padding:11px 15px;font-size:12px;font-weight:800}
-.hero-button.primary{background:linear-gradient(135deg,#ffdf8d,#d5a64e);color:#182c40;border:1px solid rgba(255,240,190,.65);box-shadow:0 8px 20px rgba(221,174,75,.16)}
-.hero-button.secondary{color:#e9f5ff;background:rgba(6,21,36,.32);border:1px solid rgba(178,213,238,.3)}
-.hero-terminal-side{border-radius:20px;background:linear-gradient(150deg,rgba(7,24,41,.68),rgba(12,34,54,.85));border-color:rgba(161,204,235,.24);padding:18px 20px}
-.terminal-label{color:#b4cce0}
-.terminal-market{padding:12px 2px;border-bottom-color:rgba(166,202,230,.15)}
-.terminal-market span{color:#c1d5e7}
-.terminal-market strong{font-size:clamp(17px,2vw,25px);color:#ffd36f}
-.terminal-market:nth-of-type(3) strong{color:#9ed6ff}
-.terminal-market:nth-of-type(4) strong{color:#73e8bd}
-.hero-terminal-side>p{color:#b9cde0}
-.notice{background:rgba(24,51,74,.72);border-color:rgba(162,199,226,.2);color:#c1d3e4;border-radius:13px}
-.notice:before{color:#ffd36f}
-.grid{grid-template-columns:1.25fr 1fr 1fr;gap:13px}
-.card.market{
- min-height:205px;padding:25px 25px 22px;border-radius:23px;
- background:linear-gradient(145deg,rgba(48,83,113,.97),rgba(23,53,79,.99));
- border:1px solid rgba(168,207,235,.26);box-shadow:0 17px 38px rgba(0,7,18,.2)
-}
-.card.market:before{height:4px;opacity:1}
-.card.market:nth-child(1):before{background:linear-gradient(90deg,transparent,#ffd36f,transparent)}
-.card.market:nth-child(2):before{background:linear-gradient(90deg,transparent,#8acbff,transparent)}
-.card.market:nth-child(3):before{background:linear-gradient(90deg,transparent,#5ce0b0,transparent)}
-.card.market:nth-child(1){background:linear-gradient(145deg,#355675,#1b3b59);border-color:rgba(255,211,111,.3)}
-.card.market:nth-child(2){background:linear-gradient(145deg,#294c6b,#173650)}
-.card.market:nth-child(3){background:linear-gradient(145deg,#254d55,#153749)}
-.card.market .label{font-size:13px;color:#d9e8f4}
-.card.market .price{font-size:clamp(31px,3.4vw,43px);margin:20px 0 5px;letter-spacing:-1px}
-.card.market:nth-child(1) .price{color:#ffda79}
-.card.market:nth-child(2) .price{color:#a8dcff}
-.card.market:nth-child(3) .price{color:#85edc9}
-.card.market .unit{color:#b2c9dc}
-.card.market .change{border-top:1px solid rgba(206,228,244,.12);padding-top:11px}
-.tool-panel{
- display:grid;grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);gap:26px;align-items:center;
- margin-top:15px;padding:26px 28px;border-radius:24px;
- background:linear-gradient(120deg,rgba(39,75,104,.97),rgba(16,43,67,.98));
- border:1px solid rgba(164,204,233,.26);box-shadow:var(--shadow)
-}
-.tool-kicker{color:#ffd36f}
-.tool-panel h2{font-size:22px}
-.tool-panel p{color:#c1d5e7}
-.calc-controls{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:16px 0}
-.calc-controls label{color:#d8e7f3;font-size:12px}
-.calc-controls input{color:#fff;background:#0c253c;border-color:#5c809e;border-radius:12px}
-.tool-actions{display:flex;gap:9px;flex-wrap:wrap}
-.tool-action{background:#14334e;border-color:rgba(158,201,231,.3);color:#e9f5ff;border-radius:12px;padding:11px 14px}
-.tool-action.primary{background:linear-gradient(135deg,#f6d77e,#d2a34a);color:#172b3e;border:0}
-.calc-result{border-radius:19px;background:linear-gradient(145deg,rgba(5,22,38,.72),rgba(17,47,71,.92));border:1px solid rgba(165,206,235,.23)}
-.calc-result small{color:#bfd3e4}
-.calc-result strong{color:#ffd36f}
-.calc-note{color:#a9c1d6}
-.section.card.chartbox{margin-top:16px;padding:23px;border-radius:24px;background:linear-gradient(145deg,rgba(29,60,87,.98),rgba(11,31,50,.99));border-color:rgba(163,204,232,.24)}
-.sectionhead h2{font-size:21px}
-.chart-hint{color:#b5cadd}
-.chart-controls .select{background:#0a2136;border-color:#557a99;color:#eef7ff}
-.chartbox>.chartmeta span{background:rgba(4,20,34,.46);border-color:rgba(166,203,229,.15);color:#b5cadd}
-.chartbox>.chartmeta b{color:#f2f8fc}
-.chartbox>.mini-chart{background:linear-gradient(145deg,rgba(8,28,46,.92),rgba(6,22,37,.96));border-color:rgba(150,198,230,.2);border-radius:19px}
-.mini-chart h3{color:#e5f1fa}
-.daily-card{background:linear-gradient(145deg,#2b506f,#16354f);border-color:rgba(164,204,233,.23)}
-.daily-values>div{background:rgba(5,23,39,.35)}
-.daily-values small{color:#bfd1e1}
-.daily-values strong{color:#f7f9fc}
-.faq-section{background:linear-gradient(145deg,#1c3d59,#102a42);border:1px solid rgba(157,199,229,.22);border-radius:23px;padding:24px}
-.faq-item h3{color:#eff7fd}
-.faq-item p{color:#b8cddd}
-.manual-run-wrap{background:linear-gradient(110deg,#214b6d,#102c46);border-color:rgba(151,201,237,.25)}
-.manual-run{background:linear-gradient(135deg,#f5d57d,#c79a45);color:#182d42;border:0}
-.foot{color:#9db4c9;border-top-color:rgba(159,198,225,.16)}
-.toast{background:#234d6d;border-color:#80b9e7}
-@media(min-width:1100px){
- .grid{grid-template-columns:1.25fr 1fr 1fr}
- .card.market:nth-child(1){min-height:225px}
- .chartbox>.chart-main canvas{height:320px}
-}
-@media(max-width:850px){
- .wrap{padding:13px 12px 28px}
- .hero.hero-terminal{grid-template-columns:1fr;gap:17px}
- .hero-terminal-side{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:14px}
- .terminal-label,.hero-terminal-side>p{grid-column:1/-1}
- .terminal-market{grid-template-columns:1fr;gap:4px;align-content:start;border:1px solid rgba(166,202,230,.14);border-radius:12px;padding:10px;background:rgba(3,16,28,.2)}
- .terminal-market small{grid-column:auto}
- .grid{grid-template-columns:1fr 1fr}
- .card.market:nth-child(1){grid-column:1/-1;min-height:170px}
- .tool-panel{grid-template-columns:1fr}
-}
-@media(max-width:520px){
- .wrap{padding:10px 9px 23px}
- .top{padding:11px 12px;gap:9px;border-radius:17px}
- .hero.hero-terminal{padding:20px 16px;border-radius:20px}
- .hero h2{font-size:31px}
- .hero-copy p{font-size:12px}
- .hero-links{display:flex;gap:8px;flex-wrap:wrap}
- .hero-button{flex:1;padding:10px 9px}
- .hero-terminal-side{grid-template-columns:1fr;padding:12px}
- .terminal-market{grid-template-columns:1fr auto}
- .terminal-market small{grid-column:1/-1}
- .grid{grid-template-columns:1fr;gap:10px}
- .card.market:nth-child(1){grid-column:auto;min-height:0}
- .card.market{padding:18px 19px;min-height:0}
- .card.market .price{font-size:32px;margin:10px 0 3px}
- .tool-panel{padding:18px 16px;border-radius:19px}
- .tool-panel h2{font-size:19px}
- .section.card.chartbox{padding:14px 11px;border-radius:19px}
- .chartbox>.chart-main canvas{height:230px}
- .chartbox>.chart-secondary canvas{height:185px}
- .daily-heading{align-items:flex-start}
- .daily-heading h2{font-size:19px}
- .daily-values{gap:5px}
- .daily-values>div{padding:8px 5px}
- .daily-values strong{font-size:12px}
- .faq-section{padding:17px}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
 }
 
-
-/* === Observatory layout: asymmetric editorial market cockpit === */
-.gwx-shell{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.28fr) minmax(270px,.9fr);grid-template-areas:"top top top" "welcome welcome welcome" "chart hero world" "chart hero dollar" "daily calc calc" "faq faq faq" "footer footer footer";gap:0 15px;align-items:stretch}
-.gwx-topbar{grid-area:top}.gwx-welcome{grid-area:welcome}
-.gwx-ticker{display:contents}
-.gwx-main-grid{display:contents}
-.gwx-quote-gold{grid-area:hero;display:flex;flex-direction:column;justify-content:center;min-height:410px;padding:28px 25px;background:
- radial-gradient(ellipse at 85% 15%,rgba(255,213,111,.18),transparent 37%),
- linear-gradient(145deg,#345b76 0%,#1c3d58 48%,#112d46 100%);border:1px solid #f4d17b60;box-shadow:0 22px 55px #020a1470,inset 0 1px #ffffff17}
-.gwx-quote-gold:before{content:"";position:absolute;inset:12px;border:1px solid #f9d77919;border-radius:15px;pointer-events:none}
-.gwx-quote-gold:after{content:"Au";position:absolute;right:-10px;bottom:55px;font-size:150px;font-weight:900;letter-spacing:-12px;color:#ffdf8a08;line-height:1;pointer-events:none}
-.gwx-quote-gold .gwx-quote-head{align-items:flex-start}
-.gwx-quote-gold .gwx-coin{width:44px;height:44px;border-radius:15px;font-size:16px;background:linear-gradient(145deg,#ffe7a5,#c89b45);color:#142a3d;border:0}
-.gwx-quote-gold .gwx-quote-label{font-size:17px;line-height:1.5}
-.gwx-quote-gold .gwx-quote-label small{font-size:11px;margin-top:5px}
-.gwx-quote-gold .gwx-quote-tag{font-size:8px;border:1px solid #f4d17b45;border-radius:7px;padding:6px 7px;color:#f9d984}
-.gwx-quote-gold .gwx-quote-value{font-size:clamp(37px,4.2vw,61px)!important;line-height:1.2;margin:30px 0 16px;letter-spacing:-2px;position:relative;z-index:1}
-.gwx-quote-gold .gwx-quote-foot{margin-top:auto;align-items:center;padding-top:15px}
-.gwx-quote-gold .gwx-quote-foot .unit{font-size:12px;color:#c4d5e2}
-.gwx-quote-gold .gwx-quote-foot .change{font-size:12px;font-weight:800}
-.gwx-quote-world{grid-area:world;min-height:190px;display:flex;flex-direction:column;justify-content:center}
-.gwx-quote-dollar{grid-area:dollar;min-height:190px;display:flex;flex-direction:column;justify-content:center}
-.gwx-chart-panel{grid-area:chart}
-.gwx-side-column{display:contents}
-.gwx-daily-panel{grid-area:daily}
-.gwx-calc-panel{grid-area:calc}
-.gwx-bottom-strip{grid-area:faq}
-.gwx-footer{grid-area:footer}
-.gwx-welcome{padding:26px 8px 23px;position:relative}
-.gwx-welcome:after{content:"";position:absolute;left:8px;right:8px;bottom:0;height:1px;background:linear-gradient(90deg,transparent,#9ac8e52d,transparent)}
-.gwx-welcome h1{font-size:clamp(27px,3vw,40px)}
-.gwx-welcome h1 em{background:linear-gradient(90deg,#fff0b3,#ffd36f,#e6b84e);background-clip:text;-webkit-background-clip:text;color:transparent}
-.gwx-chart-panel{padding:20px;align-self:stretch}
-.gwx-chart-primary canvas{height:340px}
-.gwx-chart-pair{grid-template-columns:1fr}
-.gwx-chart-small canvas{height:145px}
-.gwx-daily-panel{align-self:start}
-.gwx-calc-panel{align-self:stretch;display:grid;grid-template-columns:minmax(0,1fr) minmax(220px,.85fr);column-gap:24px;align-content:start}
-.gwx-calc-panel>.gwx-eyebrow,.gwx-calc-panel>h2,.gwx-calc-panel>p{grid-column:1/-1}
-.gwx-calc-panel .gwx-calc-field{grid-column:1;align-self:start}
-.gwx-calc-panel .gwx-result-label{grid-column:2;grid-row:4;align-self:end;margin-top:0}
-.gwx-calc-panel .gwx-result-number{grid-column:2;grid-row:5;align-self:start}
-.gwx-calc-panel .calc-note{grid-column:1/-1}
-.gwx-calc-panel .gwx-calc-actions{grid-column:1/-1}
-.gwx-range-values strong{font-variant-numeric:tabular-nums}
-@media(min-width:1250px){
- .gwx-shell{column-gap:17px}
- .gwx-quote-world,.gwx-quote-dollar{padding:21px}
- .gwx-quote-world .gwx-quote-value,.gwx-quote-dollar .gwx-quote-value{font-size:clamp(28px,2.4vw,39px)!important}
- .gwx-chart-panel{padding:23px}
+.gwx-top-actions { display: flex; align-items: center; gap: 12px; }
+.lang-switch {
+  display: flex; gap: 2px; padding: 3px;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid var(--panel-border);
+  border-radius: 99px;
 }
-@media(max-width:1000px){
- .gwx-shell{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"top top" "welcome welcome" "hero hero" "world dollar" "chart chart" "daily calc" "faq faq" "footer footer";gap:12px}
- .gwx-topbar,.gwx-welcome{margin:0}
- .gwx-quote-gold{min-height:275px}
- .gwx-quote-gold .gwx-quote-value{font-size:clamp(42px,7vw,64px)!important;margin:22px 0}
- .gwx-quote-world,.gwx-quote-dollar{min-height:165px}
- .gwx-chart-pair{grid-template-columns:1fr 1fr}
- .gwx-chart-primary canvas{height:290px}
- .gwx-calc-panel{display:block}
- .gwx-calc-panel .gwx-result-label{margin-top:17px}
+.lang-switch button {
+  border: 0; background: transparent; color: var(--text-muted);
+  padding: 4px 10px; border-radius: 99px; font-weight: 700;
+  font-size: 11px; cursor: pointer; transition: all 0.2s;
 }
-@media(max-width:600px){
- .gwx-shell{display:grid;grid-template-columns:minmax(0,1fr);grid-template-areas:"top" "welcome" "hero" "world" "dollar" "chart" "daily" "calc" "faq" "footer";gap:10px;padding:9px}
- .gwx-topbar,.gwx-welcome,.gwx-quote,.gwx-chart-panel,.gwx-daily-panel,.gwx-calc-panel,.gwx-bottom-strip,.gwx-footer{margin:0}
- .gwx-welcome{padding:17px 4px}
- .gwx-welcome h1{font-size:29px}
- .gwx-quote-gold{min-height:265px;padding:22px 19px}
- .gwx-quote-gold .gwx-quote-value{font-size:clamp(39px,10vw,55px)!important;margin:24px 0 17px}
- .gwx-quote-world,.gwx-quote-dollar{min-height:0}
- .gwx-chart-pair{grid-template-columns:1fr}
- .gwx-chart-primary canvas{height:245px}
- .gwx-chart-small canvas{height:170px}
- .gwx-calc-panel{display:block}
- .gwx-calc-panel .gwx-result-label{margin-top:17px}
- .gwx-footer{margin-top:4px}
+.lang-switch button[aria-pressed="true"] {
+  background: #2563eb; color: #fff;
 }
 
+.status {
+  font-size: 11px; font-weight: 600; padding: 5px 12px;
+  border-radius: 99px; display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(15, 23, 42, 0.6); border: 1px solid var(--panel-border);
+}
+.status-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.status.live { color: var(--green); }
+.status.stale { color: var(--gold); }
+.status.error { color: var(--red); }
+
+/* Welcome / Hero */
+.gwx-welcome {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 24px 30px; background: var(--panel-bg);
+  border: 1px solid var(--panel-border); border-radius: var(--radius);
+  backdrop-filter: blur(12px); gap: 20px;
+}
+.gwx-eyebrow { font-size: 10px; letter-spacing: 2px; color: var(--blue); font-weight: 800; margin-bottom: 4px; }
+.gwx-welcome h1 { font-size: 26px; margin: 0 0 6px; font-weight: 800; }
+.gwx-welcome h1 em { font-style: normal; color: var(--gold); }
+.gwx-welcome p { margin: 0; color: var(--text-muted); font-size: 13px; max-width: 600px; }
+.gwx-session {
+  display: flex; align-items: center; gap: 12px; padding: 12px 18px;
+  background: rgba(15, 23, 42, 0.5); border: 1px solid var(--panel-border);
+  border-radius: 14px; font-size: 12px; white-space: nowrap;
+}
+.gwx-session-icon { font-size: 18px; color: var(--gold); }
+.gwx-session small { color: var(--text-muted); display: block; font-size: 10px; }
+.gwx-session a { color: var(--blue); text-decoration: none; font-weight: 700; margin-top: 2px; display: inline-block; }
+
+/* Ticker Grid */
+.gwx-ticker {
+  display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 16px;
+}
+.gwx-quote {
+  position: relative; overflow: hidden; padding: 22px 24px;
+  border-radius: var(--radius); backdrop-filter: blur(10px);
+  box-shadow: var(--shadow); transition: transform 0.2s, border-color 0.2s;
+  display: flex; flex-direction: column; justify-content: space-between;
+}
+.gwx-quote:hover { transform: translateY(-3px); }
+.gwx-quote-gold { background: var(--card-gold-bg); border: 1px solid var(--card-gold-border); }
+.gwx-quote-world { background: var(--card-blue-bg); border: 1px solid var(--card-blue-border); }
+.gwx-quote-dollar { background: var(--card-green-bg); border: 1px solid var(--card-green-border); }
+
+.gwx-quote-head { display: flex; align-items: center; gap: 12px; }
+.gwx-coin {
+  width: 38px; height: 38px; border-radius: 12px; font-weight: 800;
+  display: grid; place-items: center; font-size: 15px; flex-shrink: 0;
+}
+.gwx-quote-gold .gwx-coin { background: rgba(251, 191, 36, 0.15); color: var(--gold); }
+.gwx-quote-world .gwx-coin { background: rgba(56, 189, 248, 0.15); color: var(--blue); }
+.gwx-quote-dollar .gwx-coin { background: rgba(52, 211, 153, 0.15); color: var(--green); }
+
+.gwx-quote-label { font-weight: 700; font-size: 14px; flex: 1; }
+.gwx-quote-label small { display: block; font-size: 11px; color: var(--text-muted); font-weight: 400; }
+.gwx-quote-tag { font-size: 10px; font-weight: 700; opacity: 0.6; padding: 2px 6px; border: 1px solid currentColor; border-radius: 6px; }
+
+.gwx-quote-value {
+  font-size: 34px; font-weight: 900; margin: 18px 0 8px;
+  letter-spacing: -1px; line-height: 1.1; font-variant-numeric: tabular-nums;
+}
+.gwx-quote-gold .gwx-quote-value { color: var(--gold); }
+.gwx-quote-world .gwx-quote-value { color: var(--blue); }
+.gwx-quote-dollar .gwx-quote-value { color: var(--green); }
+
+.gwx-quote-foot { display: flex; justify-content: space-between; align-items: center; font-size: 12px; }
+.unit { color: var(--text-muted); }
+.change { font-weight: 700; }
+.change.up { color: var(--green); }
+.change.down { color: var(--red); }
+.change.neutral { color: var(--text-muted); }
+
+/* Main Grid & Panels */
+.gwx-main-grid {
+  display: grid; grid-template-columns: 1.8fr 1fr; gap: 20px; align-items: start;
+}
+.gwx-panel {
+  background: var(--panel-bg); border: 1px solid var(--panel-border);
+  border-radius: var(--radius); padding: 22px; backdrop-filter: blur(12px);
+  box-shadow: var(--shadow);
+}
+.gwx-panel-head {
+  display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 18px;
+}
+.gwx-panel-head h2 { font-size: 18px; margin: 2px 0 0; font-weight: 800; }
+.gwx-panel-head p { margin: 2px 0 0; color: var(--text-muted); font-size: 12px; }
+.gwx-range-label { font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 8px; }
+.select {
+  background: rgba(15, 23, 42, 0.8); color: var(--text-main);
+  border: 1px solid var(--panel-border); border-radius: 10px;
+  padding: 6px 12px; font-size: 12px; outline: none; cursor: pointer;
+}
+
+/* Charts */
+.gwx-chart-primary {
+  background: rgba(10, 18, 30, 0.6); border: 1px solid var(--panel-border);
+  border-radius: 16px; padding: 16px; margin-bottom: 16px;
+}
+.gwx-chart-title { display: flex; align-items: center; gap: 8px; font-size: 13px; margin-bottom: 8px; }
+.gwx-chart-dot { width: 8px; height: 8px; border-radius: 50%; }
+.gwx-chart-dot.gold { background: var(--gold); }
+.gwx-chart-dot.blue { background: var(--blue); }
+.gwx-chart-dot.mint { background: var(--green); }
+.gwx-chart-live { margin-inline-start: auto; font-size: 9px; font-weight: 800; color: var(--blue); background: rgba(56, 189, 248, 0.1); padding: 2px 6px; border-radius: 4px; }
+
+canvas { display: block; width: 100%; }
+.chart-tooltip {
+  display: flex; justify-content: space-between; font-size: 11px;
+  color: var(--text-muted); margin-top: 8px; padding-top: 6px; border-top: 1px dashed rgba(255, 255, 255, 0.1);
+}
+.chart-tooltip b { color: var(--text-main); }
+
+.gwx-chart-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+.gwx-chart-small {
+  background: rgba(10, 18, 30, 0.6); border: 1px solid var(--panel-border);
+  border-radius: 16px; padding: 14px;
+}
+.gwx-source-row {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;
+  font-size: 11px; color: var(--text-muted); background: rgba(10, 18, 30, 0.4);
+  padding: 10px 14px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05);
+}
+.gwx-source-row b { color: var(--text-main); font-weight: 600; }
+
+/* Side Column */
+.gwx-side-column { display: flex; flex-direction: column; gap: 20px; }
+.gwx-day-badge { font-size: 11px; font-weight: 700; color: var(--blue); }
+.gwx-range-card {
+  background: rgba(10, 18, 30, 0.5); border: 1px solid var(--panel-border);
+  border-radius: 14px; padding: 12px 14px; margin-bottom: 10px;
+}
+.gwx-range-card:last-child { margin-bottom: 0; }
+.gwx-range-title { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; margin-bottom: 8px; }
+.gwx-range-title small { margin-inline-start: auto; color: var(--text-muted); font-weight: 400; }
+.gwx-range-values { display: grid; grid-template-columns: repeat(3, 1fr); text-align: center; gap: 4px; }
+.gwx-range-values small { display: block; font-size: 10px; color: var(--text-muted); }
+.gwx-range-values strong { font-size: 12px; color: var(--text-main); font-variant-numeric: tabular-nums; }
+
+/* Calculator */
+.gwx-calc-panel { display: flex; flex-direction: column; gap: 12px; }
+.gwx-calc-field label { display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+.gwx-input-wrap {
+  display: flex; align-items: center; background: rgba(10, 18, 30, 0.8);
+  border: 1px solid var(--panel-border); border-radius: 12px; padding: 0 12px;
+}
+.gwx-input-wrap input {
+  width: 100%; background: transparent; border: 0; color: #fff;
+  padding: 10px 0; font-size: 14px; font-weight: 700; outline: none;
+}
+.gwx-input-wrap span { color: var(--text-muted); font-size: 12px; font-weight: 700; }
+.gwx-result-label { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+.gwx-result-number { font-size: 24px; font-weight: 900; color: var(--gold); }
+.calc-note { font-size: 10px; color: var(--text-muted); line-height: 1.4; }
+.gwx-calc-actions { display: flex; gap: 8px; margin-top: 6px; }
+.tool-action {
+  flex: 1; border: 1px solid var(--panel-border); border-radius: 10px;
+  padding: 8px 10px; font-size: 11px; font-weight: 700; cursor: pointer;
+  background: rgba(15, 23, 42, 0.6); color: var(--text-main); transition: all 0.2s;
+}
+.tool-action.primary { background: #2563eb; border-color: #3b82f6; color: #fff; }
+.tool-action:hover { opacity: 0.9; }
+
+/* FAQ Strip */
+.gwx-bottom-strip {
+  background: var(--panel-bg); border: 1px solid var(--panel-border);
+  border-radius: var(--radius); padding: 22px; backdrop-filter: blur(12px);
+}
+.gwx-bottom-strip h2 { font-size: 18px; margin: 4px 0 16px; font-weight: 800; }
+.gwx-faq-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.gwx-faq-grid article h3 { font-size: 13px; margin: 0 0 6px; color: var(--blue); }
+.gwx-faq-grid article p { font-size: 12px; color: var(--text-muted); margin: 0; line-height: 1.6; }
+
+/* Footer */
+.gwx-footer {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 11px; color: var(--text-muted); padding: 12px 10px;
+  border-top: 1px solid var(--panel-border); margin-top: 10px;
+}
+.gwx-footer a { color: var(--blue); text-decoration: none; font-weight: 700; }
+.notice {
+  font-size: 11px; color: var(--gold); background: rgba(251, 191, 36, 0.08);
+  border: 1px solid rgba(251, 191, 36, 0.2); padding: 10px 14px; border-radius: 12px; margin-bottom: 16px;
+}
+
+/* Toast */
+.toast {
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+  background: #1e293b; border: 1px solid var(--blue); color: #fff;
+  padding: 10px 20px; border-radius: 99px; font-size: 12px; font-weight: 600;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5); z-index: 100; display: none;
+}
+
+/* Responsive */
+@media (max-width: 960px) {
+  .gwx-ticker { grid-template-columns: 1fr; }
+  .gwx-main-grid { grid-template-columns: 1fr; }
+  .gwx-faq-grid { grid-template-columns: 1fr; }
+  .gwx-welcome { flex-direction: column; align-items: flex-start; }
+}
 </style>
 </head>
 <body>
 <div class="gwx-shell">
   <header class="gwx-topbar">
     <a class="gwx-brand" href="#" aria-label="GoldWatch Markets home">
-      <span class="gwx-mark">Au</span><span><strong>GoldWatch</strong><small>MARKET INTELLIGENCE</small></span>
+      <span class="gwx-mark">Au</span>
+      <span>
+        <strong>GoldWatch</strong>
+        <small>MARKET INTELLIGENCE</small>
+      </span>
     </a>
-    <div class="gwx-top-title"><span class="gwx-live-led"></span><span id="heroKicker">LIVE MARKET TERMINAL · IRAN & GLOBAL</span></div>
+    <div class="gwx-top-title">
+      <span class="gwx-live-led"></span>
+      <span id="heroKicker">پایش لحظه‌ای بازار طلا و ارز</span>
+    </div>
     <div class="gwx-top-actions">
-      <div class="lang-switch" aria-label="Language"><button type="button" id="langFa" aria-pressed="true">فا</button><button type="button" id="langEn" aria-pressed="false">EN</button></div>
-      <div class="status stale" id="liveStatus" aria-live="polite"><span class="status-dot"></span><span id="liveStatusText">در حال اتصال</span></div>
+      <div class="lang-switch" aria-label="Language">
+        <button type="button" id="langFa" aria-pressed="true">فا</button>
+        <button type="button" id="langEn" aria-pressed="false">EN</button>
+      </div>
+      <div class="status stale" id="liveStatus" aria-live="polite">
+        <span class="status-dot"></span>
+        <span id="liveStatusText">در حال اتصال</span>
+      </div>
     </div>
   </header>
 
   <section class="gwx-welcome">
-    <div><div class="gwx-eyebrow">YOUR MARKET, AT A GLANCE</div><h1 id="heroTitle">تصویر روشن‌تری از <em>بازار طلا و ارز.</em></h1><p id="heroText">سه بازار مهم، یک نمای ساده؛ قیمت لحظه‌ای، تغییرات روزانه و روندها را بدون شلوغی دنبال کن.</p></div>
-    <div class="gwx-session"><span class="gwx-session-icon">◷</span><div><small>آخرین بررسی داده‌ها</small><strong id="marketAsOf">منتظر داده</strong><a href="#charts">مشاهده تحلیل‌ها <span>↗</span></a></div></div>
+    <div>
+      <div class="gwx-eyebrow">YOUR MARKET, AT A GLANCE</div>
+      <h1 id="heroTitle">تصویر روشن‌تری از <em>بازار طلا و ارز.</em></h1>
+      <p id="heroText">قیمت لحظه‌ای، تغییرات روزانه و روند شاخص‌های کلیدی طلا و ارز را در یک نمای مدرن دنبال کنید.</p>
+    </div>
+    <div class="gwx-session">
+      <span class="gwx-session-icon">◷</span>
+      <div>
+        <small>آخرین بروزرسانی</small>
+        <strong id="marketAsOf">منتظر داده</strong>
+        <a href="#charts">مشاهده تحلیل‌ها ↗</a>
+      </div>
+    </div>
   </section>
 
+  <div class="notice">
+    قیمت‌ها مستقیماً از منابع رسمی دریافت شده و پس از تأیید به‌روزرسانی می‌شوند.
+  </div>
+
   <section class="gwx-ticker" id="markets" aria-label="Market prices">
-    <article class="gwx-quote gwx-quote-gold"><div class="gwx-quote-head"><span class="gwx-coin">Au</span><span class="gwx-quote-label">طلای ۱۸ عیار <small>بازار ایران · هر گرم</small></span><span class="gwx-quote-tag">IR / TOMAN</span></div><div class="gwx-quote-value price" id="iranPrice">—</div><div class="gwx-quote-foot"><span class="unit">تومان</span><span class="change neutral" id="iranChange">در حال دریافت اطلاعات…</span></div></article>
-    <article class="gwx-quote gwx-quote-world"><div class="gwx-quote-head"><span class="gwx-coin">✦</span><span class="gwx-quote-label">اونس جهانی <small>Spot Gold · Troy ounce</small></span><span class="gwx-quote-tag">XAU / USD</span></div><div class="gwx-quote-value price" id="worldPrice">—</div><div class="gwx-quote-foot"><span class="unit">دلار آمریکا / اونس</span><span class="change neutral" id="worldChange">در حال دریافت اطلاعات…</span></div></article>
-    <article class="gwx-quote gwx-quote-dollar"><div class="gwx-quote-head"><span class="gwx-coin">$</span><span class="gwx-quote-label">دلار آزاد <small>بازار ارز ایران</small></span><span class="gwx-quote-tag">USD / IRR</span></div><div class="gwx-quote-value price" id="dollarPrice">—</div><div class="gwx-quote-foot"><span class="unit">تومان</span><span class="change neutral" id="dollarChange">در حال دریافت اطلاعات…</span></div></article>
+    <article class="gwx-quote gwx-quote-gold">
+      <div class="gwx-quote-head">
+        <span class="gwx-coin">Au</span>
+        <span class="gwx-quote-label">طلای ۱۸ عیار <small>بازار ایران · هر گرم</small></span>
+        <span class="gwx-quote-tag">IR / TOMAN</span>
+      </div>
+      <div class="gwx-quote-value price" id="iranPrice">—</div>
+      <div class="gwx-quote-foot">
+        <span class="unit">تومان</span>
+        <span class="change neutral" id="iranChange">در حال دریافت اطلاعات…</span>
+      </div>
+    </article>
+
+    <article class="gwx-quote gwx-quote-world">
+      <div class="gwx-quote-head">
+        <span class="gwx-coin">✦</span>
+        <span class="gwx-quote-label">اونس جهانی <small>Spot Gold · Troy ounce</small></span>
+        <span class="gwx-quote-tag">XAU / USD</span>
+      </div>
+      <div class="gwx-quote-value price" id="worldPrice">—</div>
+      <div class="gwx-quote-foot">
+        <span class="unit">دلار آمریکا / اونس</span>
+        <span class="change neutral" id="worldChange">در حال دریافت اطلاعات…</span>
+      </div>
+    </article>
+
+    <article class="gwx-quote gwx-quote-dollar">
+      <div class="gwx-quote-head">
+        <span class="gwx-coin">$</span>
+        <span class="gwx-quote-label">دلار آزاد <small>بازار ارز ایران</small></span>
+        <span class="gwx-quote-tag">USD / IRR</span>
+      </div>
+      <div class="gwx-quote-value price" id="dollarPrice">—</div>
+      <div class="gwx-quote-foot">
+        <span class="unit">تومان</span>
+        <span class="change neutral" id="dollarChange">در حال دریافت اطلاعات…</span>
+      </div>
+    </article>
   </section>
 
   <main class="gwx-main-grid">
     <section class="gwx-panel gwx-chart-panel" id="charts">
-      <div class="gwx-panel-head"><div><div class="gwx-eyebrow">PRICE ACTION</div><h2>نبض بازار</h2><p>روند قیمت را بررسی کن و برای مشاهده مقدار دقیق روی نمودار حرکت کن.</p></div><label class="gwx-range-label" for="range">بازه <select class="select" id="range" aria-label="بازه نمودار"><option value="12h">۱۲ ساعت</option><option value="day">۲۴ ساعت</option><option value="week">۷ روز</option></select></label></div>
-      <div class="gwx-chart-primary"><div class="gwx-chart-title"><span class="gwx-chart-dot gold"></span><div><strong>طلای ۱۸ عیار ایران</strong><small>تومان / گرم</small></div><span class="gwx-chart-live">LIVE DATA</span></div><canvas id="chart" aria-label="نمودار تعاملی قیمت طلای ۱۸ عیار"></canvas><div class="chart-tooltip" id="chartTip"><span>نقطه‌ای را انتخاب کنید</span><span>—</span></div></div>
-      <div class="gwx-chart-pair"><article class="gwx-chart-small"><div class="gwx-chart-title"><span class="gwx-chart-dot blue"></span><div><strong>اونس جهانی</strong><small>USD / oz</small></div></div><canvas id="worldChart" aria-label="نمودار تعاملی قیمت طلای جهانی"></canvas><div class="chart-tooltip" id="worldChartTip"><span>نقطه‌ای را انتخاب کنید</span><span>—</span></div></article><article class="gwx-chart-small"><div class="gwx-chart-title"><span class="gwx-chart-dot mint"></span><div><strong>دلار آزاد</strong><small>تومان</small></div></div><canvas id="dollarChart" aria-label="نمودار تعاملی قیمت دلار"></canvas><div class="chart-tooltip" id="dollarChartTip"><span>نقطه‌ای را انتخاب کنید</span><span>—</span></div></article></div>
-      <div class="gwx-source-row"><span>آخرین به‌روزرسانی <b id="updated">در حال دریافت...</b></span><span>ایران <b id="sourceStatus">در حال بررسی</b></span><span>اونس <b id="sourceStatusWorld">در حال بررسی</b></span><span>دلار <b id="sourceStatusDollar">در حال بررسی</b></span></div>
+      <div class="gwx-panel-head">
+        <div>
+          <div class="gwx-eyebrow">PRICE ACTION</div>
+          <h2>نمودار روند قیمت‌ها</h2>
+          <p>روند تغییرات را بررسی کرده و جهت جزئیات روی نمودار حرکت کنید.</p>
+        </div>
+        <label class="gwx-range-label" for="range">بازه 
+          <select class="select" id="range" aria-label="بازه نمودار">
+            <option value="12h">۱۲ ساعت</option>
+            <option value="day" selected>۲۴ ساعت</option>
+            <option value="week">۷ روز</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="gwx-chart-primary">
+        <div class="gwx-chart-title">
+          <span class="gwx-chart-dot gold"></span>
+          <div><strong>طلای ۱۸ عیار ایران</strong> <small>(تومان/گرم)</small></div>
+          <span class="gwx-chart-live">LIVE</span>
+        </div>
+        <canvas id="chart" height="200" aria-label="نمودار تعاملی قیمت طلای ۱۸ عیار"></canvas>
+        <div class="chart-tooltip" id="chartTip"><span>نقطه‌ای را انتخاب کنید</span><span>—</span></div>
+      </div>
+
+      <div class="gwx-chart-pair">
+        <article class="gwx-chart-small">
+          <div class="gwx-chart-title">
+            <span class="gwx-chart-dot blue"></span>
+            <div><strong>اونس جهانی</strong> <small>(USD/oz)</small></div>
+          </div>
+          <canvas id="worldChart" height="140" aria-label="نمودار تعاملی قیمت طلای جهانی"></canvas>
+          <div class="chart-tooltip" id="worldChartTip"><span>نقطه‌ای را انتخاب کنید</span><span>—</span></div>
+        </article>
+
+        <article class="gwx-chart-small">
+          <div class="gwx-chart-title">
+            <span class="gwx-chart-dot mint"></span>
+            <div><strong>دلار آزاد</strong> <small>(تومان)</small></div>
+          </div>
+          <canvas id="dollarChart" height="140" aria-label="نمودار تعاملی قیمت دلار"></canvas>
+          <div class="chart-tooltip" id="dollarChartTip"><span>نقطه‌ای را انتخاب کنید</span><span>—</span></div>
+        </article>
+      </div>
+
+      <div class="gwx-source-row">
+        <span>آخرین به‌روزرسانی: <b id="updated">در حال دریافت...</b></span>
+        <span>طلا: <b id="sourceStatus">در حال بررسی</b></span>
+        <span>اونس: <b id="sourceStatusWorld">در حال بررسی</b></span>
+        <span>دلار: <b id="sourceStatusDollar">در حال بررسی</b></span>
+      </div>
     </section>
 
     <aside class="gwx-side-column">
-      <section class="gwx-panel gwx-daily-panel" id="daily"><div class="gwx-panel-head compact"><div><div class="gwx-eyebrow">DAILY RANGE</div><h2 id="dailyTitle">خلاصه امروز</h2></div><span class="gwx-day-badge">● امروز</span></div>
-        <article class="gwx-range-card"><div class="gwx-range-title"><span class="gwx-coin gold">Au</span><strong>طلای ۱۸ عیار</strong><small>تومان</small></div><div class="gwx-range-values"><div><small>شروع</small><strong id="dayOpen">—</strong></div><div><small>بیشترین</small><strong id="dayHigh">—</strong></div><div><small>کمترین</small><strong id="dayLow">—</strong></div></div></article>
-        <article class="gwx-range-card"><div class="gwx-range-title"><span class="gwx-coin blue">✦</span><strong>طلای جهانی</strong><small>دلار</small></div><div class="gwx-range-values"><div><small>شروع</small><strong id="worldOpen">—</strong></div><div><small>بیشترین</small><strong id="worldHigh">—</strong></div><div><small>کمترین</small><strong id="worldLow">—</strong></div></div></article>
-        <article class="gwx-range-card"><div class="gwx-range-title"><span class="gwx-coin mint">$</span><strong>دلار آزاد</strong><small>تومان</small></div><div class="gwx-range-values"><div><small>شروع</small><strong id="dollarOpen">—</strong></div><div><small>بیشترین</small><strong id="dollarHigh">—</strong></div><div><small>کمترین</small><strong id="dollarLow">—</strong></div></div></article>
+      <section class="gwx-panel gwx-daily-panel" id="daily">
+        <div class="gwx-panel-head">
+          <div>
+            <div class="gwx-eyebrow">DAILY RANGE</div>
+            <h2 id="dailyTitle">خلاصه امروز</h2>
+          </div>
+          <span class="gwx-day-badge">● امروز</span>
+        </div>
+
+        <article class="gwx-range-card">
+          <div class="gwx-range-title"><span class="gwx-chart-dot gold"></span> <strong>طلای ۱۸ عیار</strong> <small>تومان</small></div>
+          <div class="gwx-range-values">
+            <div><small>شروع</small><strong id="dayOpen">—</strong></div>
+            <div><small>بیشترین</small><strong id="dayHigh">—</strong></div>
+            <div><small>کمترین</small><strong id="dayLow">—</strong></div>
+          </div>
+        </article>
+
+        <article class="gwx-range-card">
+          <div class="gwx-range-title"><span class="gwx-chart-dot blue"></span> <strong>طلای جهانی</strong> <small>دلار</small></div>
+          <div class="gwx-range-values">
+            <div><small>شروع</small><strong id="worldOpen">—</strong></div>
+            <div><small>بیشترین</small><strong id="worldHigh">—</strong></div>
+            <div><small>کمترین</small><strong id="worldLow">—</strong></div>
+          </div>
+        </article>
+
+        <article class="gwx-range-card">
+          <div class="gwx-range-title"><span class="gwx-chart-dot mint"></span> <strong>دلار آزاد</strong> <small>تومان</small></div>
+          <div class="gwx-range-values">
+            <div><small>شروع</small><strong id="dollarOpen">—</strong></div>
+            <div><small>بیشترین</small><strong id="dollarHigh">—</strong></div>
+            <div><small>کمترین</small><strong id="dollarLow">—</strong></div>
+          </div>
+        </article>
       </section>
-      <section class="gwx-calc-panel" id="tools"><div class="gwx-eyebrow">QUICK CALCULATOR</div><h2 id="calcTitle">محاسبه ارزش خام طلا</h2><p id="calcDescription">وزن را وارد کن تا ارزش تقریبی بر اساس آخرین قیمت طلای ۱۸ عیار محاسبه شود؛ بدون اجرت، مالیات یا اختلاف خریدوفروش.</p><div class="gwx-calc-field"><label for="goldGrams" id="gramsLabel">وزن به گرم</label><div class="gwx-input-wrap"><input id="goldGrams" type="number" min="0.01" max="1000000" step="0.01" value="1" inputmode="decimal" aria-describedby="calcNote"><span>g</span></div></div><div class="gwx-result-label" id="calcResultLabel">ارزش تقریبی طلای شما</div><strong class="gwx-result-number" id="calcResult">—</strong><div class="calc-note" id="calcNote">برآورد بر پایه قیمت اعلامی طلای ۱۸ عیار است؛ قیمت نهایی معامله می‌تواند متفاوت باشد.</div><div class="gwx-calc-actions"><button type="button" class="tool-action primary" id="shareSnapshot">اشتراک‌گذاری قیمت‌ها</button><button type="button" class="tool-action" id="copySnapshot">کپی خلاصه بازار</button></div></section>
+
+      <section class="gwx-panel gwx-calc-panel" id="tools">
+        <div class="gwx-eyebrow">QUICK CALCULATOR</div>
+        <h2 id="calcTitle">محاسبه ارزش طلا</h2>
+        <p id="calcDescription">وزن را وارد کنید تا ارزش تقریبی بر اساس قیمت لحظه‌ای طلای ۱۸ عیار محاسبه شود (بدون اجرت و مالیات).</p>
+        
+        <div class="gwx-calc-field">
+          <label for="goldGrams" id="gramsLabel">وزن طلا (گرم):</label>
+          <div class="gwx-input-wrap">
+            <input id="goldGrams" type="number" min="0.01" max="1000000" step="0.01" value="1" inputmode="decimal">
+            <span>گرم</span>
+          </div>
+        </div>
+
+        <div>
+          <div class="gwx-result-label" id="calcResultLabel">ارزش تقریبی:</div>
+          <div class="gwx-result-number" id="calcResult">—</div>
+        </div>
+
+        <div class="calc-note" id="calcNote">برآورد بر پایه قیمت خام طلای ۱۸ عیار است.</div>
+
+        <div class="gwx-calc-actions">
+          <button type="button" class="tool-action primary" id="shareSnapshot">اشتراک‌گذاری</button>
+          <button type="button" class="tool-action" id="copySnapshot">کپی خلاصه</button>
+        </div>
+      </section>
     </aside>
   </main>
 
-  <section class="gwx-bottom-strip"><div><span class="gwx-eyebrow">MARKET GUIDE</span><h2 id="faqTitle">راهنمای GoldWatch Markets</h2></div><div class="gwx-faq-grid"><article><h3 id="faqQ1">قیمت‌ها هر چند وقت به‌روزرسانی می‌شوند؟</h3><p id="faqA1">داشبورد آخرین داده منتشرشده را می‌خواند و زمان دریافت و وضعیت منبع را نمایش می‌دهد. تأخیر منبع یا اجرای خودکار ممکن است روی تازگی قیمت اثر بگذارد.</p></article><article><h3 id="faqQ2">محاسبه‌گر چه چیزی را حساب می‌کند؟</h3><p id="faqA2">ارزش خام وزن واردشده را با قیمت هر گرم طلای ۱۸ عیار تخمین می‌زند؛ اجرت، مالیات، سود فروشنده و اختلاف قیمت خریدوفروش در آن لحاظ نمی‌شود.</p></article><article><h3 id="faqQ3">آیا این سایت توصیه سرمایه‌گذاری است؟</h3><p id="faqA3">خیر. این داشبورد برای مشاهده اطلاعات بازار است و نباید جایگزین بررسی مستقل یا مشاوره مالی شود.</p></article></div></section>
+  <section class="gwx-bottom-strip">
+    <div class="gwx-eyebrow">MARKET GUIDE</div>
+    <h2 id="faqTitle">راهنمای GoldWatch Markets</h2>
+    <div class="gwx-faq-grid">
+      <article>
+        <h3 id="faqQ1">قیمت‌ها هر چند وقت به‌روزرسانی می‌شوند؟</h3>
+        <p id="faqA1">داشبورد آخرین داده منتشرشده را می‌خواند و زمان دریافت و وضعیت منبع را به صورت هوشمند نمایش می‌دهد.</p>
+      </article>
+      <article>
+        <h3 id="faqQ2">محاسبه‌گر چه چیزی را حساب می‌کند؟</h3>
+        <p id="faqA2">ارزش خام وزن واردشده را با قیمت هر گرم طلای ۱۸ عیار تخمین می‌زند؛ اجرت و مالیات در آن لحاظ نمی‌شود.</p>
+      </article>
+      <article>
+        <h3 id="faqQ3">آیا این سایت توصیه سرمایه‌گذاری است؟</h3>
+        <p id="faqA3">خیر. این داشبورد صرفاً برای پایش اطلاعات بازار است و نباید مبنای مستقیم معاملات قرار گیرد.</p>
+      </article>
+    </div>
+  </section>
 
-  <footer class="gwx-footer"><span class="gwx-mark small">Au</span><span>GoldWatch Markets · داده بازار ممکن است با تأخیر همراه باشد و توصیه سرمایه‌گذاری نیست.</span><a href="https://github.com/Mirvahidhosseini/tgju-gold-monitor/actions/workflows/monitor.yml" target="_blank" rel="noopener noreferrer">▶ اجرای دستی ربات</a></footer>
+  <footer class="gwx-footer">
+    <span>GoldWatch Markets · داده‌های بازار ممکن است با کمی تأخیر همراه باشند.</span>
+    <a href="https://github.com/Mirvahidhosseini/tgju-gold-monitor/actions/workflows/monitor.yml" target="_blank" rel="noopener noreferrer">▶ اجرای دستی ربات</a>
+  </footer>
 </div>
+
 <div class="toast" id="toast" role="status"></div>
+
 <script>
-
-
 let historyRows = [];
 
 function drawOneChart(canvasId, field, color, decimals = 0, prefix = "") {
@@ -835,56 +560,81 @@ function drawOneChart(canvasId, field, color, decimals = 0, prefix = "") {
   if (!canvas) return;
   const ctx = canvas.getContext("2d");
   const ratio = window.devicePixelRatio || 1;
-  const w = canvas.getBoundingClientRect().width, h = 190, pad = 22;
+  const w = canvas.getBoundingClientRect().width, h = canvas.height / ratio || 160, pad = 20;
   if (!w) return;
-  canvas.width = Math.round(w*ratio); canvas.height = Math.round(h*ratio);
-  ctx.setTransform(ratio,0,0,ratio,0,0); ctx.clearRect(0,0,w,h);
-  const now=Date.now(), range=document.getElementById("range").value;
-  const duration=range==="week"?7*24*60*60*1000:range==="12h"?12*60*60*1000:24*60*60*1000;
-  const rows=historyRows.filter(r=>{const t=new Date(r.timestamp).getTime();return r.timestamp&&Number.isFinite(Number(r[field]))&&t<=now&&now-t<=duration;}).sort((a,b)=>new Date(a.timestamp)-new Date(b.timestamp));
-  const tip=document.getElementById(canvasId+"Tip");
-  const fmt=value=>prefix+new Intl.NumberFormat(document.documentElement.lang==="en"?"en-US":"fa-IR",{maximumFractionDigits:decimals}).format(value);
-  const setTip=(row,value)=>{if(!tip)return;if(!row){tip.innerHTML="<span>"+(document.documentElement.lang==="en"?"Hover or touch the chart to inspect details":"برای مشاهده جزئیات، روی نمودار حرکت کنید")+"</span><span>—</span>";return;}const time=new Date(row.timestamp).toLocaleString(document.documentElement.lang==="en"?"en-US":"fa-IR",{month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"});tip.innerHTML="<span>"+time+"</span><span>"+(document.documentElement.lang==="en"?"Price: ":"قیمت: ")+"<b>"+fmt(value)+"</b></span>";};
-  ctx.strokeStyle="rgba(76,103,137,.42)";ctx.lineWidth=1;
-  for(let i=0;i<4;i++){const y=pad+(h-2*pad)*i/3;ctx.beginPath();ctx.moveTo(pad,y);ctx.lineTo(w-pad,y);ctx.stroke();}
-  if(rows.length<2){ctx.fillStyle="#9db1cd";ctx.font="12px Tahoma";ctx.textAlign="center";ctx.fillText(document.documentElement.lang==="en"?(rows.length===1?"More data points are needed to draw the chart.":"No data in this range."):(rows.length===1?"برای رسم نمودار، ثبت‌های بیشتری لازم است.":"در این بازه داده‌ای وجود ندارد."),w/2,h/2);setTip(null);return;}
-  const values=rows.map(r=>Number(r[field])),min=Math.min(...values),max=Math.max(...values),span=max-min||Math.max(Math.abs(max)*.001,1);
-  const points=values.map((v,i)=>({x:pad+i*(w-2*pad)/(values.length-1),y:h-pad-(v-min)/span*(h-2*pad)}));
-  const gradient=ctx.createLinearGradient(0,pad,0,h-pad);gradient.addColorStop(0,color+"38");gradient.addColorStop(1,color+"00");
-  ctx.beginPath();ctx.moveTo(points[0].x,h-pad);points.forEach(p=>ctx.lineTo(p.x,p.y));ctx.lineTo(points[points.length-1].x,h-pad);ctx.closePath();ctx.fillStyle=gradient;ctx.fill();
-  ctx.beginPath();points.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.strokeStyle=color;ctx.lineWidth=2.5;ctx.lineJoin="round";ctx.lineCap="round";ctx.stroke();
-  const hover=Number.isInteger(canvas._hoverIndex)?Math.max(0,Math.min(points.length-1,canvas._hoverIndex)):points.length-1,active=points[hover];
-  if(canvas._hoverIndex!=null){ctx.save();ctx.setLineDash([3,4]);ctx.strokeStyle="rgba(220,235,250,.55)";ctx.beginPath();ctx.moveTo(active.x,pad);ctx.lineTo(active.x,h-pad);ctx.stroke();ctx.restore();}
-  ctx.beginPath();ctx.arc(active.x,active.y,4.5,0,Math.PI*2);ctx.fillStyle=color;ctx.fill();ctx.beginPath();ctx.arc(active.x,active.y,8,0,Math.PI*2);ctx.strokeStyle=color+"66";ctx.lineWidth=2;ctx.stroke();
-  ctx.fillStyle="#a8bad0";ctx.font="10px Tahoma";ctx.textAlign="right";ctx.fillText(fmt(max),w-pad,12);ctx.fillText(fmt(min),w-pad,h-3);setTip(rows[hover],values[hover]);
-  canvas.onmousemove=event=>{const b=canvas.getBoundingClientRect(),x=event.clientX-b.left;canvas._hoverIndex=Math.round(Math.max(0,Math.min(1,(x-pad)/(b.width-2*pad)))*(rows.length-1));drawOneChart(canvasId,field,color,decimals,prefix);};
-  canvas.onmouseleave=()=>{canvas._hoverIndex=null;drawOneChart(canvasId,field,color,decimals,prefix);};
-  canvas.ontouchstart=event=>{if(!event.touches||!event.touches[0])return;const b=canvas.getBoundingClientRect(),x=event.touches[0].clientX-b.left;canvas._hoverIndex=Math.round(Math.max(0,Math.min(1,(x-pad)/(b.width-2*pad)))*(rows.length-1));drawOneChart(canvasId,field,color,decimals,prefix);};
+  canvas.width = Math.round(w * ratio); canvas.height = Math.round(h * ratio);
+  ctx.setTransform(ratio, 0, 0, ratio, 0, 0); ctx.clearRect(0, 0, w, h);
+
+  const now = Date.now(), range = document.getElementById("range").value;
+  const duration = range === "week" ? 7*24*60*60*1000 : range === "12h" ? 12*60*60*1000 : 24*60*60*1000;
+  const rows = historyRows.filter(r => {
+    const t = new Date(r.timestamp).getTime();
+    return r.timestamp && Number.isFinite(Number(r[field])) && t <= now && now - t <= duration;
+  }).sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+
+  const tip = document.getElementById(canvasId + "Tip");
+  const fmt = value => prefix + new Intl.NumberFormat(document.documentElement.lang === "en" ? "en-US" : "fa-IR", { maximumFractionDigits: decimals }).format(value);
+  
+  const setTip = (row, value) => {
+    if (!tip) return;
+    if (!row) {
+      tip.innerHTML = "<span>" + (document.documentElement.lang === "en" ? "Hover chart for details" : "برای جزئیات روی نمودار حرکت کنید") + "</span><span>—</span>";
+      return;
+    }
+    const time = new Date(row.timestamp).toLocaleString(document.documentElement.lang === "en" ? "en-US" : "fa-IR", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
+    tip.innerHTML = "<span>" + time + "</span><span>قیمت: <b>" + fmt(value) + "</b></span>";
+  };
+
+  ctx.strokeStyle = "rgba(148, 163, 184, 0.15)"; ctx.lineWidth = 1;
+  for (let i = 0; i < 3; i++) {
+    const y = pad + (h - 2 * pad) * i / 2;
+    ctx.beginPath(); ctx.moveTo(pad, y); ctx.lineTo(w - pad, y); ctx.stroke();
+  }
+
+  if (rows.length < 2) {
+    ctx.fillStyle = "#94a3b8"; ctx.font = "11px sans-serif"; ctx.textAlign = "center";
+    ctx.fillText(document.documentElement.lang === "en" ? "Not enough data" : "داده کافی موجود نیست", w / 2, h / 2);
+    setTip(null); return;
+  }
+
+  const values = rows.map(r => Number(r[field])), min = Math.min(...values), max = Math.max(...values), span = max - min || 1;
+  const points = values.map((v, i) => ({ x: pad + i * (w - 2 * pad) / (values.length - 1), y: h - pad - (v - min) / span * (h - 2 * pad) }));
+
+  const gradient = ctx.createLinearGradient(0, pad, 0, h - pad);
+  gradient.addColorStop(0, color + "40"); gradient.addColorStop(1, color + "00");
+
+  ctx.beginPath(); ctx.moveTo(points[0].x, h - pad);
+  points.forEach(p => ctx.lineTo(p.x, p.y));
+  ctx.lineTo(points[points.length - 1].x, h - pad); ctx.closePath();
+  ctx.fillStyle = gradient; ctx.fill();
+
+  ctx.beginPath(); points.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y));
+  ctx.strokeStyle = color; ctx.lineWidth = 2; ctx.stroke();
+
+  const hover = Number.isInteger(canvas._hoverIndex) ? Math.max(0, Math.min(points.length - 1, canvas._hoverIndex)) : points.length - 1;
+  const active = points[hover];
+
+  ctx.beginPath(); ctx.arc(active.x, active.y, 4, 0, Math.PI * 2); ctx.fillStyle = color; ctx.fill();
+  setTip(rows[hover], values[hover]);
+
+  canvas.onmousemove = event => {
+    const b = canvas.getBoundingClientRect(), x = event.clientX - b.left;
+    canvas._hoverIndex = Math.round(Math.max(0, Math.min(1, (x - pad) / (b.width - 2 * pad))) * (rows.length - 1));
+    drawOneChart(canvasId, field, color, decimals, prefix);
+  };
+  canvas.onmouseleave = () => { canvas._hoverIndex = null; drawOneChart(canvasId, field, color, decimals, prefix); };
 }
+
 function draw() {
-  drawOneChart("chart", "iran_toman", "#58b7ff");
-  drawOneChart("worldChart", "world_usd", "#7faee0", 2, "$");
-  drawOneChart("dollarChart", "dollar_toman", "#45d6a5");
+  drawOneChart("chart", "iran_toman", "#fbbf24");
+  drawOneChart("worldChart", "world_usd", "#38bdf8", 2, "$");
+  drawOneChart("dollarChart", "dollar_toman", "#34d399");
 }
 
 async function updateGoldDashboard() {
   const base = "https://raw.githubusercontent.com/Mirvahidhosseini/tgju-gold-monitor/main/";
-  const formatPrice = (value, decimals = 0) =>
-    value == null || !Number.isFinite(Number(value)) ? "—" :
-      new Intl.NumberFormat(document.documentElement.lang==="en"?"en-US":"fa-IR", { maximumFractionDigits: decimals }).format(Number(value));
-  const setText = (id, value) => {
-    const el = document.getElementById(id);
-    if (el) el.textContent = value;
-  };
-  const setDailyPrice = (ids, value, unit) => ids.forEach(id =>
-    setText(id, value == null ? "—" : formatPrice(value) + " " + unit));
-  const hidePrices = () => {
-    ["iranPrice", "worldPrice", "dollarPrice"].forEach(id => setText(id, "—"));
-    ["iranChange", "worldChange", "dollarChange"].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) { el.textContent = "قیمت تازه در دسترس نیست"; el.className = "change neutral"; }
-    });
-  };
+  const formatPrice = (value, decimals = 0) => value == null || !Number.isFinite(Number(value)) ? "—" : new Intl.NumberFormat(document.documentElement.lang === "en" ? "en-US" : "fa-IR", { maximumFractionDigits: decimals }).format(Number(value));
+  const setText = (id, value) => { const el = document.getElementById(id); if (el) el.textContent = value; };
 
   try {
     const response = await fetch(base + "last_price.json?t=" + Date.now(), { cache: "no-store" });
@@ -892,312 +642,77 @@ async function updateGoldDashboard() {
     const data = await response.json();
     const daily = data.daily || {};
     const status = data.market_status || {};
-    const hasFreshness = Object.keys(status).length > 0;
-    const marketValue = (key, legacyKeys) => {
-      if (hasFreshness) return status[key]?.current_price ?? null;
-      for (const legacy of legacyKeys) if (data[legacy] != null) return data[legacy];
-      return null;
-    };
-    const iran = marketValue("iran", ["iran_toman", "price_toman", "iran_price_toman"]);
-    const world = marketValue("world", ["world_usd", "world_gold_usd"]);
-    const dollar = marketValue("dollar", ["dollar_toman"]);
-    window.currentMarketPrices = { iran, world, dollar, checkedAt: data.last_checked || data.checked_at || null };
+
+    const iran = status.iran?.current_price ?? data.iran_toman ?? null;
+    const world = status.world?.current_price ?? data.world_usd ?? null;
+    const dollar = status.dollar?.current_price ?? data.dollar_toman ?? null;
+    window.currentMarketPrices = { iran, world, dollar, checkedAt: data.last_checked || data.checked_at };
 
     setText("iranPrice", formatPrice(iran));
     setText("worldPrice", world == null ? "—" : "$" + formatPrice(world, 2));
     setText("dollarPrice", formatPrice(dollar));
 
-    setDailyPrice(["iranOpen", "dayOpen"], daily.iran?.open, "تومان");
-    setDailyPrice(["iranHigh", "dayHigh"], daily.iran?.high, "تومان");
-    setDailyPrice(["iranLow", "dayLow"], daily.iran?.low, "تومان");
-    setDailyPrice(["worldOpen"], daily.world?.open, "دلار");
-    setDailyPrice(["worldHigh"], daily.world?.high, "دلار");
-    setDailyPrice(["worldLow"], daily.world?.low, "دلار");
-    setDailyPrice(["dollarOpen"], daily.dollar?.open, "تومان");
-    setDailyPrice(["dollarHigh"], daily.dollar?.high, "تومان");
-    setDailyPrice(["dollarLow"], daily.dollar?.low, "تومان");
+    setText("dayOpen", formatPrice(daily.iran?.open));
+    setText("dayHigh", formatPrice(daily.iran?.high));
+    setText("dayLow", formatPrice(daily.iran?.low));
+
+    setText("worldOpen", formatPrice(daily.world?.open, 2));
+    setText("worldHigh", formatPrice(daily.world?.high, 2));
+    setText("worldLow", formatPrice(daily.world?.low, 2));
+
+    setText("dollarOpen", formatPrice(daily.dollar?.open));
+    setText("dollarHigh", formatPrice(daily.dollar?.high));
+    setText("dollarLow", formatPrice(daily.dollar?.low));
 
     const checkedAt = data.last_checked || data.checked_at;
-    setText("updated", checkedAt ? new Date(checkedAt).toLocaleString(document.documentElement.lang==="en"?"en-US":"fa-IR") : "نامشخص");
+    setText("updated", checkedAt ? new Date(checkedAt).toLocaleTimeString("fa-IR", { hour: "2-digit", minute: "2-digit" }) : "نامشخص");
+    setText("marketAsOf", checkedAt ? new Date(checkedAt).toLocaleTimeString("fa-IR", { hour: "2-digit", minute: "2-digit" }) : "نامشخص");
 
-    const marketStatusText = key => {
-      if (!hasFreshness) return "داده قدیمی؛ زمان دریافت بازار جداگانه موجود نیست";
-      const m = status[key];
-      if (m?.current_price == null) {
-        const last = m?.last_success_at ? new Date(m.last_success_at).toLocaleString(document.documentElement.lang==="en"?"en-US":"fa-IR") : "ندارد";
-        return "قیمت تازه ناموجود؛ آخرین موفق: " + last;
-      }
-      return "آخرین دریافت موفق: " + new Date(m.last_success_at || m.last_attempt_at).toLocaleString(document.documentElement.lang==="en"?"en-US":"fa-IR");
-    };
-    setText("sourceStatus", marketStatusText("iran"));
-    setText("sourceStatusWorld", marketStatusText("world"));
-    setText("sourceStatusDollar", marketStatusText("dollar"));
-    const notice = document.querySelector(".notice");
-    if (notice) notice.textContent =
-      "قیمت هر بازار فقط پس از دریافت موفق نمایش داده می‌شود؛ زمان آخرین دریافت موفق هر بازار در وضعیت منبع آمده است.";
-
-    function updateChange(id, current, opening, decimals = 2) {
-      const el = document.getElementById(id);
-      if (!el) return;
-      if (current == null || opening == null || Number(opening) === 0) {
-        el.textContent = "قیمت یا آمار روزانه موجود نیست";
-        el.className = "change neutral";
-        return;
-      }
+    function updateChange(id, current, opening) {
+      const el = document.getElementById(id); if (!el) return;
+      if (current == null || opening == null || !Number(opening)) { el.textContent = "—"; el.className = "change neutral"; return; }
       const pct = ((Number(current) - Number(opening)) / Number(opening)) * 100;
-      el.textContent = (pct > 0 ? "↗ +" : pct < 0 ? "↘ " : "→ ") +
-        formatPrice(pct, decimals) + "٪ از شروع روز";
+      el.textContent = (pct > 0 ? "▲ +" : pct < 0 ? "▼ " : "● ") + formatPrice(pct, 2) + "%";
       el.className = "change " + (pct > 0 ? "up" : pct < 0 ? "down" : "neutral");
     }
     updateChange("iranChange", iran, daily.iran?.open);
     updateChange("worldChange", world, daily.world?.open);
     updateChange("dollarChange", dollar, daily.dollar?.open);
-    const pctText=(current,opening)=>{if(current==null||opening==null||!Number(opening))return "—";const pct=(Number(current)-Number(opening))/Number(opening)*100;return(pct>0?"↗ +":pct<0?"↘ ":"→ ")+formatPrice(pct,2)+"٪";};
-    setText("tickerIran",formatPrice(iran));setText("tickerWorld",world==null?"—":"$"+formatPrice(world,2));setText("tickerDollar",formatPrice(dollar));
-    setText("tickerIranChange",pctText(iran,daily.iran?.open));setText("tickerWorldChange",pctText(world,daily.world?.open));setText("tickerDollarChange",pctText(dollar,daily.dollar?.open));
-    const pricesAvailable=iran!=null&&world!=null&&dollar!=null,statusEl=document.getElementById("liveStatus"),statusText=document.getElementById("liveStatusText"),checkedDate=checkedAt?new Date(checkedAt):null,ageMs=checkedDate&&Number.isFinite(checkedDate.getTime())?Date.now()-checkedDate.getTime():Infinity;
-    if(statusEl&&statusText){statusEl.className="status "+(!pricesAvailable||ageMs>90*60*1000?"stale":"live");statusText.textContent=!pricesAvailable?"بخشی از داده‌ها ناموجود":ageMs>90*60*1000?"داده قدیمی":"داده دریافت شد";}
-    setText("marketAsOf",checkedDate?"· "+checkedDate.toLocaleTimeString("fa-IR",{hour:"2-digit",minute:"2-digit"}):"· زمان نامشخص");
-    const upCount=[iran!=null&&daily.iran?.open!=null&&iran>daily.iran.open,world!=null&&daily.world?.open!=null&&world>daily.world.open,dollar!=null&&daily.dollar?.open!=null&&dollar>daily.dollar.open].filter(Boolean).length;
-    setText("marketMood",!pricesAvailable?"برای جمع‌بندی، دریافت موفق هر سه بازار لازم است.":upCount>=2?"جهت غالب بازار: صعودی نسبت به شروع روز":upCount===0?"جهت غالب بازار: نزولی یا بدون رشد نسبت به شروع روز":"حرکت بازار ترکیبی است؛ هر نماد مسیر متفاوتی دارد.");
-    if (typeof updateGoldCalculator === "function") updateGoldCalculator();
+
+    const statusEl = document.getElementById("liveStatus"), statusText = document.getElementById("liveStatusText");
+    if (statusEl) { statusEl.className = "status live"; statusText.textContent = "فعال"; }
+
+    updateGoldCalculator();
   } catch (error) {
-    console.error("Price loading failed:", error);
-    hidePrices();
-    const notice = document.querySelector(".notice");
-    if (notice) notice.textContent = "دریافت قیمت ناموفق بود؛ قیمت‌ها برای جلوگیری از نمایش داده قدیمی پنهان شده‌اند.";
-    setText("sourceStatus", "خطا در دریافت");
-    setText("sourceStatusWorld", "خطا در دریافت");
-    setText("sourceStatusDollar", "خطا در دریافت");
-    const statusEl=document.getElementById("liveStatus"),statusText=document.getElementById("liveStatusText");if(statusEl)statusEl.className="status error";if(statusText)statusText.textContent="خطای دریافت";
+    console.error("Failed to fetch price:", error);
+    const statusEl = document.getElementById("liveStatus"), statusText = document.getElementById("liveStatusText");
+    if (statusEl) { statusEl.className = "status error"; statusText.textContent = "خطا در اتصال"; }
   }
 
   try {
     const response = await fetch(base + "price_history.json?t=" + Date.now(), { cache: "no-store" });
     if (!response.ok) throw new Error("History unavailable");
-    const rows = await response.json();
-    if (!Array.isArray(rows)) throw new Error("Invalid history format");
-    historyRows = rows;
+    historyRows = await response.json();
     draw();
   } catch (error) {
-    console.error("History loading failed:", error);
-    historyRows = [];
-    draw();
+    console.error("Failed to fetch history:", error);
   }
 }
+
+function updateGoldCalculator() {
+  const input = document.getElementById("goldGrams"), out = document.getElementById("calcResult");
+  if (!input || !out) return;
+  const grams = Number(input.value), price = window.currentMarketPrices?.iran;
+  if (!Number.isFinite(grams) || grams <= 0 || !price) { out.textContent = "—"; return; }
+  out.textContent = new Intl.NumberFormat("fa-IR").format(Math.round(grams * Number(price))) + " تومان";
+}
+
+document.getElementById("goldGrams")?.addEventListener("input", updateGoldCalculator);
+document.getElementById("range")?.addEventListener("change", draw);
+window.addEventListener("resize", draw);
+
 updateGoldDashboard();
 setInterval(updateGoldDashboard, 5 * 60 * 1000);
-
-function marketSummaryText(){
-  const p=window.currentMarketPrices||{};
-  const lang=document.documentElement.lang==="en"?"en":"fa";
-  const fmt=(v,d=0)=>v==null?"—":new Intl.NumberFormat(document.documentElement.lang==="en"?"en-US":"fa-IR",{maximumFractionDigits:d}).format(Number(v));
-  const time=p.checkedAt?new Date(p.checkedAt).toLocaleString(document.documentElement.lang==="en"?"en-US":"fa-IR"):(document.documentElement.lang==="en"?"Unknown":"نامشخص");
-  return document.documentElement.lang==="en"
-    ? "GoldWatch Markets snapshot\\nIran 18K gold: "+fmt(p.iran)+" toman/g\\nGlobal gold: "+(p.world==null?"—":"$"+fmt(p.world,2))+" / oz\\nUSD/IRR: "+fmt(p.dollar)+" toman\\nLast data timestamp: "+time+"\\nMarket information only — not investment advice.\\n"+location.href
-    : "خلاصه بازار GoldWatch Markets\\nطلای ۱۸ عیار: "+fmt(p.iran)+" تومان/گرم\\nاونس جهانی: "+(p.world==null?"—":"$"+fmt(p.world,2))+" / اونس\\nدلار آزاد: "+fmt(p.dollar)+" تومان\\nزمان داده: "+time+"\\nصرفاً اطلاعات بازار؛ توصیه سرمایه‌گذاری نیست.\\n"+location.href;
-}
-function updateGoldCalculator(){
- const input=document.getElementById("goldGrams"),out=document.getElementById("calcResult");
- if(!input||!out)return;
- const grams=Number(input.value),price=window.currentMarketPrices?.iran;
- if(!Number.isFinite(grams)||grams<=0){out.textContent=document.documentElement.lang==="en"?"Enter a valid weight":"وزن معتبر وارد کن";return;} if(price==null){out.textContent=document.documentElement.lang==="en"?"Waiting for price data…":"در انتظار دریافت قیمت…";return;}
- const lang=document.documentElement.lang==="en"?"en":"fa";
- out.textContent=new Intl.NumberFormat(document.documentElement.lang==="en"?"en-US":"fa-IR",{maximumFractionDigits:0}).format(grams*Number(price))+(document.documentElement.lang==="en"?" toman":" تومان");
-}
-document.getElementById("goldGrams")?.addEventListener("input",updateGoldCalculator);
-document.getElementById("shareSnapshot")?.addEventListener("click",async()=>{
- const text=marketSummaryText(),lang=document.documentElement.lang==="en"?"en":"fa";
- try{
-   if(navigator.share){await navigator.share({title:"GoldWatch Markets",text});}
-   else if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(text);alert(document.documentElement.lang==="en"?"Market summary copied.":"خلاصه بازار کپی شد.");}
-   else{window.prompt(document.documentElement.lang==="en"?"Copy this market summary:":"خلاصه بازار را کپی کن:",text);}
- }catch(e){if(e?.name!=="AbortError")console.error("Share failed",e);}
-});
-document.getElementById("copySnapshot")?.addEventListener("click",async()=>{
- const text=marketSummaryText(),lang=document.documentElement.lang==="en"?"en":"fa";
- try{
-  if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(text);alert(document.documentElement.lang==="en"?"Market summary copied.":"خلاصه بازار کپی شد.");}
-  else window.prompt(document.documentElement.lang==="en"?"Copy this market summary:":"خلاصه بازار را کپی کن:",text);
- }catch(e){window.prompt(document.documentElement.lang==="en"?"Copy this market summary:":"خلاصه بازار را کپی کن:",text);}
-});
-
-window.addEventListener("resize",()=>draw());
 </script>
-<script>
-/* Lightweight bilingual public interface; market-data logic remains unchanged. */
-(function(){
-  const $ = (selector) => document.querySelector(selector);
-  const $$ = (selector) => Array.from(document.querySelectorAll(selector));
-  const translations = {
-    navMarkets:"Markets", navCharts:"Charts", navDaily:"Daily snapshot", navTelegram:"Explore markets ↓",
-    heroKicker:"MARKET INTELLIGENCE · IRAN & GLOBAL", heroTitle:"See the gold market<br><em>with more clarity.</em>", heroText:"Track Iranian gold, global spot gold and USD/IRR in one unified view, with charts, daily ranges and clear data status.", heroPrimary:"Explore markets ↓", heroSecondary:"View price trends",
-    brandTagline:"Smart gold & currency monitoring · Iran and global markets",
-    notice:"Prices are displayed only after a successful data fetch. Each market shows its latest successful update.",
-    stripTitle:"MARKET OVERVIEW",
-    stripHint:"Market direction will appear after prices load.",
-    iranLabel:"Iranian 18K gold · per gram",
-    worldLabel:"Global gold spot",
-    dollarLabel:"USD/IRR · open-market rate",
-    unitIran:"IRR-equivalent in toman",
-    unitWorld:"USD / troy ounce",
-    unitDollar:"toman",
-    trendTitle:"Market price trends",
-    trendHint:"Hover or touch a chart to inspect the price and timestamp.",
-    rangeDay:"24 hours",
-    rangeWeek:"7 days",
-    updated:"Last update:",
-    iranStatus:"Iran data:",
-    worldStatus:"Global gold data:",
-    dollarStatus:"USD/IRR data:",
-    iranChart:"Iranian 18K gold",
-    worldChart:"Global gold (USD per troy ounce)",
-    dollarChart:"Iran open-market dollar (toman)",
-    chartPrompt:"Touch or hover to inspect a point",
-    dailyTitle:"Today's market snapshot",
-    dailyDate:"Current day",
-    iranDaily:"Iranian 18K gold",
-    iranSub:"Iran market · toman/gram",
-    worldDaily:"Global gold",
-    worldSub:"Troy ounce · USD",
-    dollarDaily:"Open-market dollar",
-    dollarSub:"Iran market · toman",
-    open:"Open", high:"High", low:"Low",
-    manualTitle:"Run monitor manually",
-    manualHint:"Opens GitHub Actions. Select “Run workflow” to start a run.",
-    manualButton:"▶ Run monitor",
-    toolKicker:"PRACTICAL TOOLS", calcTitle:"Estimate 18K gold value", calcDescription:"Enter a weight to estimate its value using the latest reported 18K price. Excludes workmanship, tax and buy/sell spread.", gramsLabel:"Weight in grams", shareSnapshot:"Share market snapshot", copySnapshot:"Copy market summary", calcResultLabel:"Estimated gold value", calcNote:"Based on the reported 18K price per gram. The final transaction price may differ.", faqTitle:"GoldWatch Markets guide", faqQ1:"How often are prices updated?", faqA1:"The dashboard reads the latest published data and shows its timestamp and source status. Source delays or scheduled-run timing may affect freshness.", faqQ2:"What does the calculator estimate?", faqA2:"It estimates the raw value of the entered weight using the reported 18K price per gram. Workmanship, tax, seller margin and buy/sell spread are excluded.", faqQ3:"Is this investment advice?", faqA3:"No. This dashboard is for market information and is not a substitute for independent research or financial advice.", footer:"GoldWatch Markets · Market data may be delayed. Not investment advice."
-  };
-  const persian = {
-    navMarkets:"بازارها", navCharts:"نمودارها", navDaily:"خلاصه روزانه", navTelegram:"شروع بررسی ↓",
-    heroKicker:"تحلیل بازار · ایران و جهان", heroTitle:"بازار طلا را<br><em>شفاف‌تر ببین.</em>", heroText:"قیمت طلا در ایران، اونس جهانی و دلار را در یک نمای یکپارچه دنبال کن؛ با نمودار، تغییرات روزانه و وضعیت روشن داده‌ها.", heroPrimary:"مشاهده بازارها ↓", heroSecondary:"بررسی روند قیمت",
-    brandTagline:"پایش هوشمند طلا و ارز · ایران و بازار جهانی",
-    notice:"قیمت هر بازار فقط پس از دریافت موفق نمایش داده می‌شود؛ زمان آخرین دریافت موفق هر بازار در وضعیت منبع آمده است.",
-    stripTitle:"نمای سریع بازار",
-    stripHint:"پس از دریافت قیمت‌ها، جهت حرکت بازار نمایش داده می‌شود.",
-    iranLabel:"طلای ۱۸ عیار ایران · هر گرم",
-    worldLabel:"اونس جهانی طلا",
-    dollarLabel:"دلار آزاد ایران",
-    unitIran:"تومان",
-    unitWorld:"دلار آمریکا / اونس",
-    unitDollar:"تومان",
-    trendTitle:"روند قیمت بازار",
-    trendHint:"برای دیدن قیمت و ساعت ثبت، روی نمودار حرکت کنید.",
-    rangeDay:"۲۴ ساعت",
-    rangeWeek:"۷ روز",
-    updated:"آخرین به‌روزرسانی:",
-    iranStatus:"وضعیت ایران:",
-    worldStatus:"وضعیت اونس:",
-    dollarStatus:"وضعیت دلار:",
-    iranChart:"طلای ۱۸ عیار ایران",
-    worldChart:"طلای جهانی (دلار به ازای اونس)",
-    dollarChart:"دلار آزاد ایران (تومان)",
-    chartPrompt:"نقطه‌ای را انتخاب کنید",
-    dailyTitle:"خلاصه امروز",
-    dailyDate:"آمار روز جاری",
-    iranDaily:"طلای ۱۸ عیار",
-    iranSub:"بازار ایران · تومان/گرم",
-    worldDaily:"طلای جهانی",
-    worldSub:"اونس تروا · دلار",
-    dollarDaily:"دلار آزاد",
-    dollarSub:"بازار ایران · تومان",
-    open:"شروع", high:"بیشترین", low:"کمترین",
-    manualTitle:"اجرای دستی ربات",
-    manualHint:"صفحه GitHub Actions باز می‌شود؛ سپس روی «Run workflow» بزنید.",
-    manualButton:"▶ اجرای ربات",
-    toolKicker:"ابزارهای کاربردی", calcTitle:"محاسبه ارزش خام طلای ۱۸ عیار", calcDescription:"وزن طلا را وارد کن تا ارزش تقریبی آن بر اساس آخرین قیمت ثبت‌شده محاسبه شود؛ بدون اجرت، مالیات یا اختلاف خریدوفروش.", gramsLabel:"وزن به گرم", shareSnapshot:"اشتراک‌گذاری قیمت‌ها", copySnapshot:"کپی خلاصه بازار", calcResultLabel:"ارزش تقریبی طلای شما", calcNote:"برآورد بر پایه قیمت اعلامی طلای ۱۸ عیار است؛ قیمت نهایی معامله می‌تواند متفاوت باشد.", faqTitle:"راهنمای GoldWatch Markets", faqQ1:"قیمت‌ها هر چند وقت به‌روزرسانی می‌شوند؟", faqA1:"داشبورد آخرین داده منتشرشده را می‌خواند و زمان دریافت و وضعیت منبع را نمایش می‌دهد. تأخیر منبع یا اجرای خودکار ممکن است روی تازگی قیمت اثر بگذارد.", faqQ2:"محاسبه‌گر چه چیزی را حساب می‌کند؟", faqA2:"ارزش خام وزن واردشده را با قیمت هر گرم طلای ۱۸ عیار تخمین می‌زند؛ اجرت، مالیات، سود فروشنده و اختلاف قیمت خریدوفروش در آن لحاظ نمی‌شود.", faqQ3:"آیا این سایت توصیه سرمایه‌گذاری است؟", faqA3:"خیر. این داشبورد برای مشاهده اطلاعات بازار است و نباید جایگزین بررسی مستقل یا مشاوره مالی شود.", footer:"GoldWatch Markets · اطلاعات بازار ممکن است با تأخیر همراه باشد. توصیه سرمایه‌گذاری نیست."
-  };
-  let lang = "fa";
-  function set(selector, value){const el=$(selector);if(el)el.textContent=value;}
-  function applyDynamicEnglish(){
-    const status = $("#liveStatusText");
-    if(status){
-      const m={"در حال اتصال":"Connecting","بخشی از داده‌ها ناموجود":"Some data unavailable","داده قدیمی":"Stale data","داده دریافت شد":"Data received","خطای دریافت":"Data error"};
-      status.textContent=m[status.textContent]||status.textContent;
-    }
-    [ "iranChange","worldChange","dollarChange" ].forEach(id=>{
-      const el=document.getElementById(id);if(!el)return;
-      el.textContent=el.textContent.replace("قیمت تازه در دسترس نیست","Fresh price unavailable").replace("قیمت یا آمار روزانه موجود نیست","Price or daily stats unavailable").replace("٪ از شروع روز","% from open");
-    });
-    ["sourceStatus","sourceStatusWorld","sourceStatusDollar"].forEach(id=>{
-      const el=document.getElementById(id);if(!el)return;
-      el.textContent=el.textContent.replace("داده قدیمی؛ زمان دریافت بازار جداگانه موجود نیست","Legacy data; market timestamp unavailable").replace("قیمت تازه ناموجود؛ آخرین موفق:","Fresh price unavailable; last success:").replace("آخرین دریافت موفق:","Last successful fetch:").replace("خطا در دریافت","Fetch error").replace("نامشخص","Unknown");
-    });
-    const n=$(".notice");if(n)n.textContent=n.textContent.replace("قیمت هر بازار فقط پس از دریافت موفق نمایش داده می‌شود؛ زمان آخرین دریافت موفق هر بازار در وضعیت منبع آمده است.","Prices are shown only after a successful fetch. Each market's latest successful update is shown in its source status.").replace("دریافت قیمت ناموفق بود؛ قیمت‌ها برای جلوگیری از نمایش داده قدیمی پنهان شده‌اند.","Price fetch failed. Prices are hidden to avoid showing stale data.");
-    const mood=$("#marketMood");if(mood)mood.textContent=mood.textContent.replace("برای جمع‌بندی، دریافت موفق هر سه بازار لازم است.","A successful fetch from all three markets is required for a summary.").replace("جهت غالب بازار: صعودی نسبت به شروع روز","Overall direction: up versus today's open").replace("جهت غالب بازار: نزولی یا بدون رشد نسبت به شروع روز","Overall direction: down or flat versus today's open").replace("حرکت بازار ترکیبی است؛ هر نماد مسیر متفاوتی دارد.","Mixed market: each instrument is moving differently.");
-    ["chartTip","worldChartTip","dollarChartTip"].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=el.innerHTML.replace(/قیمت:/g,"Price:").replace(/برای مشاهده جزئیات، روی نمودار حرکت کنید/g,"Hover or touch the chart to inspect details").replace(/نقطه‌ای را انتخاب کنید/g,"Touch or hover to inspect a point");});
-    const replacements=[
-      ["در حال دریافت اطلاعات…","Loading data…"],["در حال دریافت...","Loading…"],["در حال بررسی","Checking…"],["نامشخص","Unknown"],["ندارد","Unavailable"],
-      ["قیمت تازه در دسترس نیست","Fresh price unavailable"],["قیمت یا آمار روزانه موجود نیست","Price or daily stats unavailable"],["٪ از شروع روز","% from open"],
-      ["داده قدیمی؛ زمان دریافت بازار جداگانه موجود نیست","Legacy data; market timestamp unavailable"],["قیمت تازه ناموجود؛ آخرین موفق:","Fresh price unavailable; last success:"],["آخرین دریافت موفق:","Last successful fetch:"],["خطا در دریافت","Fetch error"],
-      ["داده در دسترس است","Data available"],["داده دریافت شد","Data received"],["در حال اتصال","Connecting"],["بخشی از داده‌ها ناموجود","Some data unavailable"],["داده قدیمی","Stale data"],["خطای دریافت","Data error"],
-      ["تومان","toman"],["دلار","USD"],["آمار روز جاری","Current day"]
-    ];
-    document.querySelectorAll("#iranChange,#worldChange,#dollarChange,#sourceStatus,#sourceStatusWorld,#sourceStatusDollar,#updated,#dayOpen,#dayHigh,#dayLow,#worldOpen,#worldHigh,#worldLow,#dollarOpen,#dollarHigh,#dollarLow,#liveStatusText").forEach(el=>{let v=el.textContent;replacements.forEach(([fa,en])=>{v=v.split(fa).join(en);});el.textContent=v;});
-  }
-  function applyLanguage(next){
-    lang=next==="en"?"en":"fa";
-    const t=lang==="en"?translations:persian;
-    document.documentElement.lang=lang;
-    document.documentElement.dir=lang==="en"?"ltr":"rtl";
-    $("#langFa").setAttribute("aria-pressed",String(lang==="fa"));
-    $("#langEn").setAttribute("aria-pressed",String(lang==="en"));
-    set(".brand p",t.brandTagline);
-    const navLinks=$(".public-nav a");
-    if(navLinks[0])navLinks[0].textContent=t.navMarkets;if(navLinks[1])navLinks[1].textContent=t.navCharts;if(navLinks[2])navLinks[2].textContent=t.navDaily;if(navLinks[3])navLinks[3].textContent=t.navTelegram;
-    set("#heroKicker",t.heroKicker);const heroTitle=$("#heroTitle");if(heroTitle)heroTitle.innerHTML=t.heroTitle;set("#heroText",t.heroText);set("#heroPrimary",t.heroPrimary);set("#heroSecondary",t.heroSecondary);
-    set(".notice",t.notice);
-    set("#toolKicker",t.toolKicker);set("#calcTitle",t.calcTitle);set("#calcDescription",t.calcDescription);set("#gramsLabel",t.gramsLabel);set("#shareSnapshot",t.shareSnapshot);set("#copySnapshot",t.copySnapshot);set("#calcResultLabel",t.calcResultLabel);set("#calcNote",t.calcNote);set("#faqTitle",t.faqTitle);set("#faqQ1",t.faqQ1);set("#faqA1",t.faqA1);set("#faqQ2",t.faqQ2);set("#faqA2",t.faqA2);set("#faqQ3",t.faqQ3);set("#faqA3",t.faqA3);if(typeof updateGoldCalculator==="function")updateGoldCalculator();
-    const stripTitle=$(".market-strip-title");if(stripTitle){const asOf=$("#marketAsOf");stripTitle.textContent=t.stripTitle+" ";if(asOf)stripTitle.appendChild(asOf);}
-    set(".market-strip .chart-hint",t.stripHint);
-    const labels=$(".grid .card .label");
-    [t.iranLabel,t.worldLabel,t.dollarLabel].forEach((v,i)=>{if(labels[i])labels[i].textContent=v;});
-    const units=$(".grid .card .unit");
-    [t.unitIran,t.unitWorld,t.unitDollar].forEach((v,i)=>{if(units[i])units[i].textContent=v;});
-    set(".chartbox .sectionhead h2",t.trendTitle);
-    const hints=$(".chartbox .chart-hint");if(hints[0])hints[0].textContent=t.trendHint;
-    const opts=$("#range option");if(opts[0])opts[0].textContent=t.rangeDay;if(opts[1])opts[1].textContent=t.rangeWeek;
-    const meta=$(".chartmeta span");[t.updated,t.iranStatus,t.worldStatus,t.dollarStatus].forEach((v,i)=>{if(meta[i]){const b=meta[i].querySelector("b");meta[i].firstChild.textContent=v+" ";if(b)meta[i].appendChild(b);}});
-    const charts=$(".mini-chart h3");[t.iranChart,t.worldChart,t.dollarChart].forEach((v,i)=>{if(charts[i])charts[i].textContent=v;});
-    set("#dailyTitle",t.dailyTitle);const dailyDate=$(".daily-date");if(dailyDate){const dot=dailyDate.querySelector(".live-dot");dailyDate.textContent=t.dailyDate;if(dot)dailyDate.prepend(dot);}
-    // Translate visible labels that were previously hard-coded in the HTML.
-    const staticText = lang==="en" ? [
-      [".ticker-chip.gold","18K"],[".ticker-chip.world","Gold"],[".ticker-chip.dollar","USD"],
-      [".daily-gold .daily-card-head strong","18K gold"],[".daily-gold .daily-card-head small","Iran market · toman/gram"],
-      [".daily-world .daily-card-head strong","Global gold"],[".daily-world .daily-card-head small","Troy ounce · USD"],
-      [".daily-dollar .daily-card-head strong","Open-market dollar"],[".daily-dollar .daily-card-head small","Iran market · toman"],
-      ["#chart","Interactive chart for Iranian 18K gold"],["#worldChart","Interactive chart for global gold"],["#dollarChart","Interactive chart for the dollar"],
-      [".manual-run-wrap",""],[".manual-run-copy strong",t.manualTitle],[".manual-run-copy small",t.manualHint]
-    ] : [
-      [".ticker-chip.gold","۱۸ عیار"],[".ticker-chip.world","اونس"],[".ticker-chip.dollar","دلار"],
-      [".daily-gold .daily-card-head strong","طلای ۱۸ عیار"],[".daily-gold .daily-card-head small","بازار ایران · تومان/گرم"],
-      [".daily-world .daily-card-head strong","طلای جهانی"],[".daily-world .daily-card-head small","اونس تروا · دلار"],
-      [".daily-dollar .daily-card-head strong","دلار آزاد"],[".daily-dollar .daily-card-head small","بازار ایران · تومان"],
-      ["#chart","نمودار تعاملی قیمت طلای ۱۸ عیار"],["#worldChart","نمودار تعاملی قیمت طلای جهانی"],["#dollarChart","نمودار تعاملی قیمت دلار"],
-      [".manual-run-copy strong",t.manualTitle],[".manual-run-copy small",t.manualHint]
-    ];
-    staticText.forEach(([selector,value])=>{const el=$(selector);if(el&&value){if(el.tagName==="CANVAS")el.setAttribute("aria-label",value);else if(selector.startsWith(".ticker-chip")){const b=el.querySelector("b");const change=el.querySelector("span");el.firstChild.textContent=value+" ";if(b)el.insertBefore(b,change||null);}else el.textContent=value;}});
-    const dailyStats=$(".daily-values small");const statLabels=lang==="en"?["Open","High","Low","Open","High","Low","Open","High","Low"]:["شروع","بیشترین","کمترین","شروع","بیشترین","کمترین","شروع","بیشترین","کمترین"];statLabels.forEach((v,i)=>{if(dailyStats[i])dailyStats[i].textContent=v;});
-    const manualLink=$(".manual-run");if(manualLink)manualLink.textContent=t.manualButton;
-    const chartSection=$("#charts .sectionhead .sectionhead");
-    const heads=$(".daily-card-head strong"),subs=$(".daily-card-head small");
-    [t.iranDaily,t.worldDaily,t.dollarDaily].forEach((v,i)=>{if(heads[i])heads[i].textContent=v;});
-    [t.iranSub,t.worldSub,t.dollarSub].forEach((v,i)=>{if(subs[i])subs[i].textContent=v;});
-    const stats=$(".daily-values small");[t.open,t.high,t.low,t.open,t.high,t.low,t.open,t.high,t.low].forEach((v,i)=>{if(stats[i])stats[i].textContent=v;});
-    set(".manual-run-copy strong",t.manualTitle);set(".manual-run-copy small",t.manualHint);set(".manual-run",t.manualButton);
-    const heroPrimary=$("#heroPrimary");if(heroPrimary)heroPrimary.setAttribute("href","#markets");const heroSecondary=$("#heroSecondary");if(heroSecondary)heroSecondary.setAttribute("href","#charts");
-    let foot=$(".foot");if(foot)foot.textContent=t.footer;
-    document.title=lang==="en"?"GoldWatch Markets | Gold & Currency Monitor":"GoldWatch Markets | پایش طلا و ارز";
-    const status=$("#liveStatusText");if(status&&lang==="en")applyDynamicEnglish();
-  }
-  $("#langFa").addEventListener("click",()=>{applyLanguage("fa");if(typeof updateGoldDashboard==="function")updateGoldDashboard();});
-  $("#langEn").addEventListener("click",()=>{applyLanguage("en");if(typeof updateGoldDashboard==="function")updateGoldDashboard();});
-  const originalUpdate=window.updateGoldDashboard;
-  if(typeof originalUpdate==="function"){
-    window.updateGoldDashboard=async function(){await originalUpdate();if(lang==="en")applyLanguage("en");};
-  }
-  applyLanguage("fa");
-  document.getElementById("goldGrams")?.addEventListener("input",()=>{});
-})();
-</script>
+</body>
 </html>
