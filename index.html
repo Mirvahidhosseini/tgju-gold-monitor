@@ -701,148 +701,50 @@ body{
 </style>
 </head>
 <body>
-<div class="wrap">
-<header class="top">
-<div class="logo">⌁</div>
-<div class="brand"><h1>GoldWatch Markets</h1><p data-i18n="brandTagline">پایش هوشمند طلا و ارز · ایران و بازار جهانی</p></div>
-<div class="lang-switch" aria-label="Language"><button type="button" id="langFa" aria-pressed="true">فا</button><button type="button" id="langEn" aria-pressed="false">EN</button></div>
-<div class="status stale" id="liveStatus" aria-live="polite"><span class="status-dot"></span><span id="liveStatusText">در حال اتصال</span></div>
-</header>
-<nav class="public-nav" aria-label="Main navigation">
-  <a href="#markets" data-nav="markets">بازارها</a>
-  <a href="#charts" data-nav="charts">نمودارها</a>
-  <a href="#daily" data-nav="daily">خلاصه روزانه</a>
-  <a class="nav-cta" href="#markets" data-nav="telegram">شروع بررسی ↓</a>
-</nav>
-<section class="hero hero-terminal" aria-labelledby="heroTitle">
-  <div class="hero-copy">
-    <div class="hero-kicker" id="heroKicker">LIVE MARKET TERMINAL · IRAN & GLOBAL</div>
-    <h2 id="heroTitle">تصویر روشن‌تری از<br><em>بازار طلا و ارز.</em></h2>
-    <p id="heroText">سه بازار مهم، یک نمای ساده؛ قیمت لحظه‌ای، تغییرات روزانه و روندها را بدون شلوغی دنبال کن.</p>
-    <div class="hero-links">
-      <a class="hero-button primary" href="#markets" id="heroPrimary">مشاهده قیمت‌ها ↓</a>
-      <a class="hero-button secondary" href="#charts" id="heroSecondary">تحلیل روندها</a>
+<div class="gwx-shell">
+  <header class="gwx-topbar">
+    <a class="gwx-brand" href="#" aria-label="GoldWatch Markets home">
+      <span class="gwx-mark">Au</span><span><strong>GoldWatch</strong><small>MARKET INTELLIGENCE</small></span>
+    </a>
+    <div class="gwx-top-title"><span class="gwx-live-led"></span><span id="heroKicker">LIVE MARKET TERMINAL · IRAN & GLOBAL</span></div>
+    <div class="gwx-top-actions">
+      <div class="lang-switch" aria-label="Language"><button type="button" id="langFa" aria-pressed="true">فا</button><button type="button" id="langEn" aria-pressed="false">EN</button></div>
+      <div class="status stale" id="liveStatus" aria-live="polite"><span class="status-dot"></span><span id="liveStatusText">در حال اتصال</span></div>
     </div>
-  </div>
-  <div class="hero-terminal-side">
-    <div class="terminal-label"><span class="live-dot"></span> MARKET OVERVIEW <span id="marketAsOf">· منتظر داده</span></div>
-    <div class="terminal-market"><span>طلای ۱۸ عیار</span><strong id="tickerIran">—</strong><small id="tickerIranChange">—</small></div>
-    <div class="terminal-market"><span>اونس جهانی</span><strong id="tickerWorld">—</strong><small id="tickerWorldChange">—</small></div>
-    <div class="terminal-market"><span>دلار آزاد</span><strong id="tickerDollar">—</strong><small id="tickerDollarChange">—</small></div>
-    <p id="marketMood">پس از دریافت قیمت‌ها، جهت حرکت بازار نمایش داده می‌شود.</p>
-  </div>
-</section>
-<div class="notice">وضعیت منابع قیمت پس از دریافت اطلاعات به‌روزرسانی می‌شود.</div>
+  </header>
 
-<section class="grid" id="markets" aria-label="Market prices">
-<article class="card market"><div class="label">طلای ۱۸ عیار · هر گرم</div><div class="price" id="iranPrice">—</div><div class="unit">تومان</div><div class="change neutral" id="iranChange">در حال دریافت اطلاعات…</div></article>
-<article class="card market"><div class="label">اونس جهانی طلا</div><div class="price" id="worldPrice">—</div><div class="unit">دلار آمریکا / اونس</div><div class="change neutral" id="worldChange">در حال دریافت اطلاعات…</div></article>
-<article class="card market"><div class="label">دلار آزاد</div><div class="price" id="dollarPrice">—</div><div class="unit">تومان</div><div class="change neutral" id="dollarChange">در حال دریافت اطلاعات…</div></article>
-</section>
-<section class="tool-panel" id="tools" aria-labelledby="calcTitle">
-  <div>
-    <div class="tool-kicker" id="toolKicker">PRACTICAL TOOLS</div>
-    <h2 id="calcTitle">محاسبه ارزش خام طلای ۱۸ عیار</h2>
-    <p id="calcDescription">وزن طلا را وارد کن تا ارزش تقریبی آن بر اساس آخرین قیمت ثبت‌شده محاسبه شود؛ بدون اجرت، مالیات یا اختلاف خریدوفروش.</p>
-    <div class="calc-controls">
-      <label for="goldGrams" id="gramsLabel">وزن به گرم</label>
-      <input id="goldGrams" type="number" min="0.01" max="1000000" step="0.01" value="1" inputmode="decimal" aria-describedby="calcNote">
-    </div>
-    <div class="tool-actions">
-      <button type="button" class="tool-action primary" id="shareSnapshot">اشتراک‌گذاری قیمت‌ها</button>
-      <button type="button" class="tool-action" id="copySnapshot">کپی خلاصه بازار</button>
-    </div>
-  </div>
-  <div class="calc-result" aria-live="polite">
-    <small id="calcResultLabel">ارزش تقریبی طلای شما</small>
-    <strong id="calcResult">—</strong>
-    <div class="calc-note" id="calcNote">برآورد بر پایه قیمت اعلامی طلای ۱۸ عیار است؛ قیمت نهایی معامله می‌تواند متفاوت باشد.</div>
-  </div>
-</section>
+  <section class="gwx-welcome">
+    <div><div class="gwx-eyebrow">YOUR MARKET, AT A GLANCE</div><h1 id="heroTitle">تصویر روشن‌تری از <em>بازار طلا و ارز.</em></h1><p id="heroText">سه بازار مهم، یک نمای ساده؛ قیمت لحظه‌ای، تغییرات روزانه و روندها را بدون شلوغی دنبال کن.</p></div>
+    <div class="gwx-session"><span class="gwx-session-icon">◷</span><div><small>آخرین بررسی داده‌ها</small><strong id="marketAsOf">منتظر داده</strong><a href="#charts">مشاهده تحلیل‌ها <span>↗</span></a></div></div>
+  </section>
 
+  <section class="gwx-ticker" id="markets" aria-label="Market prices">
+    <article class="gwx-quote gwx-quote-gold"><div class="gwx-quote-head"><span class="gwx-coin">Au</span><span class="gwx-quote-label">طلای ۱۸ عیار <small>بازار ایران · هر گرم</small></span><span class="gwx-quote-tag">IR / TOMAN</span></div><div class="gwx-quote-value price" id="iranPrice">—</div><div class="gwx-quote-foot"><span class="unit">تومان</span><span class="change neutral" id="iranChange">در حال دریافت اطلاعات…</span></div></article>
+    <article class="gwx-quote gwx-quote-world"><div class="gwx-quote-head"><span class="gwx-coin">✦</span><span class="gwx-quote-label">اونس جهانی <small>Spot Gold · Troy ounce</small></span><span class="gwx-quote-tag">XAU / USD</span></div><div class="gwx-quote-value price" id="worldPrice">—</div><div class="gwx-quote-foot"><span class="unit">دلار آمریکا / اونس</span><span class="change neutral" id="worldChange">در حال دریافت اطلاعات…</span></div></article>
+    <article class="gwx-quote gwx-quote-dollar"><div class="gwx-quote-head"><span class="gwx-coin">$</span><span class="gwx-quote-label">دلار آزاد <small>بازار ارز ایران</small></span><span class="gwx-quote-tag">USD / IRR</span></div><div class="gwx-quote-value price" id="dollarPrice">—</div><div class="gwx-quote-foot"><span class="unit">تومان</span><span class="change neutral" id="dollarChange">در حال دریافت اطلاعات…</span></div></article>
+  </section>
 
-<section class="section card chartbox" id="charts">
-  <div class="sectionhead">
-    <div><h2>روند قیمت بازار</h2><div class="chart-hint">برای دیدن قیمت و ساعت ثبت، روی نمودار حرکت کنید.</div></div>
-    <div class="chart-controls"><select class="select" id="range" aria-label="بازه نمودار">
-      <option value="12h">۱۲ ساعت</option>
-      <option value="day">۲۴ ساعت</option>
-      <option value="week">۷ روز</option>
-    </select></div>
-  </div>
-  <div class="chartmeta">
-    <span>آخرین به‌روزرسانی: <b id="updated">در حال دریافت...</b></span>
-    <span>وضعیت ایران: <b id="sourceStatus">در حال بررسی</b></span><span>وضعیت اونس: <b id="sourceStatusWorld">در حال بررسی</b></span><span>وضعیت دلار: <b id="sourceStatusDollar">در حال بررسی</b></span>
-  </div> 
-<div class="mini-chart chart-main">
-  <h3>طلای ۱۸ عیار ایران</h3>
-  <canvas id="chart" aria-label="نمودار تعاملی قیمت طلای ۱۸ عیار"></canvas><div class="chart-tooltip" id="chartTip"><span>نقطه‌ای را انتخاب کنید</span><span>—</span></div>
-</div>
+  <main class="gwx-main-grid">
+    <section class="gwx-panel gwx-chart-panel" id="charts">
+      <div class="gwx-panel-head"><div><div class="gwx-eyebrow">PRICE ACTION</div><h2>نبض بازار</h2><p>روند قیمت را بررسی کن و برای مشاهده مقدار دقیق روی نمودار حرکت کن.</p></div><label class="gwx-range-label" for="range">بازه <select class="select" id="range" aria-label="بازه نمودار"><option value="12h">۱۲ ساعت</option><option value="day">۲۴ ساعت</option><option value="week">۷ روز</option></select></label></div>
+      <div class="gwx-chart-primary"><div class="gwx-chart-title"><span class="gwx-chart-dot gold"></span><div><strong>طلای ۱۸ عیار ایران</strong><small>تومان / گرم</small></div><span class="gwx-chart-live">LIVE DATA</span></div><canvas id="chart" aria-label="نمودار تعاملی قیمت طلای ۱۸ عیار"></canvas><div class="chart-tooltip" id="chartTip"><span>نقطه‌ای را انتخاب کنید</span><span>—</span></div></div>
+      <div class="gwx-chart-pair"><article class="gwx-chart-small"><div class="gwx-chart-title"><span class="gwx-chart-dot blue"></span><div><strong>اونس جهانی</strong><small>USD / oz</small></div></div><canvas id="worldChart" aria-label="نمودار تعاملی قیمت طلای جهانی"></canvas><div class="chart-tooltip" id="worldChartTip"><span>نقطه‌ای را انتخاب کنید</span><span>—</span></div></article><article class="gwx-chart-small"><div class="gwx-chart-title"><span class="gwx-chart-dot mint"></span><div><strong>دلار آزاد</strong><small>تومان</small></div></div><canvas id="dollarChart" aria-label="نمودار تعاملی قیمت دلار"></canvas><div class="chart-tooltip" id="dollarChartTip"><span>نقطه‌ای را انتخاب کنید</span><span>—</span></div></article></div>
+      <div class="gwx-source-row"><span>آخرین به‌روزرسانی <b id="updated">در حال دریافت...</b></span><span>ایران <b id="sourceStatus">در حال بررسی</b></span><span>اونس <b id="sourceStatusWorld">در حال بررسی</b></span><span>دلار <b id="sourceStatusDollar">در حال بررسی</b></span></div>
+    </section>
 
-<div class="mini-chart chart-secondary">
-  <h3>طلای جهانی (دلار به ازای اونس)</h3>
-  <canvas id="worldChart" aria-label="نمودار تعاملی قیمت طلای جهانی"></canvas><div class="chart-tooltip" id="worldChartTip"><span>نقطه‌ای را انتخاب کنید</span><span>—</span></div>
-</div>
+    <aside class="gwx-side-column">
+      <section class="gwx-panel gwx-daily-panel" id="daily"><div class="gwx-panel-head compact"><div><div class="gwx-eyebrow">DAILY RANGE</div><h2 id="dailyTitle">خلاصه امروز</h2></div><span class="gwx-day-badge">● امروز</span></div>
+        <article class="gwx-range-card"><div class="gwx-range-title"><span class="gwx-coin gold">Au</span><strong>طلای ۱۸ عیار</strong><small>تومان</small></div><div class="gwx-range-values"><div><small>شروع</small><strong id="dayOpen">—</strong></div><div><small>بیشترین</small><strong id="dayHigh">—</strong></div><div><small>کمترین</small><strong id="dayLow">—</strong></div></div></article>
+        <article class="gwx-range-card"><div class="gwx-range-title"><span class="gwx-coin blue">✦</span><strong>طلای جهانی</strong><small>دلار</small></div><div class="gwx-range-values"><div><small>شروع</small><strong id="worldOpen">—</strong></div><div><small>بیشترین</small><strong id="worldHigh">—</strong></div><div><small>کمترین</small><strong id="worldLow">—</strong></div></div></article>
+        <article class="gwx-range-card"><div class="gwx-range-title"><span class="gwx-coin mint">$</span><strong>دلار آزاد</strong><small>تومان</small></div><div class="gwx-range-values"><div><small>شروع</small><strong id="dollarOpen">—</strong></div><div><small>بیشترین</small><strong id="dollarHigh">—</strong></div><div><small>کمترین</small><strong id="dollarLow">—</strong></div></div></article>
+      </section>
+      <section class="gwx-calc-panel" id="tools"><div class="gwx-eyebrow">QUICK CALCULATOR</div><h2 id="calcTitle">محاسبه ارزش خام طلا</h2><p id="calcDescription">وزن را وارد کن تا ارزش تقریبی بر اساس آخرین قیمت طلای ۱۸ عیار محاسبه شود؛ بدون اجرت، مالیات یا اختلاف خریدوفروش.</p><div class="gwx-calc-field"><label for="goldGrams" id="gramsLabel">وزن به گرم</label><div class="gwx-input-wrap"><input id="goldGrams" type="number" min="0.01" max="1000000" step="0.01" value="1" inputmode="decimal" aria-describedby="calcNote"><span>g</span></div></div><div class="gwx-result-label" id="calcResultLabel">ارزش تقریبی طلای شما</div><strong class="gwx-result-number" id="calcResult">—</strong><div class="calc-note" id="calcNote">برآورد بر پایه قیمت اعلامی طلای ۱۸ عیار است؛ قیمت نهایی معامله می‌تواند متفاوت باشد.</div><div class="gwx-calc-actions"><button type="button" class="tool-action primary" id="shareSnapshot">اشتراک‌گذاری قیمت‌ها</button><button type="button" class="tool-action" id="copySnapshot">کپی خلاصه بازار</button></div></section>
+    </aside>
+  </main>
 
-<div class="mini-chart chart-secondary">
-  <h3>دلار آزاد ایران (تومان)</h3>
-  <canvas id="dollarChart" aria-label="نمودار تعاملی قیمت دلار"></canvas><div class="chart-tooltip" id="dollarChartTip"><span>نقطه‌ای را انتخاب کنید</span><span>—</span></div>
-</div>
-</section>
+  <section class="gwx-bottom-strip"><div><span class="gwx-eyebrow">MARKET GUIDE</span><h2 id="faqTitle">راهنمای GoldWatch Markets</h2></div><div class="gwx-faq-grid"><article><h3 id="faqQ1">قیمت‌ها هر چند وقت به‌روزرسانی می‌شوند؟</h3><p id="faqA1">داشبورد آخرین داده منتشرشده را می‌خواند و زمان دریافت و وضعیت منبع را نمایش می‌دهد. تأخیر منبع یا اجرای خودکار ممکن است روی تازگی قیمت اثر بگذارد.</p></article><article><h3 id="faqQ2">محاسبه‌گر چه چیزی را حساب می‌کند؟</h3><p id="faqA2">ارزش خام وزن واردشده را با قیمت هر گرم طلای ۱۸ عیار تخمین می‌زند؛ اجرت، مالیات، سود فروشنده و اختلاف قیمت خریدوفروش در آن لحاظ نمی‌شود.</p></article><article><h3 id="faqQ3">آیا این سایت توصیه سرمایه‌گذاری است؟</h3><p id="faqA3">خیر. این داشبورد برای مشاهده اطلاعات بازار است و نباید جایگزین بررسی مستقل یا مشاوره مالی شود.</p></article></div></section>
 
-<section class="section daily-section" id="daily" aria-labelledby="dailyTitle">
-  <div class="sectionhead daily-heading">
-    <div>
-      <div class="eyebrow">MARKET SNAPSHOT</div>
-      <h2 id="dailyTitle">خلاصه امروز</h2>
-    </div>
-    <span class="daily-date"><span class="live-dot"></span> آمار روز جاری</span>
-  </div>
-  <div class="daily-grid">
-    <article class="daily-card daily-gold">
-      <div class="daily-card-head"><span class="daily-icon">Au</span><div><strong>طلای ۱۸ عیار</strong><small>بازار ایران · تومان/گرم</small></div><span class="daily-symbol">IR</span></div>
-      <div class="daily-values">
-        <div><small>شروع</small><strong id="dayOpen">—</strong></div>
-        <div><small>بیشترین</small><strong id="dayHigh">—</strong></div>
-        <div><small>کمترین</small><strong id="dayLow">—</strong></div>
-      </div>
-    </article>
-    <article class="daily-card daily-world">
-      <div class="daily-card-head"><span class="daily-icon">✦</span><div><strong>طلای جهانی</strong><small>اونس تروا · دلار</small></div><span class="daily-symbol">XAU</span></div>
-      <div class="daily-values">
-        <div><small>شروع</small><strong id="worldOpen">—</strong></div>
-        <div><small>بیشترین</small><strong id="worldHigh">—</strong></div>
-        <div><small>کمترین</small><strong id="worldLow">—</strong></div>
-      </div>
-    </article>
-    <article class="daily-card daily-dollar">
-      <div class="daily-card-head"><span class="daily-icon">$</span><div><strong>دلار آزاد</strong><small>بازار ایران · تومان</small></div><span class="daily-symbol">USD</span></div>
-      <div class="daily-values">
-        <div><small>شروع</small><strong id="dollarOpen">—</strong></div>
-        <div><small>بیشترین</small><strong id="dollarHigh">—</strong></div>
-        <div><small>کمترین</small><strong id="dollarLow">—</strong></div>
-      </div>
-    </article>
-  </div>
-</section>
-
-
-<section class="faq-section" id="faq" aria-labelledby="faqTitle">
-  <h2 id="faqTitle">راهنمای GoldWatch Markets</h2>
-  <div class="faq-item"><h3 id="faqQ1">قیمت‌ها هر چند وقت به‌روزرسانی می‌شوند؟</h3><p id="faqA1">داشبورد آخرین داده منتشرشده را می‌خواند و زمان دریافت و وضعیت منبع را نمایش می‌دهد. تأخیر منبع یا اجرای خودکار ممکن است روی تازگی قیمت اثر بگذارد.</p></div>
-  <div class="faq-item"><h3 id="faqQ2">محاسبه‌گر چه چیزی را حساب می‌کند؟</h3><p id="faqA2">ارزش خام وزن واردشده را با قیمت هر گرم طلای ۱۸ عیار تخمین می‌زند؛ اجرت، مالیات، سود فروشنده و اختلاف قیمت خریدوفروش در آن لحاظ نمی‌شود.</p></div>
-  <div class="faq-item"><h3 id="faqQ3">آیا این سایت توصیه سرمایه‌گذاری است؟</h3><p id="faqA3">خیر. این داشبورد برای مشاهده اطلاعات بازار است و نباید جایگزین بررسی مستقل یا مشاوره مالی شود.</p></div>
-</section>
-<footer class="foot">GoldWatch Markets · اطلاعات بازار ممکن است با تأخیر همراه باشد. توصیه سرمایه‌گذاری نیست.</footer>
-<section class="manual-run-wrap" aria-label="اجرای دستی ربات">
-  <div class="manual-run-copy">
-    <strong>اجرای دستی ربات</strong>
-    <small>برای اجرای فوری، صفحه GitHub Actions باز می‌شود؛ سپس روی «Run workflow» بزنید.</small>
-  </div>
-  <a class="manual-run" href="https://github.com/Mirvahidhosseini/tgju-gold-monitor/actions/workflows/monitor.yml" target="_blank" rel="noopener noreferrer">
-    ▶ اجرای ربات
-  </a>
-</section>
+  <footer class="gwx-footer"><span class="gwx-mark small">Au</span><span>GoldWatch Markets · داده بازار ممکن است با تأخیر همراه باشد و توصیه سرمایه‌گذاری نیست.</span><a href="https://github.com/Mirvahidhosseini/tgju-gold-monitor/actions/workflows/monitor.yml" target="_blank" rel="noopener noreferrer">▶ اجرای دستی ربات</a></footer>
 </div>
 <div class="toast" id="toast" role="status"></div>
 <script>
