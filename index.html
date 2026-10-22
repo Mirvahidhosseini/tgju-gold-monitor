@@ -698,6 +698,84 @@ body{
  .faq-section{padding:17px}
 }
 
+
+/* === Observatory layout: asymmetric editorial market cockpit === */
+.gwx-shell{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.28fr) minmax(270px,.9fr);grid-template-areas:"top top top" "welcome welcome welcome" "chart hero world" "chart hero dollar" "daily calc calc" "faq faq faq" "footer footer footer";gap:0 15px;align-items:stretch}
+.gwx-topbar{grid-area:top}.gwx-welcome{grid-area:welcome}
+.gwx-ticker{display:contents}
+.gwx-main-grid{display:contents}
+.gwx-quote-gold{grid-area:hero;display:flex;flex-direction:column;justify-content:center;min-height:410px;padding:28px 25px;background:
+ radial-gradient(ellipse at 85% 15%,rgba(255,213,111,.18),transparent 37%),
+ linear-gradient(145deg,#345b76 0%,#1c3d58 48%,#112d46 100%);border:1px solid #f4d17b60;box-shadow:0 22px 55px #020a1470,inset 0 1px #ffffff17}
+.gwx-quote-gold:before{content:"";position:absolute;inset:12px;border:1px solid #f9d77919;border-radius:15px;pointer-events:none}
+.gwx-quote-gold:after{content:"Au";position:absolute;right:-10px;bottom:55px;font-size:150px;font-weight:900;letter-spacing:-12px;color:#ffdf8a08;line-height:1;pointer-events:none}
+.gwx-quote-gold .gwx-quote-head{align-items:flex-start}
+.gwx-quote-gold .gwx-coin{width:44px;height:44px;border-radius:15px;font-size:16px;background:linear-gradient(145deg,#ffe7a5,#c89b45);color:#142a3d;border:0}
+.gwx-quote-gold .gwx-quote-label{font-size:17px;line-height:1.5}
+.gwx-quote-gold .gwx-quote-label small{font-size:11px;margin-top:5px}
+.gwx-quote-gold .gwx-quote-tag{font-size:8px;border:1px solid #f4d17b45;border-radius:7px;padding:6px 7px;color:#f9d984}
+.gwx-quote-gold .gwx-quote-value{font-size:clamp(37px,4.2vw,61px)!important;line-height:1.2;margin:30px 0 16px;letter-spacing:-2px;position:relative;z-index:1}
+.gwx-quote-gold .gwx-quote-foot{margin-top:auto;align-items:center;padding-top:15px}
+.gwx-quote-gold .gwx-quote-foot .unit{font-size:12px;color:#c4d5e2}
+.gwx-quote-gold .gwx-quote-foot .change{font-size:12px;font-weight:800}
+.gwx-quote-world{grid-area:world;min-height:190px;display:flex;flex-direction:column;justify-content:center}
+.gwx-quote-dollar{grid-area:dollar;min-height:190px;display:flex;flex-direction:column;justify-content:center}
+.gwx-chart-panel{grid-area:chart}
+.gwx-side-column{display:contents}
+.gwx-daily-panel{grid-area:daily}
+.gwx-calc-panel{grid-area:calc}
+.gwx-bottom-strip{grid-area:faq}
+.gwx-footer{grid-area:footer}
+.gwx-welcome{padding:26px 8px 23px;position:relative}
+.gwx-welcome:after{content:"";position:absolute;left:8px;right:8px;bottom:0;height:1px;background:linear-gradient(90deg,transparent,#9ac8e52d,transparent)}
+.gwx-welcome h1{font-size:clamp(27px,3vw,40px)}
+.gwx-welcome h1 em{background:linear-gradient(90deg,#fff0b3,#ffd36f,#e6b84e);background-clip:text;-webkit-background-clip:text;color:transparent}
+.gwx-chart-panel{padding:20px;align-self:stretch}
+.gwx-chart-primary canvas{height:340px}
+.gwx-chart-pair{grid-template-columns:1fr}
+.gwx-chart-small canvas{height:145px}
+.gwx-daily-panel{align-self:start}
+.gwx-calc-panel{align-self:stretch;display:grid;grid-template-columns:minmax(0,1fr) minmax(220px,.85fr);column-gap:24px;align-content:start}
+.gwx-calc-panel>.gwx-eyebrow,.gwx-calc-panel>h2,.gwx-calc-panel>p{grid-column:1/-1}
+.gwx-calc-panel .gwx-calc-field{grid-column:1;align-self:start}
+.gwx-calc-panel .gwx-result-label{grid-column:2;grid-row:4;align-self:end;margin-top:0}
+.gwx-calc-panel .gwx-result-number{grid-column:2;grid-row:5;align-self:start}
+.gwx-calc-panel .calc-note{grid-column:1/-1}
+.gwx-calc-panel .gwx-calc-actions{grid-column:1/-1}
+.gwx-range-values strong{font-variant-numeric:tabular-nums}
+@media(min-width:1250px){
+ .gwx-shell{column-gap:17px}
+ .gwx-quote-world,.gwx-quote-dollar{padding:21px}
+ .gwx-quote-world .gwx-quote-value,.gwx-quote-dollar .gwx-quote-value{font-size:clamp(28px,2.4vw,39px)!important}
+ .gwx-chart-panel{padding:23px}
+}
+@media(max-width:1000px){
+ .gwx-shell{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"top top" "welcome welcome" "hero hero" "world dollar" "chart chart" "daily calc" "faq faq" "footer footer";gap:12px}
+ .gwx-topbar,.gwx-welcome{margin:0}
+ .gwx-quote-gold{min-height:275px}
+ .gwx-quote-gold .gwx-quote-value{font-size:clamp(42px,7vw,64px)!important;margin:22px 0}
+ .gwx-quote-world,.gwx-quote-dollar{min-height:165px}
+ .gwx-chart-pair{grid-template-columns:1fr 1fr}
+ .gwx-chart-primary canvas{height:290px}
+ .gwx-calc-panel{display:block}
+ .gwx-calc-panel .gwx-result-label{margin-top:17px}
+}
+@media(max-width:600px){
+ .gwx-shell{display:grid;grid-template-columns:minmax(0,1fr);grid-template-areas:"top" "welcome" "hero" "world" "dollar" "chart" "daily" "calc" "faq" "footer";gap:10px;padding:9px}
+ .gwx-topbar,.gwx-welcome,.gwx-quote,.gwx-chart-panel,.gwx-daily-panel,.gwx-calc-panel,.gwx-bottom-strip,.gwx-footer{margin:0}
+ .gwx-welcome{padding:17px 4px}
+ .gwx-welcome h1{font-size:29px}
+ .gwx-quote-gold{min-height:265px;padding:22px 19px}
+ .gwx-quote-gold .gwx-quote-value{font-size:clamp(39px,10vw,55px)!important;margin:24px 0 17px}
+ .gwx-quote-world,.gwx-quote-dollar{min-height:0}
+ .gwx-chart-pair{grid-template-columns:1fr}
+ .gwx-chart-primary canvas{height:245px}
+ .gwx-chart-small canvas{height:170px}
+ .gwx-calc-panel{display:block}
+ .gwx-calc-panel .gwx-result-label{margin-top:17px}
+ .gwx-footer{margin-top:4px}
+}
+
 </style>
 </head>
 <body>
