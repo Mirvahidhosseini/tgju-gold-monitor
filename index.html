@@ -371,4 +371,200 @@ body::before {
       </div>
     </section>
 
-    <!--
+    <!-- Sidebar Analytics & Calculator -->
+    <aside class="sidebar-widgets">
+      <!-- Daily Summary Widget -->
+      <div class="panel-box">
+        <div class="panel-header">
+          <h2>دامنه نوسان امروز</h2>
+        </div>
+        <div class="stat-row">
+          <span>شروع بازار (طلا):</span>
+          <strong id="dayOpen">—</strong>
+        </div>
+        <div class="stat-row">
+          <span>بیشترین قیمت امروز:</span>
+          <strong id="dayHigh" style="color: var(--green-accent);">—</strong>
+        </div>
+        <div class="stat-row">
+          <span>کمترین قیمت امروز:</span>
+          <strong id="dayLow" style="color: var(--red-accent);">—</strong>
+        </div>
+        <div class="stat-row" style="margin-top: 10px; padding-top: 10px; border-top: 1px dashed rgba(255,255,255,0.1);">
+          <span>آخرین به‌روزرسانی:</span>
+          <strong id="updated">—</strong>
+        </div>
+      </div>
+
+      <!-- Calculator Widget -->
+      <div class="panel-box calc-box">
+        <div class="panel-header">
+          <h2>محاسبه‌گر سریع طلا</h2>
+        </div>
+        <div>
+          <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 6px;">وزن طلا را وارد کنید:</label>
+          <div class="input-custom-group">
+            <input id="goldGrams" type="number" min="0.01" step="0.01" value="1" inputmode="decimal">
+            <span>گرم</span>
+          </div>
+        </div>
+
+        <div class="result-banner">
+          <small>ارزش تقریبی طلای ۱۸ عیار</small>
+          <strong id="calcResult">—</strong>
+        </div>
+
+        <button type="button" class="btn-action" id="copySnapshot">کپی خلاصه قیمت‌های بازار</button>
+      </div>
+    </aside>
+  </main>
+</div>
+
+<div class="toast" id="toast">خلاصه قیمت‌ها کپی شد!</div>
+
+<script>
+let historyRows = [];
+
+function drawOneChart(canvasId, field, color, decimals = 0, prefix = "") {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+  const ratio = window.devicePixelRatio || 1;
+  const w = canvas.getBoundingClientRect().width, h = canvas.height / ratio || 160, pad = 15;
+  if (!w) return;
+  canvas.width = Math.round(w * ratio); canvas.height = Math.round(h * ratio);
+  ctx.setTransform(ratio, 0, 0, ratio, 0, 0); ctx.clearRect(0, 0, w, h);
+
+  const now = Date.now(), range = document.getElementById("range").value;
+  const duration = range === "week" ? 7*24*60*60*1000 : range === "12h" ? 12*60*60*1000 : 24*60*60*1000;
+  const rows = historyRows.filter(r => {
+    const t = new Date(r.timestamp).getTime();
+    return r.timestamp && Number.isFinite(Number(r[field])) && t <= now && now - t <= duration;
+  }).sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+
+  const tip = document.getElementById(canvasId + "Tip");
+  const fmt = value => prefix + new Intl.NumberFormat("fa-IR", { maximumFractionDigits: decimals }).format(value);
+  
+  if (rows.length < 2) {
+    ctx.fillStyle = "#9ca3af"; ctx.font = "12px sans-serif"; ctx.textAlign = "center";
+    ctx.fillText("داده‌های کافی ثبت نشده است", w / 2, h / 2);
+    if(tip) tip.innerHTML = "<span>—</span>"; return;
+  }
+
+  const values = rows.map(r => Number(r[field])), min = Math.min(...values), max = Math.max(...values), span = max - min || 1;
+  const points = values.map((v, i) => ({ x: pad + i * (w - 2 * pad) / (values.length - 1), y: h - pad - (v - min) / span * (h - 2 * pad) }));
+
+  const gradient = ctx.createLinearGradient(0, pad, 0, h - pad);
+  gradient.addColorStop(0, color + "50"); gradient.addColorStop(1, color + "00");
+
+  ctx.beginPath(); ctx.moveTo(points[0].x, h - pad);
+  points.forEach(p => ctx.lineTo(p.x, p.y));
+  ctx.lineTo(points[points.length - 1].x, h - pad); ctx.closePath();
+  ctx.fillStyle = gradient; ctx.fill();
+
+  ctx.beginPath(); points.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y));
+  ctx.strokeStyle = color; ctx.lineWidth = 2.5; ctx.stroke();
+
+  const hover = Number.isInteger(canvas._hoverIndex) ? Math.max(0, Math.min(points.length - 1, canvas._hoverIndex)) : points.length - 1;
+  const active = points[hover];
+
+  ctx.beginPath(); ctx.arc(active.x, active.y, 5, 0, Math.PI * 2); ctx.fillStyle = color; ctx.fill();
+
+  if (tip) {
+    const time = new Date(rows[hover].timestamp).toLocaleTimeString("fa-IR", { hour: "2-digit", minute: "2-digit" });
+    tip.innerHTML = "<span>زمان: " + time + "</span><span>قیمت: <b>" + fmt(values[hover]) + "</b></span>";
+  }
+
+  canvas.onmousemove = event => {
+    const b = canvas.getBoundingClientRect(), x = event.clientX - b.left;
+    canvas._hoverIndex = Math.round(Math.max(0, Math.min(1, (x - pad) / (b.width - 2 * pad))) * (rows.length - 1));
+    drawOneChart(canvasId, field, color, decimals, prefix);
+  };
+  canvas.onmouseleave = () => { canvas._hoverIndex = null; drawOneChart(canvasId, field, color, decimals, prefix); };
+}
+
+function draw() {
+  drawOneChart("chart", "iran_toman", "#fbbf24");
+  drawOneChart("worldChart", "world_usd", "#38bdf8", 2, "$");
+  drawOneChart("dollarChart", "dollar_toman", "#10b981");
+}
+
+async function updateGoldDashboard() {
+  const base = "https://raw.githubusercontent.com/Mirvahidhosseini/tgju-gold-monitor/main/";
+  const formatPrice = (value, decimals = 0) => value == null || !Number.isFinite(Number(value)) ? "—" : new Intl.NumberFormat("fa-IR", { maximumFractionDigits: decimals }).format(Number(value));
+  const setText = (id, value) => { const el = document.getElementById(id); if (el) el.textContent = value; };
+
+  try {
+    const response = await fetch(base + "last_price.json?t=" + Date.now(), { cache: "no-store" });
+    if (!response.ok) throw new Error("Price fetch failed");
+    const data = await response.json();
+    const daily = data.daily || {};
+    const status = data.market_status || {};
+
+    const iran = status.iran?.current_price ?? data.iran_toman ?? null;
+    const world = status.world?.current_price ?? data.world_usd ?? null;
+    const dollar = status.dollar?.current_price ?? data.dollar_toman ?? null;
+    window.currentMarketPrices = { iran, world, dollar, checkedAt: data.last_checked || data.checked_at };
+
+    setText("iranPrice", formatPrice(iran));
+    setText("worldPrice", world == null ? "—" : "$" + formatPrice(world, 2));
+    setText("dollarPrice", formatPrice(dollar));
+
+    setText("dayOpen", formatPrice(daily.iran?.open));
+    setText("dayHigh", formatPrice(daily.iran?.high));
+    setText("dayLow", formatPrice(daily.iran?.low));
+
+    const checkedAt = data.last_checked || data.checked_at;
+    setText("updated", checkedAt ? new Date(checkedAt).toLocaleTimeString("fa-IR", { hour: "2-digit", minute: "2-digit" }) : "نامشخص");
+
+    function updateChange(id, current, opening) {
+      const el = document.getElementById(id); if (!el) return;
+      if (current == null || opening == null || !Number(opening)) { el.textContent = "—"; el.className = "change-tag neutral"; return; }
+      const pct = ((Number(current) - Number(opening)) / Number(opening)) * 100;
+      el.textContent = (pct > 0 ? "▲ +" : pct < 0 ? "▼ " : "● ") + formatPrice(pct, 2) + "%";
+      el.className = "change-tag " + (pct > 0 ? "up" : pct < 0 ? "down" : "neutral");
+    }
+    updateChange("iranChange", iran, daily.iran?.open);
+    updateChange("worldChange", world, daily.world?.open);
+    updateChange("dollarChange", dollar, daily.dollar?.open);
+
+    updateGoldCalculator();
+  } catch (error) {
+    console.error("Failed to load prices:", error);
+  }
+
+  try {
+    const response = await fetch(base + "price_history.json?t=" + Date.now(), { cache: "no-store" });
+    if (!response.ok) throw new Error("History fetch failed");
+    historyRows = await response.json();
+    draw();
+  } catch (error) {
+    console.error("Failed to load history:", error);
+  }
+}
+
+function updateGoldCalculator() {
+  const input = document.getElementById("goldGrams"), out = document.getElementById("calcResult");
+  if (!input || !out) return;
+  const grams = Number(input.value), price = window.currentMarketPrices?.iran;
+  if (!Number.isFinite(grams) || grams <= 0 || !price) { out.textContent = "—"; return; }
+  out.textContent = new Intl.NumberFormat("fa-IR").format(Math.round(grams * Number(price))) + " تومان";
+}
+
+document.getElementById("copySnapshot")?.addEventListener("click", () => {
+  const p = window.currentMarketPrices || {};
+  const text = `خلاصه قیمت بازار طلا و ارز:\nطلای ۱۸ عیار: ${p.iran ? new Intl.NumberFormat('fa-IR').format(p.iran) : '—'} تومان\nاونس جهانی: ${p.world ? '$' + p.world : '—'}\nدلار آزاد: ${p.dollar ? new Intl.NumberFormat('fa-IR').format(p.dollar) : '—'} تومان`;
+  navigator.clipboard.writeText(text);
+  const toast = document.getElementById("toast");
+  if(toast) { toast.style.display = "block"; setTimeout(() => toast.style.display = "none", 2500); }
+});
+
+document.getElementById("goldGrams")?.addEventListener("input", updateGoldCalculator);
+document.getElementById("range")?.addEventListener("change", draw);
+window.addEventListener("resize", draw);
+
+updateGoldDashboard();
+setInterval(updateGoldDashboard, 5 * 60 * 1000);
+</script>
+</body>
+</html>
