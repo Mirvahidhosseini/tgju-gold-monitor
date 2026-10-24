@@ -1,6 +1,6 @@
 {
-  "price_toman": 27223100,
-  "checked_at": "2026-10-24T07:53:45.774458+03:30",
+  "price_toman": 26386000,
+  "checked_at": "2026-10-24T12:33:42.856615+03:30",
   "iran_price_toman": 26255100,
   "world_gold_usd": 4190.899902,
   "daily": {
@@ -8,8 +8,8 @@
     "iran": {
       "open": 27223100,
       "high": 27223100,
-      "low": 27223100,
-      "last": 27223100
+      "low": 26386000,
+      "last": 26386000
     },
     "world": {
       "open": 3996.899902,
@@ -20,31 +20,31 @@
     "dollar": {
       "open": 271905,
       "high": 271905,
-      "low": 271905,
-      "last": 271905
+      "low": 270305,
+      "last": 270305
     }
   },
-  "iran_toman": 27223100,
+  "iran_toman": 26386000,
   "world_usd": 3996.899902,
-  "dollar_toman": 271905,
-  "last_checked": "2026-10-24T07:53:45.774458+03:30",
+  "dollar_toman": 270305,
+  "last_checked": "2026-10-24T12:33:42.856615+03:30",
   "market_status": {
     "iran": {
-      "current_price": 27223100,
-      "last_attempt_at": "2026-10-24T07:53:45.774458+03:30",
-      "last_success_at": "2026-10-24T07:53:45.774458+03:30",
+      "current_price": 26386000,
+      "last_attempt_at": "2026-10-24T12:33:42.856615+03:30",
+      "last_success_at": "2026-10-24T12:33:42.856615+03:30",
       "error": null
     },
     "world": {
       "current_price": 3996.899902,
-      "last_attempt_at": "2026-10-24T07:53:45.774458+03:30",
-      "last_success_at": "2026-10-24T07:53:45.774458+03:30",
+      "last_attempt_at": "2026-10-24T12:33:42.856615+03:30",
+      "last_success_at": "2026-10-24T12:33:42.856615+03:30",
       "error": null
     },
     "dollar": {
-      "current_price": 271905,
-      "last_attempt_at": "2026-10-24T07:53:45.774458+03:30",
-      "last_success_at": "2026-10-24T07:53:45.774458+03:30",
+      "current_price": 270305,
+      "last_attempt_at": "2026-10-24T12:33:42.856615+03:30",
+      "last_success_at": "2026-10-24T12:33:42.856615+03:30",
       "error": null
     }
   }
