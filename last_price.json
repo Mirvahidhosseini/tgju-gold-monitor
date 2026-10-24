@@ -1,6 +1,6 @@
 {
-  "price_toman": 26375600,
-  "checked_at": "2026-10-24T16:45:40.112586+03:30",
+  "price_toman": 26091700,
+  "checked_at": "2026-10-24T20:22:56.813668+03:30",
   "iran_price_toman": 26255100,
   "world_gold_usd": 4190.899902,
   "daily": {
@@ -8,8 +8,8 @@
     "iran": {
       "open": 27223100,
       "high": 27223100,
-      "low": 26375600,
-      "last": 26375600
+      "low": 26091700,
+      "last": 26091700
     },
     "world": {
       "open": 3996.899902,
@@ -20,31 +20,31 @@
     "dollar": {
       "open": 271905,
       "high": 271905,
-      "low": 270085,
-      "last": 270085
+      "low": 268500,
+      "last": 268500
     }
   },
-  "iran_toman": 26375600,
+  "iran_toman": 26091700,
   "world_usd": 3996.899902,
-  "dollar_toman": 270085,
-  "last_checked": "2026-10-24T16:45:40.112586+03:30",
+  "dollar_toman": 268500,
+  "last_checked": "2026-10-24T20:22:56.813668+03:30",
   "market_status": {
     "iran": {
-      "current_price": 26375600,
-      "last_attempt_at": "2026-10-24T16:45:40.112586+03:30",
-      "last_success_at": "2026-10-24T16:45:40.112586+03:30",
+      "current_price": 26091700,
+      "last_attempt_at": "2026-10-24T20:22:56.813668+03:30",
+      "last_success_at": "2026-10-24T20:22:56.813668+03:30",
       "error": null
     },
     "world": {
-      "current_price": 3996.899902,
-      "last_attempt_at": "2026-10-24T16:45:40.112586+03:30",
+      "current_price": null,
+      "last_attempt_at": "2026-10-24T20:22:56.813668+03:30",
       "last_success_at": "2026-10-24T16:45:40.112586+03:30",
-      "error": null
+      "error": "⚠️ خطا در دریافت طلای جهانی: HTTPSConnectionPool(host='api.gold-api.com', port=443): Max retries exceeded with url: /price/XAU (Caused by NameResolutionError(\"HTTPSConnection(host='api.gold-api.com', port=443): Failed to resolve 'api.gold-api.com' ([Errno -2] Name or service not known)\"))"
     },
     "dollar": {
-      "current_price": 270085,
-      "last_attempt_at": "2026-10-24T16:45:40.112586+03:30",
-      "last_success_at": "2026-10-24T16:45:40.112586+03:30",
+      "current_price": 268500,
+      "last_attempt_at": "2026-10-24T20:22:56.813668+03:30",
+      "last_success_at": "2026-10-24T20:22:56.813668+03:30",
       "error": null
     }
   }
