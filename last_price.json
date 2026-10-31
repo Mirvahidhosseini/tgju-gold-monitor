@@ -1,6 +1,6 @@
 {
   "price_toman": 26223500,
-  "checked_at": "2026-10-31T02:24:48.691380+03:30",
+  "checked_at": "2026-10-31T05:44:04.756612+03:30",
   "iran_price_toman": 26255100,
   "world_gold_usd": 4190.899902,
   "daily": {
@@ -27,24 +27,24 @@
   "iran_toman": 26223500,
   "world_usd": 3876.399902,
   "dollar_toman": 271060,
-  "last_checked": "2026-10-31T02:24:48.691380+03:30",
+  "last_checked": "2026-10-31T05:44:04.756612+03:30",
   "market_status": {
     "iran": {
       "current_price": 26223500,
-      "last_attempt_at": "2026-10-31T02:24:48.691380+03:30",
-      "last_success_at": "2026-10-31T02:24:48.691380+03:30",
+      "last_attempt_at": "2026-10-31T05:44:04.756612+03:30",
+      "last_success_at": "2026-10-31T05:44:04.756612+03:30",
       "error": null
     },
     "world": {
-      "current_price": 3876.399902,
-      "last_attempt_at": "2026-10-31T02:24:48.691380+03:30",
+      "current_price": null,
+      "last_attempt_at": "2026-10-31T05:44:04.756612+03:30",
       "last_success_at": "2026-10-31T02:24:48.691380+03:30",
-      "error": null
+      "error": "⚠️ خطا در دریافت طلای جهانی: HTTPSConnectionPool(host='api.gold-api.com', port=443): Max retries exceeded with url: /price/XAU (Caused by NameResolutionError(\"HTTPSConnection(host='api.gold-api.com', port=443): Failed to resolve 'api.gold-api.com' ([Errno -2] Name or service not known)\"))"
     },
     "dollar": {
       "current_price": 271060,
-      "last_attempt_at": "2026-10-31T02:24:48.691380+03:30",
-      "last_success_at": "2026-10-31T02:24:48.691380+03:30",
+      "last_attempt_at": "2026-10-31T05:44:04.756612+03:30",
+      "last_success_at": "2026-10-31T05:44:04.756612+03:30",
       "error": null
     }
   }
