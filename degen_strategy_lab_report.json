@@ -1,13 +1,13 @@
 {
   "product": "DEGEN-USD",
   "exchange": "Coinbase Exchange",
-  "period_days": 365,
-  "start_utc": "2025-11-01T17:00:00+00:00",
+  "period_days": 730,
+  "start_utc": "2024-11-01T17:00:00+00:00",
   "end_utc": "2026-11-01T17:00:00+00:00",
-  "hourly_candles_received": 8454,
-  "synthetic_zero_trade_hours": 307,
-  "four_hour_candles_used": 2189,
-  "first_candle_utc": "2025-11-01T20:00:00+00:00",
+  "hourly_candles_received": 17207,
+  "synthetic_zero_trade_hours": 314,
+  "four_hour_candles_used": 4379,
+  "first_candle_utc": "2024-11-01T20:00:00+00:00",
   "last_candle_utc": "2026-11-01T12:00:00+00:00",
   "initial_capital_usd": 10.0,
   "risk_per_trade_pct": 1.0,
@@ -23,41 +23,76 @@
   "candidate_results": [
     {
       "strategy": "Donchian breakout + EMA50/200 + volume confirmation",
-      "final_equity_usd": 9.313138062422615,
-      "net_pnl_usd": -0.686861937577385,
-      "net_return_pct": -6.8686193757738545,
-      "closed_trades": 9,
-      "wins": 0,
-      "losses": 9,
-      "win_rate_pct": 0.0,
-      "profit_factor": 0.0,
-      "max_drawdown_pct": 7.033094457012072,
-      "average_trade_pnl_usd": -0.07631799306415386,
+      "final_equity_usd": 10.106652452372105,
+      "net_pnl_usd": 0.10665245237210463,
+      "net_return_pct": 1.0665245237210463,
+      "closed_trades": 14,
+      "wins": 1,
+      "losses": 13,
+      "win_rate_pct": 7.142857142857142,
+      "profit_factor": 1.09586200249611,
+      "max_drawdown_pct": 15.134298945148597,
+      "average_trade_pnl_usd": 0.007618032312293056,
       "exit_reasons": {
-        "signal_exit_next_open": 5,
-        "stop_loss": 4
+        "signal_exit_next_open": 8,
+        "stop_loss": 6
       }
     },
     {
       "strategy": "RSI(2) mean reversion + Bollinger + EMA200 regime filter",
-      "final_equity_usd": 10.037890294045885,
-      "net_pnl_usd": 0.0378902940458854,
-      "net_return_pct": 0.3789029404588584,
-      "closed_trades": 7,
+      "final_equity_usd": 9.963877775617894,
+      "net_pnl_usd": -0.03612222438210644,
+      "net_return_pct": -0.3612222438210688,
+      "closed_trades": 8,
       "wins": 3,
-      "losses": 4,
-      "win_rate_pct": 42.857142857142854,
-      "profit_factor": 1.8212615316415914,
-      "max_drawdown_pct": 0.5880904809436927,
-      "average_trade_pnl_usd": 0.005412899149412459,
+      "losses": 5,
+      "win_rate_pct": 37.5,
+      "profit_factor": 0.6977969725382317,
+      "max_drawdown_pct": 0.9826611440788113,
+      "average_trade_pnl_usd": -0.004515278047763138,
       "exit_reasons": {
-        "signal_exit_next_open": 7
+        "signal_exit_next_open": 8
       }
     }
   ],
-  "cost_sensitivity": {
-    "slippage_0.1pct_per_side": [
-      {
+  "walk_forward_1y_train_1y_oos": {
+    "train_period": {
+      "Donchian breakout + EMA50/200 + volume confirmation": {
+        "strategy": "Donchian breakout + EMA50/200 + volume confirmation",
+        "final_equity_usd": 10.852037610342345,
+        "net_pnl_usd": 0.8520376103423448,
+        "net_return_pct": 8.520376103423445,
+        "closed_trades": 5,
+        "wins": 1,
+        "losses": 4,
+        "win_rate_pct": 20.0,
+        "profit_factor": 3.3205081550540463,
+        "max_drawdown_pct": 8.875289417995166,
+        "average_trade_pnl_usd": 0.1704075220684685,
+        "exit_reasons": {
+          "signal_exit_next_open": 3,
+          "stop_loss": 2
+        }
+      },
+      "RSI(2) mean reversion + Bollinger + EMA200 regime filter": {
+        "strategy": "RSI(2) mean reversion + Bollinger + EMA200 regime filter",
+        "final_equity_usd": 9.924346049345052,
+        "net_pnl_usd": -0.07565395065494762,
+        "net_return_pct": -0.7565395065494807,
+        "closed_trades": 2,
+        "wins": 0,
+        "losses": 2,
+        "win_rate_pct": 0.0,
+        "profit_factor": 0.0,
+        "max_drawdown_pct": 0.9735659504670835,
+        "average_trade_pnl_usd": -0.03782697532747391,
+        "exit_reasons": {
+          "signal_exit_next_open": 2
+        }
+      }
+    },
+    "out_of_sample_period": {
+      "Donchian breakout + EMA50/200 + volume confirmation": {
         "strategy": "Donchian breakout + EMA50/200 + volume confirmation",
         "final_equity_usd": 9.313138062422615,
         "net_pnl_usd": -0.686861937577385,
@@ -67,97 +102,135 @@
         "losses": 9,
         "win_rate_pct": 0.0,
         "profit_factor": 0.0,
-        "max_drawdown_pct": 7.033094457012072,
-        "average_trade_pnl_usd": -0.07631799306415386,
+        "max_drawdown_pct": 7.033094457012057,
+        "average_trade_pnl_usd": -0.07631799306415388,
         "exit_reasons": {
           "signal_exit_next_open": 5,
           "stop_loss": 4
         }
       },
+      "RSI(2) mean reversion + Bollinger + EMA200 regime filter": {
+        "strategy": "RSI(2) mean reversion + Bollinger + EMA200 regime filter",
+        "final_equity_usd": 10.039833079254075,
+        "net_pnl_usd": 0.03983307925407509,
+        "net_return_pct": 0.39833079254074644,
+        "closed_trades": 6,
+        "wins": 3,
+        "losses": 3,
+        "win_rate_pct": 50.0,
+        "profit_factor": 1.9009934898667686,
+        "max_drawdown_pct": 0.5880904809436821,
+        "average_trade_pnl_usd": 0.006638846542345824,
+        "exit_reasons": {
+          "signal_exit_next_open": 6
+        }
+      }
+    }
+  },
+  "walk_forward_split_utc": "2025-11-01T20:00:00+00:00",
+  "cost_sensitivity": {
+    "slippage_0.1pct_per_side": [
+      {
+        "strategy": "Donchian breakout + EMA50/200 + volume confirmation",
+        "final_equity_usd": 10.106652452372105,
+        "net_pnl_usd": 0.10665245237210463,
+        "net_return_pct": 1.0665245237210463,
+        "closed_trades": 14,
+        "wins": 1,
+        "losses": 13,
+        "win_rate_pct": 7.142857142857142,
+        "profit_factor": 1.09586200249611,
+        "max_drawdown_pct": 15.134298945148597,
+        "average_trade_pnl_usd": 0.007618032312293056,
+        "exit_reasons": {
+          "signal_exit_next_open": 8,
+          "stop_loss": 6
+        }
+      },
       {
         "strategy": "RSI(2) mean reversion + Bollinger + EMA200 regime filter",
-        "final_equity_usd": 10.037890294045885,
-        "net_pnl_usd": 0.0378902940458854,
-        "net_return_pct": 0.3789029404588584,
-        "closed_trades": 7,
+        "final_equity_usd": 9.963877775617894,
+        "net_pnl_usd": -0.03612222438210644,
+        "net_return_pct": -0.3612222438210688,
+        "closed_trades": 8,
         "wins": 3,
-        "losses": 4,
-        "win_rate_pct": 42.857142857142854,
-        "profit_factor": 1.8212615316415914,
-        "max_drawdown_pct": 0.5880904809436927,
-        "average_trade_pnl_usd": 0.005412899149412459,
+        "losses": 5,
+        "win_rate_pct": 37.5,
+        "profit_factor": 0.6977969725382317,
+        "max_drawdown_pct": 0.9826611440788113,
+        "average_trade_pnl_usd": -0.004515278047763138,
         "exit_reasons": {
-          "signal_exit_next_open": 7
+          "signal_exit_next_open": 8
         }
       }
     ],
     "slippage_0.2pct_per_side": [
       {
         "strategy": "Donchian breakout + EMA50/200 + volume confirmation",
-        "final_equity_usd": 9.297552131055136,
-        "net_pnl_usd": -0.7024478689448639,
-        "net_return_pct": -7.024478689448643,
-        "closed_trades": 9,
-        "wins": 0,
-        "losses": 9,
-        "win_rate_pct": 0.0,
-        "profit_factor": 0.0,
-        "max_drawdown_pct": 7.172892973859259,
-        "average_trade_pnl_usd": -0.0780497632160963,
+        "final_equity_usd": 10.080108162300457,
+        "net_pnl_usd": 0.0801081623004567,
+        "net_return_pct": 0.8010816230045625,
+        "closed_trades": 14,
+        "wins": 1,
+        "losses": 13,
+        "win_rate_pct": 7.142857142857142,
+        "profit_factor": 1.070581648692876,
+        "max_drawdown_pct": 15.315869139857572,
+        "average_trade_pnl_usd": 0.00572201159288978,
         "exit_reasons": {
-          "signal_exit_next_open": 5,
-          "stop_loss": 4
+          "signal_exit_next_open": 8,
+          "stop_loss": 6
         }
       },
       {
         "strategy": "RSI(2) mean reversion + Bollinger + EMA200 regime filter",
-        "final_equity_usd": 10.023042848823803,
-        "net_pnl_usd": 0.023042848823802586,
-        "net_return_pct": 0.23042848823802142,
-        "closed_trades": 7,
+        "final_equity_usd": 9.94880883634275,
+        "net_pnl_usd": -0.05119116365725063,
+        "net_return_pct": -0.511911636572504,
+        "closed_trades": 8,
         "wins": 3,
-        "losses": 4,
-        "win_rate_pct": 42.857142857142854,
-        "profit_factor": 1.4030029714668044,
-        "max_drawdown_pct": 0.6317178224068452,
-        "average_trade_pnl_usd": 0.0032918355462574823,
+        "losses": 5,
+        "win_rate_pct": 37.5,
+        "profit_factor": 0.60868330343072,
+        "max_drawdown_pct": 1.028098089549765,
+        "average_trade_pnl_usd": -0.006398895457156106,
         "exit_reasons": {
-          "signal_exit_next_open": 7
+          "signal_exit_next_open": 8
         }
       }
     ],
     "slippage_0.3pct_per_side": [
       {
         "strategy": "Donchian breakout + EMA50/200 + volume confirmation",
-        "final_equity_usd": 9.281979186758416,
-        "net_pnl_usd": -0.7180208132415835,
-        "net_return_pct": -7.180208132415833,
-        "closed_trades": 9,
-        "wins": 0,
-        "losses": 9,
-        "win_rate_pct": 0.0,
-        "profit_factor": 0.0,
-        "max_drawdown_pct": 7.312609367779927,
-        "average_trade_pnl_usd": -0.07978009036017543,
+        "final_equity_usd": 10.053612090538834,
+        "net_pnl_usd": 0.05361209053883442,
+        "net_return_pct": 0.5361209053883487,
+        "closed_trades": 14,
+        "wins": 1,
+        "losses": 13,
+        "win_rate_pct": 7.142857142857142,
+        "profit_factor": 1.046323726349394,
+        "max_drawdown_pct": 15.497224390710779,
+        "average_trade_pnl_usd": 0.0038294350384882,
         "exit_reasons": {
-          "signal_exit_next_open": 5,
-          "stop_loss": 4
+          "signal_exit_next_open": 8,
+          "stop_loss": 6
         }
       },
       {
         "strategy": "RSI(2) mean reversion + Bollinger + EMA200 regime filter",
-        "final_equity_usd": 10.008213709956957,
-        "net_pnl_usd": 0.008213709956956805,
-        "net_return_pct": 0.08213709956956805,
-        "closed_trades": 7,
+        "final_equity_usd": 9.933759370510401,
+        "net_pnl_usd": -0.06624062948959875,
+        "net_return_pct": -0.6624062948959897,
+        "closed_trades": 8,
         "wins": 3,
-        "losses": 4,
-        "win_rate_pct": 42.857142857142854,
-        "profit_factor": 1.1204252880264236,
-        "max_drawdown_pct": 0.6753342282299867,
-        "average_trade_pnl_usd": 0.0011733871367079177,
+        "losses": 5,
+        "win_rate_pct": 37.5,
+        "profit_factor": 0.5338176978747811,
+        "max_drawdown_pct": 1.073521309358867,
+        "average_trade_pnl_usd": -0.008280078686199989,
         "exit_reasons": {
-          "signal_exit_next_open": 7
+          "signal_exit_next_open": 8
         }
       }
     ]
@@ -171,6 +244,7 @@
     "Mean reversion: close above EMA200, RSI(2) below 8, close below lower 2-standard-deviation Bollinger band; exit above SMA5 or RSI(2) above 60.",
     "No future candle data is used; synthetic flat zero-volume hourly candles are inserted where Coinbase returns no trades.",
     "Cost sensitivity keeps fees at 0.1% per side and tests slippage at 0.1%, 0.2%, and 0.3% per side.",
+    "A chronological 365-day train / 365-day out-of-sample split is reported separately; OOS rules are unchanged.",
     "No parameter optimization was performed. These are candidate tests, not proof of a durable edge."
   ]
 }
