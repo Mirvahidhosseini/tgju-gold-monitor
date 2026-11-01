@@ -1,6 +1,10 @@
 name: DEGEN Swing Signal Bot
 
 on:
+  push:
+    paths:
+      - 'degen_signal.py'
+      - '.github/workflows/degen_signal.yml'
   workflow_dispatch:
   schedule:
     - cron: "23 */4 * * *"
@@ -32,8 +36,8 @@ jobs:
 
       - name: Analyse DEGEN/USD and send signal if needed
         env:
-          BOT_TOKEN: \${{ secrets.BOT_TOKEN }}
-          CHAT_ID: \${{ secrets.CHAT_ID }}
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
         run: python degen_signal.py
 
       - name: Save paper-trading state
