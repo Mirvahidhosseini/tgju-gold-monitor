@@ -166,7 +166,7 @@ def main():
                         "stop": stop, "target1": entry_fill + 2 * (entry_fill - stop),
                         "target2": entry_fill + 3 * (entry_fill - stop),
                         "initial_qty": qty, "remaining": qty, "target1_done": False,
-                        "entry_fee_alloc": entry_fee, "net_pnl": -entry_fee,
+                        "entry_fee_alloc": entry_fee, "net_pnl": 0.0,
                         "opened_at": datetime.fromtimestamp(ts, timezone.utc).isoformat(),
                     }
                     trades.append({
