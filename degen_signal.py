@@ -348,14 +348,14 @@ def build_status_message(analysis, state, candle_time, duplicate=False):
         if position else "موقعیت فرضی: بدون معامله باز"
     )
     return (
-        f"{headline} — DEGEN/USD\\n"
-        f"{detail}\\n"
-        f"آخرین کندل کامل ۴ ساعته: {candle_time}\\n"
-        f"قیمت پایانی: {fmt_price(analysis['candle']['close'])}\\n"
-        f"روند EMA20/EMA50: {trend}\\n"
-        f"RSI(14): {analysis['rsi']:.2f} | نسبت حجم به میانگین: {analysis['volume_ratio']:.2f}x\\n"
-        f"{position_line}\\n"
-        f"سرمایه شبیه‌سازی: ${CAPITAL_USD:.2f} | بررسی بعدی: حدود ۴ ساعت دیگر\\n"
+        f"{headline} — DEGEN/USD\n"
+        f"{detail}\n"
+        f"آخرین کندل کامل ۴ ساعته: {candle_time}\n"
+        f"قیمت پایانی: {fmt_price(analysis['candle']['close'])}\n"
+        f"روند EMA20/EMA50: {trend}\n"
+        f"RSI(14): {analysis['rsi']:.2f} | نسبت حجم به میانگین: {analysis['volume_ratio']:.2f}x\n"
+        f"{position_line}\n"
+        f"سرمایه شبیه‌سازی: ${CAPITAL_USD:.2f} | بررسی بعدی: حدود ۴ ساعت دیگر\n"
         f"این ربات فقط سیگنال و معامله کاغذی دارد؛ سفارش واقعی ثبت نمی‌کند."
     )
 
