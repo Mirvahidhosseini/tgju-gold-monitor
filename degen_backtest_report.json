@@ -21,7 +21,7 @@
   "losing_trades": 29,
   "win_rate_pct": 29.268292682926827,
   "max_drawdown_pct": 5.294938061388238,
-  "profit_factor": 0.9709852362153836,
+  "profit_factor": 1.00967654322214,
   "open_position_at_end": false,
   "trades": [
     {
@@ -763,167 +763,167 @@
   ],
   "closed_trade_results": [
     {
-      "net_pnl_usd": -0.09963033785309537,
+      "net_pnl_usd": -0.09707724854825582,
       "exit_reason": "signal_exit_next_open"
     },
     {
-      "net_pnl_usd": -0.1065480183191696,
+      "net_pnl_usd": -0.10461834834406243,
       "exit_reason": "stop_loss"
     },
     {
-      "net_pnl_usd": -0.08681595300121502,
+      "net_pnl_usd": -0.08496203390133332,
       "exit_reason": "signal_exit_next_open"
     },
     {
-      "net_pnl_usd": 0.23555296451476354,
+      "net_pnl_usd": 0.23725218192674008,
       "exit_reason": "take_profit_2"
     },
     {
-      "net_pnl_usd": 0.09254765017676171,
+      "net_pnl_usd": 0.09423791848121081,
       "exit_reason": "breakeven_stop_after_tp1"
     },
     {
-      "net_pnl_usd": -0.05573860510471619,
+      "net_pnl_usd": -0.05430347225607849,
       "exit_reason": "signal_exit_next_open"
     },
     {
-      "net_pnl_usd": -0.048312096344756215,
+      "net_pnl_usd": -0.04666674031049002,
       "exit_reason": "signal_exit_next_open"
     },
     {
-      "net_pnl_usd": -0.004976586400321385,
+      "net_pnl_usd": -0.002665670125593329,
       "exit_reason": "signal_exit_next_open"
     },
     {
-      "net_pnl_usd": -0.062028997082574325,
+      "net_pnl_usd": -0.06042275271352914,
       "exit_reason": "signal_exit_next_open"
     },
     {
-      "net_pnl_usd": 0.03463949074147277,
+      "net_pnl_usd": 0.03677154809265125,
       "exit_reason": "signal_exit_next_open"
     },
     {
-      "net_pnl_usd": -0.11011918984718239,
+      "net_pnl_usd": -0.10733299635972006,
       "exit_reason": "stop_loss"
     },
     {
-      "net_pnl_usd": 0.23411107170443618,
+      "net_pnl_usd": 0.23677523088926106,
       "exit_reason": "take_profit_2"
     },
     {
-      "net_pnl_usd": -0.05829758772550309,
+      "net_pnl_usd": -0.05663147143965006,
       "exit_reason": "signal_exit_next_open"
     },
     {
-      "net_pnl_usd": -0.03578267677502183,
+      "net_pnl_usd": -0.03352898454459654,
       "exit_reason": "signal_exit_next_open"
     },
     {
-      "net_pnl_usd": 0.23497935789047905,
+      "net_pnl_usd": 0.23834113050696357,
       "exit_reason": "take_profit_2"
     },
     {
-      "net_pnl_usd": -0.11327063992336509,
+      "net_pnl_usd": -0.11038922996488189,
       "exit_reason": "stop_loss"
     },
     {
-      "net_pnl_usd": -0.11084828764111125,
+      "net_pnl_usd": -0.10829712691076313,
       "exit_reason": "stop_loss"
     },
     {
-      "net_pnl_usd": 0.019309073168551828,
+      "net_pnl_usd": 0.021883183608807213,
       "exit_reason": "signal_exit_next_open"
     },
     {
-      "net_pnl_usd": 0.24029913613651488,
+      "net_pnl_usd": 0.24258978967961958,
       "exit_reason": "take_profit_2"
     },
     {
-      "net_pnl_usd": -0.11063056754616402,
+      "net_pnl_usd": -0.10852360701675484,
       "exit_reason": "stop_loss"
     },
     {
-      "net_pnl_usd": 0.24564955052993295,
+      "net_pnl_usd": 0.2474387137543767,
       "exit_reason": "take_profit_2"
     },
     {
-      "net_pnl_usd": -0.027278674282302857,
+      "net_pnl_usd": -0.026636929507843243,
       "exit_reason": "signal_exit_next_open"
     },
     {
-      "net_pnl_usd": -0.06192021873461639,
+      "net_pnl_usd": -0.060666166269594604,
       "exit_reason": "signal_exit_next_open"
     },
     {
-      "net_pnl_usd": -0.08219609692967302,
+      "net_pnl_usd": -0.08131978704005159,
       "exit_reason": "signal_exit_next_open"
     },
     {
-      "net_pnl_usd": -0.1056217865500032,
+      "net_pnl_usd": -0.10469319488626193,
       "exit_reason": "stop_loss"
     },
     {
-      "net_pnl_usd": -0.07884984536539216,
+      "net_pnl_usd": -0.07799884329946227,
       "exit_reason": "signal_exit_next_open"
     },
     {
-      "net_pnl_usd": 0.24728398487420067,
+      "net_pnl_usd": 0.24801634682031698,
       "exit_reason": "take_profit_2"
     },
     {
-      "net_pnl_usd": -0.04667913750941541,
+      "net_pnl_usd": -0.04614104360281896,
       "exit_reason": "signal_exit_next_open"
     },
     {
-      "net_pnl_usd": 0.10514871757536555,
+      "net_pnl_usd": 0.10589583225305392,
       "exit_reason": "signal_exit_next_open"
     },
     {
-      "net_pnl_usd": -0.0644042263976747,
+      "net_pnl_usd": -0.06331724225721785,
       "exit_reason": "signal_exit_next_open"
     },
     {
-      "net_pnl_usd": -0.03690188395977946,
+      "net_pnl_usd": -0.03591747224654745,
       "exit_reason": "signal_exit_next_open"
     },
     {
-      "net_pnl_usd": 0.15832390503157573,
+      "net_pnl_usd": 0.15936028149970086,
       "exit_reason": "signal_exit_next_open"
     },
     {
-      "net_pnl_usd": 0.09944213183322179,
+      "net_pnl_usd": 0.10052104182448181,
       "exit_reason": "breakeven_stop_after_tp1"
     },
     {
-      "net_pnl_usd": -0.0680994873500967,
+      "net_pnl_usd": -0.06525685173581286,
       "exit_reason": "signal_exit_next_open"
     },
     {
-      "net_pnl_usd": -0.03769911480936319,
+      "net_pnl_usd": -0.033840519373524204,
       "exit_reason": "signal_exit_next_open"
     },
     {
-      "net_pnl_usd": -0.0849089446729083,
+      "net_pnl_usd": -0.08364746024559287,
       "exit_reason": "signal_exit_next_open"
     },
     {
-      "net_pnl_usd": -0.011256137238055934,
+      "net_pnl_usd": -0.009353396517405108,
       "exit_reason": "signal_exit_next_open"
     },
     {
-      "net_pnl_usd": -0.11260155365242545,
+      "net_pnl_usd": -0.11016124307561016,
       "exit_reason": "stop_loss"
     },
     {
-      "net_pnl_usd": -0.09449897368869298,
+      "net_pnl_usd": -0.09193803504418081,
       "exit_reason": "signal_exit_next_open"
     },
     {
-      "net_pnl_usd": -0.032541968817092766,
+      "net_pnl_usd": -0.02967099328795976,
       "exit_reason": "signal_exit_next_open"
     },
     {
-      "net_pnl_usd": -0.057017836534521166,
+      "net_pnl_usd": -0.054233028868633654,
       "exit_reason": "signal_exit_next_open"
     }
   ],
