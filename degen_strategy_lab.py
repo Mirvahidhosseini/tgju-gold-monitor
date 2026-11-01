@@ -215,6 +215,22 @@ def run_strategy(name, candles, signals, buy_key, exit_key, stop_atr, start_inde
     }
 
 
+def buy_and_hold(candles):
+    entry = candles[0]["open"] * (1 + SLIPPAGE)
+    qty = INITIAL_CAPITAL / (entry * (1 + FEE))
+    exit_price = candles[-1]["close"] * (1 - SLIPPAGE)
+    final_equity = qty * exit_price * (1 - FEE)
+    return {
+        "benchmark": "DEGEN buy-and-hold",
+        "initial_capital_usd": INITIAL_CAPITAL,
+        "final_equity_usd": final_equity,
+        "net_pnl_usd": final_equity - INITIAL_CAPITAL,
+        "net_return_pct": (final_equity / INITIAL_CAPITAL - 1) * 100,
+        "fees_pct_per_side": FEE * 100,
+        "slippage_pct_per_side": SLIPPAGE * 100,
+    }
+
+
 def main():
     product = get(f"/products/{PRODUCT}")
     if str(product.get("status", "")).lower() != "online" or product.get("trading_disabled") is True:
@@ -280,6 +296,7 @@ def main():
         "fees_pct_per_side": FEE*100,
         "slippage_pct_per_side": SLIPPAGE*100,
         "baseline_strategy_reference": baseline,
+        "buy_and_hold_benchmark": buy_and_hold(candles),
         "candidate_results": results,
         "walk_forward_1y_train_1y_oos": walk_forward,
         "walk_forward_split_utc": datetime.fromtimestamp(candles[split_index]["time"], timezone.utc).isoformat(),
@@ -293,6 +310,7 @@ def main():
             "Mean reversion: close above EMA200, RSI(2) below 8, close below lower 2-standard-deviation Bollinger band; exit above SMA5 or RSI(2) above 60.",
             "No future candle data is used; synthetic flat zero-volume hourly candles are inserted where Coinbase returns no trades.",
             "Cost sensitivity keeps fees at 0.1% per side and tests slippage at 0.1%, 0.2%, and 0.3% per side.",
+            "A DEGEN buy-and-hold benchmark includes the same entry/exit fees and slippage.",
             "A chronological 365-day train / 365-day out-of-sample split is reported separately; OOS rules are unchanged.",
             "No parameter optimization was performed. These are candidate tests, not proof of a durable edge."
         ]
