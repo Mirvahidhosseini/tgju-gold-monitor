@@ -211,7 +211,7 @@ def save_state(state):
 
 
 def fmt_price(value):
-    return f"\${value:.10f}"
+    return f"${value:.10f}"
 
 
 def send_telegram(message):
@@ -258,12 +258,12 @@ def close_remaining(state, position, price, reason):
     state["paper_position"] = None
     equity = CAPITAL_USD + float(state["realized_pnl_usd"])
     return (
-        f"🔴 خروج از معامله فرضی DEGEN/USD\\n"
-        f"علت: {reason}\\n"
-        f"قیمت خروج بخش باقی‌مانده: {fmt_price(price)}\\n"
-        f"سود/زیان کل این معامله: {total:+.4f} USD\\n"
-        f"سود/زیان تحقق‌یافته تجمعی: {float(state['realized_pnl_usd']):+.4f} USD\\n"
-        f"ارزش فرضی سرمایه: {equity:.4f} USD\\n"
+        f"🔴 خروج از معامله فرضی DEGEN/USD\n"
+        f"علت: {reason}\n"
+        f"قیمت خروج بخش باقی‌مانده: {fmt_price(price)}\n"
+        f"سود/زیان کل این معامله: {total:+.4f} USD\n"
+        f"سود/زیان تحقق‌یافته تجمعی: {float(state['realized_pnl_usd']):+.4f} USD\n"
+        f"ارزش فرضی سرمایه: {equity:.4f} USD\n"
         f"کارمزد و لغزش قیمت در این محاسبه لحاظ نشده‌اند."
     )
 
@@ -285,9 +285,9 @@ def process_paper_trade(state, analysis):
             position["target1_done"] = True
             position["stop"] = float(position["entry"])
             return (
-                f"🟡 هدف اول DEGEN/USD لمس شد\\n"
-                f"فروش فرضی ۵۰٪ در {fmt_price(float(position['target1']))}\\n"
-                f"حد ضرر بخش باقی‌مانده به نقطه ورود منتقل شد: {fmt_price(float(position['entry']))}\\n"
+                f"🟡 هدف اول DEGEN/USD لمس شد\n"
+                f"فروش فرضی ۵۰٪ در {fmt_price(float(position['target1']))}\n"
+                f"حد ضرر بخش باقی‌مانده به نقطه ورود منتقل شد: {fmt_price(float(position['entry']))}\n"
                 f"سود تحقق‌یافته این بخش: {pnl:+.4f} USD"
             )
         if position["target1_done"] and high >= float(position["target2"]):
@@ -302,16 +302,16 @@ def process_paper_trade(state, analysis):
             return None
         state["paper_position"] = position
         return (
-            f"🟢 سیگنال خرید DEGEN/USD — معامله کاغذی\\n"
-            f"زمان کندل ۴ ساعته: {position['opened_at']}\\n"
-            f"ورود فرضی: {fmt_price(position['entry'])}\\n"
-            f"حد ضرر: {fmt_price(position['stop'])}\\n"
-            f"هدف اول (۲R): {fmt_price(position['target1'])}\\n"
-            f"هدف دوم (۳R): {fmt_price(position['target2'])}\\n"
-            f"اندازه موقعیت: {position['initial_units']:.2f} DEGEN\\n"
-            f"ارزش موقعیت: \${position['initial_units'] * position['entry']:.2f}\\n"
-            f"ریسک محاسباتی: \${position['risk_usd']:.3f} (۱٪ سرمایه فرضی)\\n"
-            f"سرمایه مبنا: \${CAPITAL_USD:.2f}\\n"
+            f"🟢 سیگنال خرید DEGEN/USD — معامله کاغذی\n"
+            f"زمان کندل ۴ ساعته: {position['opened_at']}\n"
+            f"ورود فرضی: {fmt_price(position['entry'])}\n"
+            f"حد ضرر: {fmt_price(position['stop'])}\n"
+            f"هدف اول (۲R): {fmt_price(position['target1'])}\n"
+            f"هدف دوم (۳R): {fmt_price(position['target2'])}\n"
+            f"اندازه موقعیت: {position['initial_units']:.2f} DEGEN\n"
+            f"ارزش موقعیت: ${position['initial_units'] * position['entry']:.2f}\n"
+            f"ریسک محاسباتی: ${position['risk_usd']:.3f} (۱٪ سرمایه فرضی)\n"
+            f"سرمایه مبنا: ${CAPITAL_USD:.2f}\n"
             f"این فقط سیگنال و معامله شبیه‌سازی‌شده است؛ سفارش واقعی ثبت نشده است."
         )
     return None
