@@ -317,6 +317,49 @@ def process_paper_trade(state, analysis):
     return None
 
 
+
+def build_status_message(analysis, state, candle_time, duplicate=False):
+    checks = analysis["checks"]
+    trend = (
+        "صعودی" if analysis["ema20"] > analysis["ema50"]
+        else "نزولی" if analysis["ema20"] < analysis["ema50"]
+        else "خنثی"
+    )
+    if duplicate:
+        headline = "🟡 هنوز کندل ۴ ساعته جدیدی بسته نشده"
+        detail = "این اجرا داده جدیدی برای ارزیابی ندارد؛ آخرین وضعیت بر اساس آخرین کندل کامل‌شده است."
+    elif state.get("paper_position"):
+        headline = "🔵 فعلاً معامله جدیدی باز نمی‌شود؛ موقعیت فرضی باز است"
+        detail = "وضعیت موقعیت: نگهداری"
+    else:
+        headline = "🟡 فعلاً زمان معامله نیست"
+        failed = [name for name, passed in checks.items() if not passed]
+        labels = {
+            "uptrend": "روند صعودی تأیید نشده",
+            "close_above_ema20": "قیمت بالاتر از EMA20 نیست",
+            "rsi_50_to_68_and_rising": "RSI در محدوده و جهت مطلوب نیست",
+            "volume_10pct_above_average": "حجم معاملات به حد تأیید نرسیده",
+        }
+        detail = "دلایل عدم ورود: " + "؛ ".join(labels.get(name, name) for name in failed)
+    position = state.get("paper_position")
+    position_line = (
+        f"موقعیت فرضی: باز | ورود: {fmt_price(float(position['entry']))} | "
+        f"حد ضرر فعلی: {fmt_price(float(position['stop']))}"
+        if position else "موقعیت فرضی: بدون معامله باز"
+    )
+    return (
+        f"{headline} — DEGEN/USD\\n"
+        f"{detail}\\n"
+        f"آخرین کندل کامل ۴ ساعته: {candle_time}\\n"
+        f"قیمت پایانی: {fmt_price(analysis['candle']['close'])}\\n"
+        f"روند EMA20/EMA50: {trend}\\n"
+        f"RSI(14): {analysis['rsi']:.2f} | نسبت حجم به میانگین: {analysis['volume_ratio']:.2f}x\\n"
+        f"{position_line}\\n"
+        f"سرمایه شبیه‌سازی: ${CAPITAL_USD:.2f} | بررسی بعدی: حدود ۴ ساعت دیگر\\n"
+        f"این ربات فقط سیگنال و معامله کاغذی دارد؛ سفارش واقعی ثبت نمی‌کند."
+    )
+
+
 def main():
     product = verify_product()
     hourly = fetch_hourly_candles()
@@ -332,7 +375,9 @@ def main():
     )
     print("Checks:", json.dumps(analysis["checks"]))
     if state.get("last_candle_time") == candle_time:
-        print("No new completed 4-hour candle; skipping duplicate evaluation.")
+        print("No new completed 4-hour candle; sending status heartbeat.")
+        send_telegram(build_status_message(analysis, state, candle_time, duplicate=True))
+        print("Telegram status sent.")
         return
     had_position = state.get("paper_position") is not None
     message = process_paper_trade(state, analysis)
@@ -358,9 +403,10 @@ def main():
     state["updated_at"] = datetime.now(timezone.utc).isoformat()
     if message:
         send_telegram(message)
-        print("Telegram alert sent.")
+        print("Telegram trade event sent.")
     else:
-        print("No new actionable signal; no Telegram alert.")
+        send_telegram(build_status_message(analysis, state, candle_time))
+        print("Telegram no-trade status sent.")
     save_state(state)
 
 
