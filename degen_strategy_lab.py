@@ -10,7 +10,7 @@ import degen_signal as live
 
 PRODUCT = live.PRODUCT
 BASE_URL = live.BASE_URL
-DAYS = 365
+DAYS = 730
 FEE = 0.001
 SLIPPAGE = 0.001
 INITIAL_CAPITAL = 10.0
@@ -134,16 +134,17 @@ def build_signals(candles):
     return out
 
 
-def run_strategy(name, candles, signals, buy_key, exit_key, stop_atr):
+def run_strategy(name, candles, signals, buy_key, exit_key, stop_atr, start_index=1, end_index=None):
     cash = INITIAL_CAPITAL
     position = None
     pending_entry = None
     pending_exit = False
     closed = []
     curve = []
-    for i, c in enumerate(candles):
-        if i == 0:
-            continue
+    if end_index is None:
+        end_index = len(candles)
+    for i in range(start_index, end_index):
+        c = candles[i]
         ts = c["time"]
         if position and pending_exit:
             ref = c["open"]
@@ -226,8 +227,27 @@ def main():
         ("RSI(2) mean reversion + Bollinger + EMA200 regime filter",
          "mean_buy", "mean_exit", 2.0),
     ]
+    split_ts = start + 365 * 24 * 3600
+    split_index = next((i for i, c in enumerate(candles) if c["time"] >= split_ts), None)
+    if split_index is None or split_index < 250 or len(candles) - split_index < 250:
+        raise RuntimeError(
+            f"Insufficient history for 1y/1y walk-forward split: "
+            f"candles={len(candles)}, split_index={split_index}"
+        )
     results = [run_strategy(name, candles, signals, buy, exit_, stop)
                for name, buy, exit_, stop in strategies]
+    # Chronological split: first 365 days for exploratory/in-sample, next 365 days untouched OOS.
+    # Indicator values in OOS use only candles available up to each timestamp.
+    walk_forward = {"train_period": {}, "out_of_sample_period": {}}
+    for name, buy, exit_, stop in strategies:
+        walk_forward["train_period"][name] = run_strategy(
+            name, candles, signals, buy, exit_, stop,
+            start_index=200, end_index=split_index
+        )
+        walk_forward["out_of_sample_period"][name] = run_strategy(
+            name, candles, signals, buy, exit_, stop,
+            start_index=split_index, end_index=len(candles)
+        )
     # Keep fees fixed at 0.1% per side and stress slippage at 0.1%, 0.2%, 0.3%.
     global SLIPPAGE
     cost_sensitivity = {}
@@ -261,6 +281,8 @@ def main():
         "slippage_pct_per_side": SLIPPAGE*100,
         "baseline_strategy_reference": baseline,
         "candidate_results": results,
+        "walk_forward_1y_train_1y_oos": walk_forward,
+        "walk_forward_split_utc": datetime.fromtimestamp(candles[split_index]["time"], timezone.utc).isoformat(),
         "cost_sensitivity": cost_sensitivity,
         "methodology": [
             "Signals use completed 4h candles; entries and close-based exits execute at next candle open.",
@@ -271,6 +293,7 @@ def main():
             "Mean reversion: close above EMA200, RSI(2) below 8, close below lower 2-standard-deviation Bollinger band; exit above SMA5 or RSI(2) above 60.",
             "No future candle data is used; synthetic flat zero-volume hourly candles are inserted where Coinbase returns no trades.",
             "Cost sensitivity keeps fees at 0.1% per side and tests slippage at 0.1%, 0.2%, and 0.3% per side.",
+            "A chronological 365-day train / 365-day out-of-sample split is reported separately; OOS rules are unchanged.",
             "No parameter optimization was performed. These are candidate tests, not proof of a durable edge."
         ]
     }
