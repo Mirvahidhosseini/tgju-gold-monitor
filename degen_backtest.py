@@ -213,6 +213,13 @@ def main():
                     cash = sell(cash, pos, qty, pos["target1"], "take_profit_1", trades, ts)
                     pos["target1_done"] = True
                     pos["stop"] = pos["entry_fill"]
+                    # If the newly-raised breakeven stop is also touched in
+                    # this candle, assume it is hit after TP1 (conservative).
+                    if low <= pos["stop"]:
+                        qty = pos["remaining"]
+                        cash = sell(cash, pos, qty, pos["stop"], "breakeven_stop_after_tp1", trades, ts)
+                        completed.append({"net_pnl_usd": pos["net_pnl"], "exit_reason": "breakeven_stop_after_tp1"})
+                        pos = None
                 if pos and pos["target1_done"] and high >= pos["target2"]:
                     qty = pos["remaining"]
                     cash = sell(cash, pos, qty, pos["target2"], "take_profit_2", trades, ts)
