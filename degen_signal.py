@@ -334,14 +334,26 @@ def main():
     if state.get("last_candle_time") == candle_time:
         print("No new completed 4-hour candle; skipping duplicate evaluation.")
         return
+    had_position = state.get("paper_position") is not None
     message = process_paper_trade(state, analysis)
+    if message and message.startswith("🟢"):
+        decision = "BUY"
+    elif message and message.startswith("🔴"):
+        decision = "SELL"
+    elif message and message.startswith("🟡"):
+        decision = "PARTIAL_TAKE_PROFIT"
+    elif had_position:
+        decision = "HOLD"
+    else:
+        decision = "WAIT"
+
     state["last_candle_time"] = candle_time
     state["last_analysis"] = {
         "candle_time": candle_time, "close": analysis["candle"]["close"],
         "ema20": analysis["ema20"], "ema50": analysis["ema50"],
         "rsi14": analysis["rsi"], "atr14": analysis["atr"],
         "volume_ratio": analysis["volume_ratio"], "checks": analysis["checks"],
-        "decision": "BUY" if analysis["buy"] else ("EXIT" if analysis["exit"] else "WAIT"),
+        "decision": decision,
     }
     state["updated_at"] = datetime.now(timezone.utc).isoformat()
     if message:
