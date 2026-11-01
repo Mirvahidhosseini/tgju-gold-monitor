@@ -220,12 +220,24 @@ def main():
         raise RuntimeError(f"{PRODUCT} is not online/tradable: {product}")
     candles, hourly_count, synthetic, start, end = fetch_candles()
     signals = build_signals(candles)
-    results = [
-        run_strategy("Donchian breakout + EMA50/200 + volume confirmation",
-                     candles, signals, "breakout_buy", "breakout_exit", 2.0),
-        run_strategy("RSI(2) mean reversion + Bollinger + EMA200 regime filter",
-                     candles, signals, "mean_buy", "mean_exit", 2.0),
+    strategies = [
+        ("Donchian breakout + EMA50/200 + volume confirmation",
+         "breakout_buy", "breakout_exit", 2.0),
+        ("RSI(2) mean reversion + Bollinger + EMA200 regime filter",
+         "mean_buy", "mean_exit", 2.0),
     ]
+    results = [run_strategy(name, candles, signals, buy, exit_, stop)
+               for name, buy, exit_, stop in strategies]
+    # Keep fees fixed at 0.1% per side and stress slippage at 0.1%, 0.2%, 0.3%.
+    global SLIPPAGE
+    cost_sensitivity = {}
+    for slip in (0.001, 0.002, 0.003):
+        SLIPPAGE = slip
+        cost_sensitivity[f"slippage_{slip*100:.1f}pct_per_side"] = [
+            run_strategy(name, candles, signals, buy, exit_, stop)
+            for name, buy, exit_, stop in strategies
+        ]
+    SLIPPAGE = 0.001
     baseline = {}
     baseline_path = Path("degen_backtest_report.json")
     if baseline_path.exists():
@@ -249,6 +261,7 @@ def main():
         "slippage_pct_per_side": SLIPPAGE*100,
         "baseline_strategy_reference": baseline,
         "candidate_results": results,
+        "cost_sensitivity": cost_sensitivity,
         "methodology": [
             "Signals use completed 4h candles; entries and close-based exits execute at next candle open.",
             "Long-only spot, no leverage, no pyramiding; risk budget is 1% of current equity, position capped by available cash.",
@@ -257,6 +270,7 @@ def main():
             "Breakout: close above prior 20-candle high, EMA50 above EMA200, volume at least 1.2x prior 20-candle average; exit below EMA20 or EMA50 below EMA200.",
             "Mean reversion: close above EMA200, RSI(2) below 8, close below lower 2-standard-deviation Bollinger band; exit above SMA5 or RSI(2) above 60.",
             "No future candle data is used; synthetic flat zero-volume hourly candles are inserted where Coinbase returns no trades.",
+            "Cost sensitivity keeps fees at 0.1% per side and tests slippage at 0.1%, 0.2%, and 0.3% per side.",
             "No parameter optimization was performed. These are candidate tests, not proof of a durable edge."
         ]
     }
