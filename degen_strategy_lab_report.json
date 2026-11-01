@@ -55,6 +55,113 @@
       }
     }
   ],
+  "cost_sensitivity": {
+    "slippage_0.1pct_per_side": [
+      {
+        "strategy": "Donchian breakout + EMA50/200 + volume confirmation",
+        "final_equity_usd": 9.313138062422615,
+        "net_pnl_usd": -0.686861937577385,
+        "net_return_pct": -6.8686193757738545,
+        "closed_trades": 9,
+        "wins": 0,
+        "losses": 9,
+        "win_rate_pct": 0.0,
+        "profit_factor": 0.0,
+        "max_drawdown_pct": 7.033094457012072,
+        "average_trade_pnl_usd": -0.07631799306415386,
+        "exit_reasons": {
+          "signal_exit_next_open": 5,
+          "stop_loss": 4
+        }
+      },
+      {
+        "strategy": "RSI(2) mean reversion + Bollinger + EMA200 regime filter",
+        "final_equity_usd": 10.037890294045885,
+        "net_pnl_usd": 0.0378902940458854,
+        "net_return_pct": 0.3789029404588584,
+        "closed_trades": 7,
+        "wins": 3,
+        "losses": 4,
+        "win_rate_pct": 42.857142857142854,
+        "profit_factor": 1.8212615316415914,
+        "max_drawdown_pct": 0.5880904809436927,
+        "average_trade_pnl_usd": 0.005412899149412459,
+        "exit_reasons": {
+          "signal_exit_next_open": 7
+        }
+      }
+    ],
+    "slippage_0.2pct_per_side": [
+      {
+        "strategy": "Donchian breakout + EMA50/200 + volume confirmation",
+        "final_equity_usd": 9.297552131055136,
+        "net_pnl_usd": -0.7024478689448639,
+        "net_return_pct": -7.024478689448643,
+        "closed_trades": 9,
+        "wins": 0,
+        "losses": 9,
+        "win_rate_pct": 0.0,
+        "profit_factor": 0.0,
+        "max_drawdown_pct": 7.172892973859259,
+        "average_trade_pnl_usd": -0.0780497632160963,
+        "exit_reasons": {
+          "signal_exit_next_open": 5,
+          "stop_loss": 4
+        }
+      },
+      {
+        "strategy": "RSI(2) mean reversion + Bollinger + EMA200 regime filter",
+        "final_equity_usd": 10.023042848823803,
+        "net_pnl_usd": 0.023042848823802586,
+        "net_return_pct": 0.23042848823802142,
+        "closed_trades": 7,
+        "wins": 3,
+        "losses": 4,
+        "win_rate_pct": 42.857142857142854,
+        "profit_factor": 1.4030029714668044,
+        "max_drawdown_pct": 0.6317178224068452,
+        "average_trade_pnl_usd": 0.0032918355462574823,
+        "exit_reasons": {
+          "signal_exit_next_open": 7
+        }
+      }
+    ],
+    "slippage_0.3pct_per_side": [
+      {
+        "strategy": "Donchian breakout + EMA50/200 + volume confirmation",
+        "final_equity_usd": 9.281979186758416,
+        "net_pnl_usd": -0.7180208132415835,
+        "net_return_pct": -7.180208132415833,
+        "closed_trades": 9,
+        "wins": 0,
+        "losses": 9,
+        "win_rate_pct": 0.0,
+        "profit_factor": 0.0,
+        "max_drawdown_pct": 7.312609367779927,
+        "average_trade_pnl_usd": -0.07978009036017543,
+        "exit_reasons": {
+          "signal_exit_next_open": 5,
+          "stop_loss": 4
+        }
+      },
+      {
+        "strategy": "RSI(2) mean reversion + Bollinger + EMA200 regime filter",
+        "final_equity_usd": 10.008213709956957,
+        "net_pnl_usd": 0.008213709956956805,
+        "net_return_pct": 0.08213709956956805,
+        "closed_trades": 7,
+        "wins": 3,
+        "losses": 4,
+        "win_rate_pct": 42.857142857142854,
+        "profit_factor": 1.1204252880264236,
+        "max_drawdown_pct": 0.6753342282299867,
+        "average_trade_pnl_usd": 0.0011733871367079177,
+        "exit_reasons": {
+          "signal_exit_next_open": 7
+        }
+      }
+    ]
+  },
   "methodology": [
     "Signals use completed 4h candles; entries and close-based exits execute at next candle open.",
     "Long-only spot, no leverage, no pyramiding; risk budget is 1% of current equity, position capped by available cash.",
@@ -63,6 +170,7 @@
     "Breakout: close above prior 20-candle high, EMA50 above EMA200, volume at least 1.2x prior 20-candle average; exit below EMA20 or EMA50 below EMA200.",
     "Mean reversion: close above EMA200, RSI(2) below 8, close below lower 2-standard-deviation Bollinger band; exit above SMA5 or RSI(2) above 60.",
     "No future candle data is used; synthetic flat zero-volume hourly candles are inserted where Coinbase returns no trades.",
+    "Cost sensitivity keeps fees at 0.1% per side and tests slippage at 0.1%, 0.2%, and 0.3% per side.",
     "No parameter optimization was performed. These are candidate tests, not proof of a durable edge."
   ]
 }
