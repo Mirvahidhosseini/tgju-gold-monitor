@@ -20,6 +20,15 @@
     "completed_trades": 43,
     "win_rate_pct": 32.55813953488372
   },
+  "buy_and_hold_benchmark": {
+    "benchmark": "DEGEN buy-and-hold",
+    "initial_capital_usd": 10.0,
+    "final_equity_usd": 1.0180840905563016,
+    "net_pnl_usd": -8.981915909443698,
+    "net_return_pct": -89.81915909443698,
+    "fees_pct_per_side": 0.1,
+    "slippage_pct_per_side": 0.1
+  },
   "candidate_results": [
     {
       "strategy": "Donchian breakout + EMA50/200 + volume confirmation",
@@ -244,6 +253,7 @@
     "Mean reversion: close above EMA200, RSI(2) below 8, close below lower 2-standard-deviation Bollinger band; exit above SMA5 or RSI(2) above 60.",
     "No future candle data is used; synthetic flat zero-volume hourly candles are inserted where Coinbase returns no trades.",
     "Cost sensitivity keeps fees at 0.1% per side and tests slippage at 0.1%, 0.2%, and 0.3% per side.",
+    "A DEGEN buy-and-hold benchmark includes the same entry/exit fees and slippage.",
     "A chronological 365-day train / 365-day out-of-sample split is reported separately; OOS rules are unchanged.",
     "No parameter optimization was performed. These are candidate tests, not proof of a durable edge."
   ]
