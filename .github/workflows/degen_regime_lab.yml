@@ -1,0 +1,38 @@
+name: DEGEN Regime Strategy Lab
+
+on:
+  push:
+    paths:
+      - 'degen_regime_lab.py'
+      - '.github/workflows/degen_regime_lab.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  regime-backtest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: python -m pip install --upgrade requests
+      - name: Run regime-switching backtest
+        run: python degen_regime_lab.py
+      - name: Commit regime report
+        if: success()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add degen_regime_report.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Add DEGEN regime strategy report"
+            git pull --rebase origin main
+            git push
+          fi
