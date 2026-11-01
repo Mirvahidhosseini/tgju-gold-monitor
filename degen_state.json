@@ -1,0 +1,23 @@
+{
+  "capital_usd": 10.0,
+  "realized_pnl_usd": 0.0,
+  "paper_position": null,
+  "last_candle_time": "2026-11-01T12:00:00Z",
+  "last_analysis": {
+    "candle_time": "2026-11-01T12:00:00Z",
+    "close": 0.000867,
+    "ema20": 0.0008789752632037624,
+    "ema50": 0.0008986578979605383,
+    "rsi14": 39.803388283829065,
+    "atr14": 1.4124099235225154e-05,
+    "volume_ratio": 0.21644833509254546,
+    "checks": {
+      "uptrend": false,
+      "close_above_ema20": false,
+      "rsi_50_to_68_and_rising": false,
+      "volume_10pct_above_average": false
+    },
+    "decision": "EXIT"
+  },
+  "updated_at": "2026-11-01T16:12:39.284128+00:00"
+}
