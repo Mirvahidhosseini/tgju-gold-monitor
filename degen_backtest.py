@@ -52,9 +52,32 @@ def fetch_hourly():
     return [data[k] for k in sorted(data)], start, end
 
 
-def make_4h(hourly):
+def make_4h(hourly, end_epoch):
+    # Coinbase omits hourly candles for intervals with no trades. Reconstruct
+    # those hours as flat, zero-volume candles using the last traded close.
+    by_time = {row["time"]: row for row in hourly}
+    if not hourly:
+        return [], 0
+    first = min(by_time)
+    last_complete_hour = (end_epoch // 3600) * 3600
+    filled = []
+    previous_close = None
+    synthetic = 0
+    for ts in range(first, last_complete_hour, 3600):
+        row = by_time.get(ts)
+        if row is None:
+            if previous_close is None:
+                continue
+            row = {
+                "time": ts, "open": previous_close, "high": previous_close,
+                "low": previous_close, "close": previous_close, "volume": 0.0,
+            }
+            synthetic += 1
+        else:
+            previous_close = row["close"]
+        filled.append(row)
     buckets = {}
-    for row in hourly:
+    for row in filled:
         b = (row["time"] // live.CANDLE_SECONDS) * live.CANDLE_SECONDS
         buckets.setdefault(b, []).append(row)
     current = (int(time.time()) // live.CANDLE_SECONDS) * live.CANDLE_SECONDS
@@ -72,7 +95,7 @@ def make_4h(hourly):
             "close": rows[-1]["close"],
             "volume": sum(x["volume"] for x in rows),
         })
-    return out
+    return out, synthetic
 
 
 def indicators(candles):
@@ -128,7 +151,7 @@ def main():
     if str(product.get("status", "")).lower() != "online" or product.get("trading_disabled") is True:
         raise RuntimeError(f"{PRODUCT} not online/tradable: {product}")
     hourly, start, end = fetch_hourly()
-    candles = make_4h(hourly)
+    candles, synthetic_hours = make_4h(hourly, end)
     if len(candles) < 100:
         raise RuntimeError(f"Not enough 4h candles: {len(candles)}")
     ind = indicators(candles)
@@ -227,7 +250,7 @@ def main():
         "product": PRODUCT, "exchange": "Coinbase Exchange", "period_days": DAYS,
         "requested_start_utc": datetime.fromtimestamp(start, timezone.utc).isoformat(),
         "requested_end_utc": datetime.fromtimestamp(end, timezone.utc).isoformat(),
-        "hourly_candles_received": len(hourly), "four_hour_candles_used": len(candles),
+        "hourly_candles_received": len(hourly), "synthetic_zero_trade_hours": synthetic_hours,\n        "hourly_hours_in_requested_window": (end - start) // 3600, "four_hour_candles_used": len(candles),
         "first_candle_utc": datetime.fromtimestamp(candles[0]["time"], timezone.utc).isoformat(),
         "last_candle_utc": datetime.fromtimestamp(candles[-1]["time"], timezone.utc).isoformat(),
         "initial_capital_usd": INITIAL_CAPITAL, "final_equity_usd": final_equity,
