@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "last_candle": "2026-11-01T12:00:00Z",
+  "created_at": "2026-11-01T17:24:58.053394+00:00",
+  "portfolios": {
+    "baseline": {
+      "cash": 10.0,
+      "position": null,
+      "pending_entry": null,
+      "pending_exit": null,
+      "trades": [],
+      "events": [],
+      "peak": 10.0,
+      "max_dd": 0.0,
+      "last_signal": "WAIT"
+    },
+    "breakout": {
+      "cash": 10.0,
+      "position": null,
+      "pending_entry": null,
+      "pending_exit": null,
+      "trades": [],
+      "events": [],
+      "peak": 10.0,
+      "max_dd": 0.0,
+      "last_signal": "WAIT"
+    },
+    "regime": {
+      "cash": 10.0,
+      "position": null,
+      "pending_entry": null,
+      "pending_exit": null,
+      "trades": [],
+      "events": [],
+      "peak": 10.0,
+      "max_dd": 0.0,
+      "last_signal": "WAIT"
+    }
+  },
+  "started_at": "2026-11-01T17:24:58.053411+00:00"
+}
