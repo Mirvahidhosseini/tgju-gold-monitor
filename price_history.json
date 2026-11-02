@@ -556,5 +556,11 @@
     "iran_toman": 25775600,
     "world_usd": 3953.300049,
     "dollar_toman": 271500
+  },
+  {
+    "timestamp": "2026-11-03T02:41:57.123512+03:30",
+    "iran_toman": 25813300,
+    "world_usd": 3946.0,
+    "dollar_toman": 271500
   }
 ]
