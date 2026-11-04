@@ -1,50 +1,50 @@
 {
-  "price_toman": 25995900,
-  "checked_at": "2026-11-04T18:50:06.669786+03:30",
+  "price_toman": 26062100,
+  "checked_at": "2026-11-05T00:57:15.966073+03:30",
   "iran_price_toman": 26255100,
   "world_gold_usd": 4190.899902,
   "daily": {
-    "date": "2026-11-04",
+    "date": "2026-11-05",
     "iran": {
-      "open": 25509500,
-      "high": 25995900,
-      "low": 25509500,
-      "last": 25995900
+      "open": 26062100,
+      "high": 26062100,
+      "low": 26062100,
+      "last": 26062100
     },
     "world": {
-      "open": 3937.800049,
-      "high": 4032.199951,
-      "low": 3937.800049,
-      "last": 4032.199951
+      "open": 4064.899902,
+      "high": 4064.899902,
+      "low": 4064.899902,
+      "last": 4064.899902
     },
     "dollar": {
-      "open": 273500,
-      "high": 273500,
-      "low": 272500,
-      "last": 272500
+      "open": 268900,
+      "high": 268900,
+      "low": 268900,
+      "last": 268900
     }
   },
-  "iran_toman": 25995900,
-  "world_usd": 4032.199951,
-  "dollar_toman": 272500,
-  "last_checked": "2026-11-04T18:50:06.669786+03:30",
+  "iran_toman": 26062100,
+  "world_usd": 4064.899902,
+  "dollar_toman": 268900,
+  "last_checked": "2026-11-05T00:57:15.966073+03:30",
   "market_status": {
     "iran": {
-      "current_price": 25995900,
-      "last_attempt_at": "2026-11-04T18:50:06.669786+03:30",
-      "last_success_at": "2026-11-04T18:50:06.669786+03:30",
+      "current_price": 26062100,
+      "last_attempt_at": "2026-11-05T00:57:15.966073+03:30",
+      "last_success_at": "2026-11-05T00:57:15.966073+03:30",
       "error": null
     },
     "world": {
-      "current_price": 4032.199951,
-      "last_attempt_at": "2026-11-04T18:50:06.669786+03:30",
-      "last_success_at": "2026-11-04T18:50:06.669786+03:30",
+      "current_price": 4064.899902,
+      "last_attempt_at": "2026-11-05T00:57:15.966073+03:30",
+      "last_success_at": "2026-11-05T00:57:15.966073+03:30",
       "error": null
     },
     "dollar": {
-      "current_price": 272500,
-      "last_attempt_at": "2026-11-04T18:50:06.669786+03:30",
-      "last_success_at": "2026-11-04T18:50:06.669786+03:30",
+      "current_price": 268900,
+      "last_attempt_at": "2026-11-05T00:57:15.966073+03:30",
+      "last_success_at": "2026-11-05T00:57:15.966073+03:30",
       "error": null
     }
   }
