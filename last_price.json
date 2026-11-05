@@ -1,21 +1,21 @@
 {
-  "price_toman": 26062100,
-  "checked_at": "2026-11-05T05:13:35.097784+03:30",
+  "price_toman": 26122400,
+  "checked_at": "2026-11-05T12:51:08.670136+03:30",
   "iran_price_toman": 26255100,
   "world_gold_usd": 4190.899902,
   "daily": {
     "date": "2026-11-05",
     "iran": {
       "open": 26062100,
-      "high": 26062100,
+      "high": 26122400,
       "low": 26062100,
-      "last": 26062100
+      "last": 26122400
     },
     "world": {
       "open": 4064.899902,
-      "high": 4123.299805,
+      "high": 4130.100098,
       "low": 4064.899902,
-      "last": 4123.299805
+      "last": 4130.100098
     },
     "dollar": {
       "open": 268900,
@@ -24,27 +24,27 @@
       "last": 268900
     }
   },
-  "iran_toman": 26062100,
-  "world_usd": 4123.299805,
+  "iran_toman": 26122400,
+  "world_usd": 4130.100098,
   "dollar_toman": 268900,
-  "last_checked": "2026-11-05T05:13:35.097784+03:30",
+  "last_checked": "2026-11-05T12:51:08.670136+03:30",
   "market_status": {
     "iran": {
-      "current_price": 26062100,
-      "last_attempt_at": "2026-11-05T05:13:35.097784+03:30",
-      "last_success_at": "2026-11-05T05:13:35.097784+03:30",
+      "current_price": 26122400,
+      "last_attempt_at": "2026-11-05T12:51:08.670136+03:30",
+      "last_success_at": "2026-11-05T12:51:08.670136+03:30",
       "error": null
     },
     "world": {
-      "current_price": 4123.299805,
-      "last_attempt_at": "2026-11-05T05:13:35.097784+03:30",
-      "last_success_at": "2026-11-05T05:13:35.097784+03:30",
+      "current_price": 4130.100098,
+      "last_attempt_at": "2026-11-05T12:51:08.670136+03:30",
+      "last_success_at": "2026-11-05T12:51:08.670136+03:30",
       "error": null
     },
     "dollar": {
       "current_price": 268900,
-      "last_attempt_at": "2026-11-05T05:13:35.097784+03:30",
-      "last_success_at": "2026-11-05T05:13:35.097784+03:30",
+      "last_attempt_at": "2026-11-05T12:51:08.670136+03:30",
+      "last_success_at": "2026-11-05T12:51:08.670136+03:30",
       "error": null
     }
   }
