@@ -1,6 +1,6 @@
 {
   "price_toman": 26166500,
-  "checked_at": "2026-11-06T14:54:48.607398+03:30",
+  "checked_at": "2026-11-06T21:50:41.489842+03:30",
   "iran_price_toman": 26255100,
   "world_gold_usd": 4190.899902,
   "daily": {
@@ -15,36 +15,36 @@
       "open": 4089.199951,
       "high": 4089.199951,
       "low": 4052.199951,
-      "last": 4052.199951
+      "last": 4064.600098
     },
     "dollar": {
       "open": 268900,
       "high": 268900,
-      "low": 268900,
-      "last": 268900
+      "low": 266900,
+      "last": 266900
     }
   },
   "iran_toman": 26166500,
-  "world_usd": 4052.199951,
-  "dollar_toman": 268900,
-  "last_checked": "2026-11-06T14:54:48.607398+03:30",
+  "world_usd": 4064.600098,
+  "dollar_toman": 266900,
+  "last_checked": "2026-11-06T21:50:41.489842+03:30",
   "market_status": {
     "iran": {
       "current_price": 26166500,
-      "last_attempt_at": "2026-11-06T14:54:48.607398+03:30",
-      "last_success_at": "2026-11-06T14:54:48.607398+03:30",
+      "last_attempt_at": "2026-11-06T21:50:41.489842+03:30",
+      "last_success_at": "2026-11-06T21:50:41.489842+03:30",
       "error": null
     },
     "world": {
-      "current_price": null,
-      "last_attempt_at": "2026-11-06T14:54:48.607398+03:30",
-      "last_success_at": "2026-11-06T06:51:29.845308+03:30",
-      "error": "⚠️ خطا در دریافت طلای جهانی: HTTPSConnectionPool(host='api.gold-api.com', port=443): Max retries exceeded with url: /price/XAU (Caused by NameResolutionError(\"HTTPSConnection(host='api.gold-api.com', port=443): Failed to resolve 'api.gold-api.com' ([Errno -2] Name or service not known)\"))"
+      "current_price": 4064.600098,
+      "last_attempt_at": "2026-11-06T21:50:41.489842+03:30",
+      "last_success_at": "2026-11-06T21:50:41.489842+03:30",
+      "error": null
     },
     "dollar": {
-      "current_price": 268900,
-      "last_attempt_at": "2026-11-06T14:54:48.607398+03:30",
-      "last_success_at": "2026-11-06T14:54:48.607398+03:30",
+      "current_price": 266900,
+      "last_attempt_at": "2026-11-06T21:50:41.489842+03:30",
+      "last_success_at": "2026-11-06T21:50:41.489842+03:30",
       "error": null
     }
   }
