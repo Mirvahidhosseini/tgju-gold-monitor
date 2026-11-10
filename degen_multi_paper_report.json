@@ -3,7 +3,7 @@
   "exchange": "Coinbase Exchange",
   "mode": "paper_trading_only",
   "started_at": "2026-11-01T17:24:58.053411+00:00",
-  "last_candle_utc": "2026-11-09T12:00:00Z",
+  "last_candle_utc": "2026-11-09T20:00:00Z",
   "last_price": 0.000811,
   "new_candle_processed": true,
   "product_status": "online",
