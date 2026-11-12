@@ -1,6 +1,6 @@
 {
-  "price_toman": 25093300,
-  "checked_at": "2026-11-12T14:22:47.635836+03:30",
+  "price_toman": 25038800,
+  "checked_at": "2026-11-12T22:17:40.204093+03:30",
   "iran_price_toman": 26255100,
   "world_gold_usd": 4190.899902,
   "daily": {
@@ -8,14 +8,14 @@
     "iran": {
       "open": 25178700,
       "high": 25178700,
-      "low": 25093300,
-      "last": 25093300
+      "low": 25038800,
+      "last": 25038800
     },
     "world": {
       "open": 3987.199951,
       "high": 3987.199951,
-      "low": 3954.399902,
-      "last": 3954.399902
+      "low": 3883.199951,
+      "last": 3883.199951
     },
     "dollar": {
       "open": 259900,
@@ -24,27 +24,27 @@
       "last": 266900
     }
   },
-  "iran_toman": 25093300,
-  "world_usd": 3954.399902,
+  "iran_toman": 25038800,
+  "world_usd": 3883.199951,
   "dollar_toman": 266900,
-  "last_checked": "2026-11-12T14:22:47.635836+03:30",
+  "last_checked": "2026-11-12T22:17:40.204093+03:30",
   "market_status": {
     "iran": {
-      "current_price": 25093300,
-      "last_attempt_at": "2026-11-12T14:22:47.635836+03:30",
-      "last_success_at": "2026-11-12T14:22:47.635836+03:30",
+      "current_price": 25038800,
+      "last_attempt_at": "2026-11-12T22:17:40.204093+03:30",
+      "last_success_at": "2026-11-12T22:17:40.204093+03:30",
       "error": null
     },
     "world": {
-      "current_price": 3954.399902,
-      "last_attempt_at": "2026-11-12T14:22:47.635836+03:30",
-      "last_success_at": "2026-11-12T14:22:47.635836+03:30",
+      "current_price": 3883.199951,
+      "last_attempt_at": "2026-11-12T22:17:40.204093+03:30",
+      "last_success_at": "2026-11-12T22:17:40.204093+03:30",
       "error": null
     },
     "dollar": {
       "current_price": 266900,
-      "last_attempt_at": "2026-11-12T14:22:47.635836+03:30",
-      "last_success_at": "2026-11-12T14:22:47.635836+03:30",
+      "last_attempt_at": "2026-11-12T22:17:40.204093+03:30",
+      "last_success_at": "2026-11-12T22:17:40.204093+03:30",
       "error": null
     }
   }
