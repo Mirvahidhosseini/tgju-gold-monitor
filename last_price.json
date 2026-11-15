@@ -1,6 +1,6 @@
 {
   "price_toman": 24794500,
-  "checked_at": "2026-11-15T03:42:47.891002+03:30",
+  "checked_at": "2026-11-15T10:34:10.402889+03:30",
   "iran_price_toman": 26255100,
   "world_gold_usd": 4190.899902,
   "daily": {
@@ -27,25 +27,25 @@
   "iran_toman": 24794500,
   "world_usd": 3887.600098,
   "dollar_toman": 269900,
-  "last_checked": "2026-11-15T03:42:47.891002+03:30",
+  "last_checked": "2026-11-15T10:34:10.402889+03:30",
   "market_status": {
     "iran": {
       "current_price": 24794500,
-      "last_attempt_at": "2026-11-15T03:42:47.891002+03:30",
-      "last_success_at": "2026-11-15T03:42:47.891002+03:30",
+      "last_attempt_at": "2026-11-15T10:34:10.402889+03:30",
+      "last_success_at": "2026-11-15T10:34:10.402889+03:30",
       "error": null
     },
     "world": {
       "current_price": 3887.600098,
-      "last_attempt_at": "2026-11-15T03:42:47.891002+03:30",
-      "last_success_at": "2026-11-15T03:42:47.891002+03:30",
+      "last_attempt_at": "2026-11-15T10:34:10.402889+03:30",
+      "last_success_at": "2026-11-15T10:34:10.402889+03:30",
       "error": null
     },
     "dollar": {
-      "current_price": 269900,
-      "last_attempt_at": "2026-11-15T03:42:47.891002+03:30",
+      "current_price": null,
+      "last_attempt_at": "2026-11-15T10:34:10.402889+03:30",
       "last_success_at": "2026-11-15T03:42:47.891002+03:30",
-      "error": null
+      "error": "⚠️ خطا در دریافت دلار آزاد: HTTPSConnectionPool(host='www.tgju.org', port=443): Read timed out."
     }
   }
 }
