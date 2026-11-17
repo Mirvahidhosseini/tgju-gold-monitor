@@ -1,50 +1,50 @@
 {
-  "price_toman": 24567400,
-  "checked_at": "2026-11-17T04:30:10.442825+03:30",
+  "price_toman": 24690600,
+  "checked_at": "2026-11-17T12:30:29.841853+03:30",
   "iran_price_toman": 26255100,
   "world_gold_usd": 4190.899902,
   "daily": {
     "date": "2026-11-17",
     "iran": {
       "open": 24567400,
-      "high": 24567400,
+      "high": 24690600,
       "low": 24567400,
-      "last": 24567400
+      "last": 24690600
     },
     "world": {
       "open": 3857.199951,
-      "high": 3857.199951,
+      "high": 3872.149902,
       "low": 3857.199951,
-      "last": 3857.199951
+      "last": 3872.149902
     },
     "dollar": {
       "open": 268705,
       "high": 268705,
-      "low": 268705,
-      "last": 268705
+      "low": 268410,
+      "last": 268410
     }
   },
-  "iran_toman": 24567400,
-  "world_usd": 3857.199951,
-  "dollar_toman": 268705,
-  "last_checked": "2026-11-17T04:30:10.442825+03:30",
+  "iran_toman": 24690600,
+  "world_usd": 3872.149902,
+  "dollar_toman": 268410,
+  "last_checked": "2026-11-17T12:30:29.841853+03:30",
   "market_status": {
     "iran": {
-      "current_price": 24567400,
-      "last_attempt_at": "2026-11-17T04:30:10.442825+03:30",
-      "last_success_at": "2026-11-17T04:30:10.442825+03:30",
+      "current_price": 24690600,
+      "last_attempt_at": "2026-11-17T12:30:29.841853+03:30",
+      "last_success_at": "2026-11-17T12:30:29.841853+03:30",
       "error": null
     },
     "world": {
-      "current_price": 3857.199951,
-      "last_attempt_at": "2026-11-17T04:30:10.442825+03:30",
-      "last_success_at": "2026-11-17T04:30:10.442825+03:30",
+      "current_price": 3872.149902,
+      "last_attempt_at": "2026-11-17T12:30:29.841853+03:30",
+      "last_success_at": "2026-11-17T12:30:29.841853+03:30",
       "error": null
     },
     "dollar": {
-      "current_price": 268705,
-      "last_attempt_at": "2026-11-17T04:30:10.442825+03:30",
-      "last_success_at": "2026-11-17T04:30:10.442825+03:30",
+      "current_price": 268410,
+      "last_attempt_at": "2026-11-17T12:30:29.841853+03:30",
+      "last_success_at": "2026-11-17T12:30:29.841853+03:30",
       "error": null
     }
   }
