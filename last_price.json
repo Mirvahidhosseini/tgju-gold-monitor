@@ -1,21 +1,21 @@
 {
-  "price_toman": 25475500,
-  "checked_at": "2026-11-26T06:15:33.991651+03:30",
+  "price_toman": 25805700,
+  "checked_at": "2026-11-26T15:42:40.159930+03:30",
   "iran_price_toman": 26255100,
   "world_gold_usd": 4190.899902,
   "daily": {
     "date": "2026-11-26",
     "iran": {
       "open": 25475500,
-      "high": 25475500,
+      "high": 25805700,
       "low": 25475500,
-      "last": 25475500
+      "last": 25805700
     },
     "world": {
       "open": 3583.100098,
       "high": 3583.100098,
-      "low": 3583.100098,
-      "last": 3583.100098
+      "low": 3571.899902,
+      "last": 3571.899902
     },
     "dollar": {
       "open": 292890,
@@ -24,27 +24,27 @@
       "last": 292890
     }
   },
-  "iran_toman": 25475500,
-  "world_usd": 3583.100098,
+  "iran_toman": 25805700,
+  "world_usd": 3571.899902,
   "dollar_toman": 292890,
-  "last_checked": "2026-11-26T06:15:33.991651+03:30",
+  "last_checked": "2026-11-26T15:42:40.159930+03:30",
   "market_status": {
     "iran": {
-      "current_price": 25475500,
-      "last_attempt_at": "2026-11-26T06:15:33.991651+03:30",
-      "last_success_at": "2026-11-26T06:15:33.991651+03:30",
+      "current_price": 25805700,
+      "last_attempt_at": "2026-11-26T15:42:40.159930+03:30",
+      "last_success_at": "2026-11-26T15:42:40.159930+03:30",
       "error": null
     },
     "world": {
-      "current_price": 3583.100098,
-      "last_attempt_at": "2026-11-26T06:15:33.991651+03:30",
-      "last_success_at": "2026-11-26T06:15:33.991651+03:30",
+      "current_price": 3571.899902,
+      "last_attempt_at": "2026-11-26T15:42:40.159930+03:30",
+      "last_success_at": "2026-11-26T15:42:40.159930+03:30",
       "error": null
     },
     "dollar": {
       "current_price": 292890,
-      "last_attempt_at": "2026-11-26T06:15:33.991651+03:30",
-      "last_success_at": "2026-11-26T06:15:33.991651+03:30",
+      "last_attempt_at": "2026-11-26T15:42:40.159930+03:30",
+      "last_success_at": "2026-11-26T15:42:40.159930+03:30",
       "error": null
     }
   }
