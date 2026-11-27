@@ -3,17 +3,17 @@
   "exchange": "Coinbase Exchange",
   "mode": "paper_trading_only",
   "started_at": "2026-11-01T17:24:58.053411+00:00",
-  "last_candle_utc": "2026-11-26T20:00:00Z",
-  "last_price": 0.000659,
+  "last_candle_utc": "2026-11-27T08:00:00Z",
+  "last_price": 0.000679,
   "new_candle_processed": true,
   "product_status": "online",
-  "hourly_candles_loaded": 1187,
-  "completed_4h_candles_loaded": 286,
+  "hourly_candles_loaded": 1190,
+  "completed_4h_candles_loaded": 288,
   "regime_now": "neutral",
   "regime_history_counts_loaded": {
     "trend": 0,
     "range": 0,
-    "neutral": 87
+    "neutral": 89
   },
   "initial_capital_per_strategy_usd": 10.0,
   "fees_pct_per_side": 0.1,
